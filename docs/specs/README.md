@@ -1,9 +1,9 @@
-# Specyfikacje funkcji
+# Feature specs
 
-| Nr | Funkcja | Status |
+| No. | Feature | Status |
 |---|---|---|
-| 001 | [Katalog słów: model, seed, karty](001-word-catalog/spec.md) | Ready |
-| 002 | Konto: rejestracja/logowanie (Identity, cookie) + preferencje językowe | Do napisania |
-| 003 | Sesja nauki: UI fiszek (po kolei/losowo), „znam / nie znam”, zapis postępu | Do napisania |
+| 001 | [Word catalog: model, seed, cards](001-word-catalog/spec.md) | Ready |
+| 002 | Account: sign-up/sign-in (Identity, cookie) + language preferences | To be written |
+| 003 | Study session: flashcard UI (in order/random), "I know / I don't know", saving progress | To be written |
 
-Nową specyfikację tworzysz przez `/spec-feature`.
+Create a new spec with `/spec-feature`.

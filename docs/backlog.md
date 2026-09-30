@@ -1,10 +1,10 @@
-# Backlog (poza bieżącym MVP)
+# Backlog (beyond the current MVP)
 
-- [ ] Algorytm powtórek (SM-2 → potem FSRS); pola w `UserWordProgress` (ease, interval, due).
-- [ ] Tryb „skup się na słabych słowach”.
-- [ ] Gry: wybór z 4 odpowiedzi, wpisywanie (porównanie z uwzględnieniem kultury TR/PL!), dopasowywanie par.
-- [ ] Pełne listy top-1000 dla EN/PL/TR: źródło, licencja, lematyzacja (turecki to język aglutynacyjny).
-- [ ] Generowanie klienta TS z OpenAPI (np. openapi-typescript / NSwag).
-- [ ] Testy integracyjne na prawdziwym Postgresie (Testcontainers).
-- [ ] Przykładowe zdania, audio (TTS).
-- [ ] Deployment (kontener + hosting), logowanie zewnętrzne.
+- [ ] Spaced repetition algorithm (SM-2 → later FSRS); fields in `UserWordProgress` (ease, interval, due).
+- [ ] "Focus on weak words" mode.
+- [ ] Games: multiple choice (4 answers), typing (culture-aware comparison for TR/PL!), matching pairs.
+- [ ] Full top-1000 lists for EN/PL/TR: source, license, lemmatization (Turkish is an agglutinative language).
+- [ ] Generating a TS client from OpenAPI (e.g. openapi-typescript / NSwag).
+- [ ] Integration tests against a real Postgres (Testcontainers).
+- [ ] Example sentences, audio (TTS).
+- [ ] Deployment (container + hosting), external sign-in.

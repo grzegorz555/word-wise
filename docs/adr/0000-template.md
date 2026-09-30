@@ -1,20 +1,20 @@
-# ADR-NNNN: <tytuł decyzji>
+# ADR-NNNN: <decision title>
 
 - Status: Proposed | Accepted | Superseded by ADR-XXXX
-- Data: RRRR-MM-DD
+- Date: YYYY-MM-DD
 
-## Kontekst
-Jaki problem rozwiązujemy? Jakie są ograniczenia?
+## Context
+What problem are we solving? What are the constraints?
 
-## Rozważane opcje
-1. Opcja A: plusy / minusy
-2. Opcja B: plusy / minusy
+## Considered options
+1. Option A: pros / cons
+2. Option B: pros / cons
 
-## Decyzja
-Wybieramy … ponieważ …
+## Decision
+We choose … because …
 
-## Konsekwencje
-Co staje się łatwiejsze, co trudniejsze, co trzeba będzie zrobić.
+## Consequences
+What becomes easier, what becomes harder, what will need to be done.
 
-## Do nauki
-Linki do dokumentacji i koncepcje, które ta decyzja wprowadza.
+## Learning resources
+Links to documentation and the concepts this decision introduces.

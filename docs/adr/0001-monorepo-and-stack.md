@@ -1,23 +1,23 @@
-# ADR-0001: Monorepo i stack technologiczny
+# ADR-0001: Monorepo and technology stack
 
 - Status: Accepted
-- Data: 2026-09-30
+- Date: 2026-09-30
 
-## Kontekst
-Projekt solo, do nauki i portfolio. Pracuję z pomocą Claude Code, więc jeden wspólny kontekst jest tańszy i prostszy.
+## Context
+A solo project for learning and portfolio. I work with Claude Code, so a single shared context is cheaper and simpler.
 
-## Decyzja
-- Jedno repo (GitHub): `src/api` (.NET), `src/web` (Angular), `tests/`, `docs/`, `data/`.
-- **.NET 10 (LTS)** + ASP.NET Core, SDK przypięty w `global.json`.
-- **Angular 22** (standalone, signals, zoneless). Pakiety `@angular/*` przypięte do `22.2.0`, bo w chwili startu `@angular/forms@22.2.1` nie był opublikowany i `^22.2.0` nie dawało się zainstalować.
-- Central Package Management (`Directory.Packages.props`) i wspólne ustawienia (`Directory.Build.props`).
-- Rozwiązanie w formacie `.slnx`.
+## Decision
+- One repo (GitHub): `src/api` (.NET), `src/web` (Angular), `tests/`, `docs/`, `data/`.
+- **.NET 10 (LTS)** + ASP.NET Core, SDK pinned in `global.json`.
+- **Angular 22** (standalone, signals, zoneless). `@angular/*` packages are pinned to `22.2.0` because at project start `@angular/forms@22.2.1` had not been published and `^22.2.0` could not be installed.
+- Central Package Management (`Directory.Packages.props`) and shared settings (`Directory.Build.props`).
+- Solution in the `.slnx` format.
 
-## Konsekwencje
-- Jedna historia gita i jedno CI. Claude widzi FE i BE naraz.
-- Wersje NuGet zmieniasz w jednym pliku.
+## Consequences
+- One git history and one CI. Claude sees FE and BE at the same time.
+- NuGet versions are changed in a single file.
 
-## Do nauki
+## Learning resources
 - Central Package Management: https://learn.microsoft.com/nuget/consume-packages/central-package-management
 - Directory.Build.props: https://learn.microsoft.com/visualstudio/msbuild/customize-by-directory
 - global.json: https://learn.microsoft.com/dotnet/core/tools/global-json

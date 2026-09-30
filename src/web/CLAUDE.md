@@ -1,10 +1,10 @@
-# Frontend (Angular 22): kontekst dla Claude
+# Frontend (Angular 22): context for Claude
 
-Pełne konwencje: `docs/conventions/frontend.md`. Autor zna Angulara z pracy, więc wyjaśnienia skupiaj na backendzie i integracji FE↔BE.
+Full conventions: `docs/conventions/frontend.md`. The author knows Angular from work, so focus explanations on the backend and FE↔BE integration.
 
-- Standalone components, signals, zoneless, nowa składnia kontroli przepływu (`@if`, `@for`).
-- `inject()` zamiast wstrzykiwania przez konstruktor. Stan w `signal`/`computed`. RxJS tylko dla strumieni HTTP i eventów.
-- Struktura: `src/app/core/` (i18n, http, auth), `src/app/features/<feature>/` (np. `study/`).
-- i18n: Transloco, pliki `public/i18n/{pl,en,tr}.json`. Każdy tekst UI przez klucz, bez hardkodowanych napisów. Nowy klucz dodajesz we wszystkich 3 plikach.
-- API: wywołania przez `/api/...` (proxy dev → `http://localhost:5033`). DTO po stronie TS mają odpowiadać kontraktowi OpenAPI z `/openapi/v1.json`.
-- Testy: Vitest (`npx ng test --watch=false`). Formatowanie: Prettier (`npx prettier --check "src/**/*.{ts,html,scss}"`).
+- Standalone components, signals, zoneless, the new control flow syntax (`@if`, `@for`).
+- `inject()` instead of constructor injection. State in `signal`/`computed`. RxJS only for HTTP streams and events.
+- Structure: `src/app/core/` (i18n, http, auth), `src/app/features/<feature>/` (e.g. `study/`).
+- i18n: Transloco, files `public/i18n/{pl,en,tr}.json`. Every UI text goes through a key, no hardcoded strings. Add each new key to all 3 files.
+- API: calls via `/api/...` (dev proxy → `http://localhost:5033`). TS-side DTOs must match the OpenAPI contract from `/openapi/v1.json`.
+- Tests: Vitest (`npx ng test --watch=false`). Formatting: Prettier (`npx prettier --check "src/**/*.{ts,html,scss}"`).

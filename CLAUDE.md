@@ -1,51 +1,52 @@
-# WordWise — instrukcje dla Claude
+# WordWise — instructions for Claude
 
-> **Izolacja:** ten projekt jest całkowicie odseparowany od innych repozytoriów autora. Metodyki, konwencje, dane i decyzje obowiązują **tylko tutaj**. Nie przenoś ich do innych projektów i nie przenoś tu reguł z innych projektów (poza ogólnymi zasadami bezpieczeństwa).
-> Narzędzia służbowe są tu wyłączone: skill `kup-archiwum` (deny w `.claude/settings.json`) i globalne hooki gita (`git config --local core.hooksPath .git/hooks`). Nie archiwizuj niczego z tego repo do SVN KUP.
+> **Isolation:** this project is completely separate from the author's other repositories. Its methods, conventions, data and decisions apply **only here**. Don't carry them over to other projects, and don't bring rules from other projects in here (except general security rules).
+> Work tooling is disabled here: the `kup-archiwum` skill (deny in `.claude/settings.json`) and global git hooks (`git config --local core.hooksPath .git/hooks`). Don't archive anything from this repo to SVN KUP.
 
-Fiszki z 1000 najczęstszych słów w językach **EN / PL / TR** (każdy jest też językiem UI).
-Projekt do **nauki + portfolio**. Autor uczy się C#/.NET (kurs freeCodeCamp „Foundational C# with Microsoft”), a Angulara zna z pracy.
-**Priorytet: autor ma zrozumieć kod, a nie tylko go dostać.**
+Flashcards with the 1000 most common words in **EN / PL / TR** (each is also a UI language).
+A **learning + portfolio** project. The author is learning C#/.NET (freeCodeCamp course "Foundational C# with Microsoft") and knows Angular from work.
+**Priority: the author should understand the code, not just receive it.**
 
 ## Stack
-- API: ASP.NET Core 10 (LTS), kontrolery + vertical slices → `src/api/WordWise.Api` (szczegóły: `src/api/CLAUDE.md`)
-- Web: Angular 22 (standalone, signals, zoneless), Transloco → `src/web` (szczegóły: `src/web/CLAUDE.md`)
+- API: ASP.NET Core 10 (LTS), controllers + vertical slices → `src/api/WordWise.Api` (details: `src/api/CLAUDE.md`)
+- Web: Angular 22 (standalone, signals, zoneless), Transloco → `src/web` (details: `src/web/CLAUDE.md`)
 - DB: PostgreSQL 18 (`compose.yaml`), EF Core, ASP.NET Core Identity
-- Testy: xUnit v3 + Shouldly (Microsoft.Testing.Platform), Vitest na froncie
+- Tests: xUnit v3 + Shouldly (Microsoft.Testing.Platform), Vitest on the frontend
 - CI: GitHub Actions (`.github/workflows/ci.yml`)
 
-## Uruchomienie lokalne
-Pełna instrukcja: `docs/how-to/run-locally.md`. API: http://localhost:5033 (Swagger: `/swagger`), web: http://localhost:4200.
+## Running locally
+Full guide: `docs/how-to/run-locally.md`. API: http://localhost:5033 (Swagger: `/swagger`), web: http://localhost:4200.
 
-## Komendy (z katalogu głównego)
+## Commands (from the repo root)
 ```
 docker compose up -d                         # Postgres
-dotnet build WordWise.slnx                   # warningi = błędy
+dotnet build WordWise.slnx                   # warnings = errors
 dotnet test --solution WordWise.slnx
-dotnet format WordWise.slnx                  # przed commitem
+dotnet format WordWise.slnx                  # before committing
 cd src/web && npm start                      # http://localhost:4200, proxy /api → :5033
 cd src/web && npx ng test --watch=false
 ```
-Środowisko: w narzędziu Bash nie działają programy z PATH Windows, więc uruchamiaj je przez `powershell.exe -NoProfile -Command "..."`.
+Environment: programs from the Windows PATH don't work in the Bash tool, so run them via `powershell.exe -NoProfile -Command "..."`.
 
-## Gdzie czego szukać (czytaj tylko to, czego potrzebujesz)
-- Wizja i MVP: `docs/vision.md` · architektura i model danych: `docs/architecture.md`
-- Decyzje: `docs/adr/` (nowa decyzja → skill `new-adr`)
-- Konwencje: `docs/conventions/{backend,frontend,testing,git,ai-workflow}.md`
-- Funkcje: `docs/specs/NNN-nazwa/{spec,tasks}.md` · backlog: `docs/backlog.md`
-- Nauka: `docs/learning/journal.md`, `docs/learning/concepts/`, **zakładki do dokumentacji: `docs/learning/references.md`**
-- Podsumowania sesji (lokalne, poza gitem): `.local/summaries/`
+## Where to find things (read only what you need)
+- Vision and MVP: `docs/vision.md` · architecture and data model: `docs/architecture.md`
+- Decisions: `docs/adr/` (new decision → `new-adr` skill)
+- Conventions: `docs/conventions/{backend,frontend,testing,git,ai-workflow}.md`
+- Features: `docs/specs/NNN-name/{spec,tasks}.md` · backlog: `docs/backlog.md`
+- Learning: `docs/learning/journal.md`, `docs/learning/concepts/`, **documentation bookmarks: `docs/learning/references.md`**
+- Session summaries (local, outside git): `.local/summaries/`
 
-## Zasady pracy (obowiązkowe)
-1. **Tryb zadania** z `tasks.md` decyduje, ile kodu piszesz (patrz `docs/conventions/ai-workflow.md`):
-   - `[solo]`: autor pisze sam, a Ty tylko robisz review i zadajesz pytania.
-   - `[learn]`: piszesz szkielet i zostawiasz `TODO(human)` w kluczowych miejscach. Kodu za autora nie piszesz.
-   - `[gen]`: generujesz kod, a potem prosisz autora o wyjaśnienie go własnymi słowami.
-2. Każdy nietrywialny wybór uzasadnij 1–2 zdaniami i **linkiem do docs** (learn.microsoft.com / angular.dev). Linki weryfikuj przez MCP `microsoft-learn`, nie z pamięci. Nazywaj koncepcje (np. „Options pattern”, „scoped lifetime”). Przy szerszych tematach odsyłaj do pozycji z `docs/learning/references.md`.
-3. Po zadaniu dopisz wpis do `docs/learning/journal.md` (format jest w pliku).
-3a. **Po każdej sesji z zmianami** utwórz `.local/summaries/RRRR-MM-DD-<temat>.md` wg `.local/summaries/_TEMPLATE.md`: co dodano (pliki), **jak to sprawdzić** (komendy, URL-e, oczekiwany wynik), commity, co dalej. Folder jest w `.gitignore`.
-3b. Praca zawsze na gałęzi funkcji (`feat/…`, `docs/…`, `chore/…`), nigdy na `main`. Małe, logiczne commity (Conventional Commits).
-4. Nie zmieniaj decyzji z ADR bez pytania. Nową decyzję architektoniczną najpierw zaproponuj, potem zapisz jako ADR.
-5. Kod, identyfikatory i commity po angielsku (Conventional Commits). Dokumentacja i wyjaśnienia po polsku.
-6. Porównania tekstu w językach PL/TR zawsze z jawnie podaną kulturą albo `StringComparison` (tureckie İ/ı!).
-7. Commity tylko lokalnie; `push` wyłącznie na wyraźną prośbę autora.
+## Working rules (mandatory)
+1. The **task mode** in `tasks.md` decides how much code you write (see `docs/conventions/ai-workflow.md`):
+   - `[solo]`: the author writes the code; you only review and ask questions.
+   - `[learn]`: you write a skeleton and leave `TODO(human)` in key places. You don't write the code for the author.
+   - `[gen]`: you generate the code, then ask the author to explain it in their own words.
+2. Justify every non-trivial choice in 1–2 sentences with a **link to the docs** (learn.microsoft.com / angular.dev). Verify links via the `microsoft-learn` MCP, not from memory. Name the concepts (e.g. "Options pattern", "scoped lifetime"). For broader topics, point to entries in `docs/learning/references.md`.
+3. After a task, add an entry to `docs/learning/journal.md` (the format is in the file).
+3a. **After every session with changes**, create `.local/summaries/YYYY-MM-DD-<topic>.md` following `.local/summaries/_TEMPLATE.md`: what was added (files), **how to verify it** (commands, URLs, expected result), commits, next steps. The folder is in `.gitignore`.
+3b. Always work on a feature branch (`feat/…`, `docs/…`, `chore/…`), never on `main`. Small, logical commits (Conventional Commits).
+4. Don't change ADR decisions without asking. Propose a new architectural decision first, then record it as an ADR.
+5. Code, identifiers, commits and repo documentation in English (Conventional Commits). Explanations to the author in Polish.
+5a. Every tracked doc has a local, git-ignored Polish copy: `X.local.md` next to `X.md`; for `CLAUDE.md` it is `CLAUDE.pl.local.md` (because `CLAUDE.local.md` is auto-loaded by Claude Code), and for `.claude/agents/*` and `.claude/output-styles/*` it lives under `.local/docs-pl/.claude/…` (Claude Code loads every .md in those folders). When you change a doc, update its Polish copy in the same session; when you add a new doc, create its Polish copy. Never read the `.local.md` copies for instructions — the English files are the source of truth.
+6. Text comparisons in PL/TR always use an explicit culture or `StringComparison` (Turkish İ/ı!).
+7. Commits are local only; `push` only when the author explicitly asks.

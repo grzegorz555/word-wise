@@ -1,19 +1,19 @@
-# ADR-0006: Języki EN/PL/TR i i18n interfejsu (Transloco)
+# ADR-0006: EN/PL/TR languages and UI i18n (Transloco)
 
 - Status: Accepted
-- Data: 2026-09-30
+- Date: 2026-09-30
 
-## Decyzja
-- Obsługiwane języki: `en`, `pl`, `tr` (kody ISO 639-1). Każdy jest jednocześnie językiem UI i językiem nauki.
-- Kierunek nauki: **dowolna para** (bazowy ≠ docelowy), niezależna od języka UI.
-- i18n UI: **Transloco** (runtime, jeden build, pliki `src/web/public/i18n/*.json`), a nie `@angular/localize` (build per język, zmiana języka wymaga przeładowania).
-- Język UI zapisywany w profilu użytkownika. Przed zalogowaniem: język przeglądarki albo domyślny `pl`.
+## Decision
+- Supported languages: `en`, `pl`, `tr` (ISO 639-1 codes). Each is both a UI language and a learning language.
+- Learning direction: **any pair** (base ≠ target), independent of the UI language.
+- UI i18n: **Transloco** (runtime, single build, files `src/web/public/i18n/*.json`), not `@angular/localize` (build per language, switching language requires a reload).
+- The UI language is stored in the user profile. Before login: the browser language or the default `pl`.
 
-## Konsekwencje
-- Tekst porównujemy świadomie: tureckie `i/İ` i `ı/I` psują `ToUpper()`/`ToLower()` w domyślnej kulturze. W C# używamy `StringComparison.Ordinal`/`OrdinalIgnoreCase` dla kluczy i `CultureInfo.GetCultureInfo("tr")` przy porównaniach treści TR.
-- Każdy nowy klucz tłumaczenia trzeba dodać w 3 plikach.
+## Consequences
+- We compare text deliberately: Turkish `i/İ` and `ı/I` break `ToUpper()`/`ToLower()` in the default culture. In C# we use `StringComparison.Ordinal`/`OrdinalIgnoreCase` for keys and `CultureInfo.GetCultureInfo("tr")` when comparing TR content.
+- Every new translation key has to be added in 3 files.
 
-## Do nauki
+## Learning resources
 - Transloco: https://jsverse.gitbook.io/transloco
-- Porównywanie stringów w .NET: https://learn.microsoft.com/dotnet/standard/base-types/best-practices-strings
-- „Turkish I problem”: https://learn.microsoft.com/dotnet/standard/base-types/best-practices-strings#string-operations-that-use-the-invariant-culture
+- String comparison in .NET: https://learn.microsoft.com/dotnet/standard/base-types/best-practices-strings
+- "Turkish I problem": https://learn.microsoft.com/dotnet/standard/base-types/best-practices-strings#string-operations-that-use-the-invariant-culture

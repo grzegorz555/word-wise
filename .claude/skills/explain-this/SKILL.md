@@ -1,18 +1,18 @@
 ---
 name: explain-this
-description: Tłumaczy wskazany fragment kodu WordWise (plik, klasę, metodę lub zakres linii) krok po kroku, z nazwami koncepcji i linkami do dokumentacji. Używaj, gdy autor pyta "co tu się dzieje", "wytłumacz ten plik/fragment".
+description: Explains a given piece of WordWise code (file, class, method or line range) step by step, with concept names and documentation links. Use when the author asks "co tu się dzieje", "wytłumacz ten plik/fragment".
 ---
 
-# Wyjaśnij fragment kodu
+# Explain a piece of code
 
-Argument: ścieżka pliku, opcjonalnie `:od-do` linii lub nazwa symbolu.
+Argument: file path, optionally a `:od-do` line range or a symbol name.
 
-1. Przeczytaj tylko wskazany fragment + bezpośrednie zależności potrzebne do zrozumienia.
-2. Odpowiedz w strukturze:
-   - **Co robi** (1–2 zdania, poziom „biznesowy” — np. „zwraca karty do nauki”).
-   - **Linia po linii / blok po bloku** — co i *dlaczego*; nazwij każdą koncepcję (np. *primary constructor*, *expression-bodied member*, *LINQ deferred execution*).
-   - **Analogia do TS/Angular**, jeśli pomaga.
-   - **Pułapki** i co by się stało przy typowej zmianie (np. usunięciu `AsNoTracking`).
-   - **Docs** — 1–3 linki z MCP `microsoft-learn`.
-   - **Sprawdź się** — 1 pytanie.
-3. Nie modyfikuj kodu.
+1. Read only the given fragment + the direct dependencies needed to understand it.
+2. Answer using this structure:
+   - **What it does** (1–2 sentences, at a "business" level — e.g. "returns cards to study").
+   - **Line by line / block by block** — what and *why*; name every concept (e.g. *primary constructor*, *expression-bodied member*, *LINQ deferred execution*).
+   - **Analogy to TS/Angular**, if it helps.
+   - **Pitfalls** and what would happen after a typical change (e.g. removing `AsNoTracking`).
+   - **Docs** — 1–3 links from the `microsoft-learn` MCP.
+   - **Check yourself** — 1 question.
+3. Don't modify the code.

@@ -1,16 +1,16 @@
 ---
 name: quiz-me
-description: Przepytuje autora z koncepcji, które pojawiły się w projekcie (docs/learning/journal.md i concepts/). Używaj, gdy autor mówi "quiz", "przepytaj mnie", "sprawdź mnie", albo przy cotygodniowej powtórce.
+description: Quizzes the author on concepts that have come up in the project (docs/learning/journal.md and concepts/). Use when the author says "quiz", "przepytaj mnie", "sprawdź mnie", or for the weekly review.
 ---
 
-# Quiz z dziennika nauki
+# Learning journal quiz
 
-1. Przeczytaj `docs/learning/journal.md` (i ewentualnie pliki z `docs/learning/concepts/`). Jeśli autor podał temat w argumentach — zawęź do niego.
-2. Wybierz **5 pytań**: preferuj tematy najstarsze i te z pustym „Moimi słowami” (powtórki rozłożone w czasie). Mieszaj typy:
-   - „wyjaśnij własnymi słowami”,
-   - „co się stanie, gdy…” (predict),
-   - „znajdź błąd w tym fragmencie” (krótki snippet C#),
-   - „który plik w WordWise za to odpowiada?”.
-3. Zadawaj **po jednym pytaniu** i czekaj na odpowiedź. Nie podawaj odpowiedzi z góry.
-4. Po każdej odpowiedzi: ocena (✅ / 🟡 / ❌), 1–2 zdania korekty, link do docs (MCP `microsoft-learn`).
-5. Na koniec: wynik, 1–2 tematy do powtórki; dopisz do `docs/learning/journal.md` wpis `## RRRR-MM-DD — Quiz` z wynikiem i słabymi tematami.
+1. Read `docs/learning/journal.md` (and optionally files from `docs/learning/concepts/`). If the author gave a topic in the arguments, narrow it down to that.
+2. Pick **5 questions**: prefer the oldest topics and those with an empty "In my own words" (spaced repetition). Mix the types:
+   - "explain in your own words",
+   - "what happens when…" (predict),
+   - "find the bug in this snippet" (short C# snippet),
+   - "which file in WordWise is responsible for this?".
+3. Ask **one question at a time** and wait for the answer. Don't give the answers up front.
+4. After each answer: rating (✅ / 🟡 / ❌), 1–2 sentences of correction, a docs link (`microsoft-learn` MCP).
+5. At the end: the score, 1–2 topics to review; add a `## YYYY-MM-DD — Quiz` entry to `docs/learning/journal.md` with the score and weak topics.

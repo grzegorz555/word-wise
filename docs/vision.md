@@ -1,29 +1,29 @@
-# Wizja: WordWise
+# Vision: WordWise
 
 ## Problem
-Nauka języka od najczęstszych słów daje najszybszy zwrot, bo około 1000 słów pokrywa dużą część codziennych tekstów. Chcę narzędzia, które prowadzi przez te słowa fiszka po fiszce w dowolnej parze języków EN/PL/TR.
+Learning a language starting from its most common words gives the fastest return, because about 1000 words cover a large share of everyday texts. I want a tool that walks me through these words flashcard by flashcard, in any EN/PL/TR language pair.
 
-## Użytkownik
-Osoba ucząca się języka (na start: autor). Ma konto, wybiera język interfejsu, język bazowy i język docelowy.
+## User
+A language learner (initially: the author). They have an account and choose the UI language, the base language and the target language.
 
-## Cele projektu
-1. **Nauka .NET** (główny cel) i portfolio. Jakość kodu ma być „do pokazania”.
-2. Działające MVP w małych, kompletnych krokach (każdy krok: spec → testy → kod → wpis w dzienniku).
+## Project goals
+1. **Learning .NET** (main goal) and a portfolio. Code quality should be "good enough to show".
+2. A working MVP built in small, complete steps (each step: spec → tests → code → journal entry).
 
 ## MVP (user stories)
-1. Jako użytkownik zakładam konto i loguję się (email + hasło).
-2. Jako użytkownik wybieram język interfejsu (PL/EN/TR) i mogę go zmienić w każdej chwili.
-3. Jako użytkownik wybieram parę języków (bazowy → docelowy, dowolna para z EN/PL/TR).
-4. Jako użytkownik przeglądam fiszki słów docelowych **po kolei** (wg częstości) albo **losowo** i odsłaniam tłumaczenie.
-5. Jako użytkownik oznaczam fiszkę jako „znam” / „nie znam”, a aplikacja zapisuje mój postęp.
+1. As a user, I create an account and sign in (email + password).
+2. As a user, I choose the UI language (PL/EN/TR) and can change it at any time.
+3. As a user, I choose a language pair (base → target, any pair from EN/PL/TR).
+4. As a user, I browse target-word flashcards **in order** (by frequency) or **randomly** and reveal the translation.
+5. As a user, I mark a flashcard as "I know" / "I don't know", and the app saves my progress.
 
-## Poza MVP (non-goals na teraz) → `backlog.md`
-- Algorytm powtórek (SM-2 / FSRS) i ważenie słabszych słów.
-- Gry / quizy.
-- Pełne listy 1000 słów (w MVP wystarcza seed ~50 słów, patrz ADR-0007).
-- Audio, wymowa, przykładowe zdania.
-- Hosting publiczny, logowanie zewnętrzne (Google itp.).
+## Beyond the MVP (non-goals for now) → `backlog.md`
+- Spaced repetition algorithm (SM-2 / FSRS) and weighting of weaker words.
+- Games / quizzes.
+- Full 1000-word lists (a seed of ~50 words is enough for the MVP, see ADR-0007).
+- Audio, pronunciation, example sentences.
+- Public hosting, external sign-in (Google etc.).
 
-## Miary sukcesu
-- Każda funkcja MVP ma testy (unit/integration) i przechodzi CI.
-- Każda funkcja ma wpis w `learning/journal.md`. Autor umie wyjaśnić każdą warstwę bez pomocy AI.
+## Success metrics
+- Every MVP feature has tests (unit/integration) and passes CI.
+- Every feature has an entry in `learning/journal.md`. The author can explain every layer without AI help.

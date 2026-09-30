@@ -1,35 +1,35 @@
-# Architektura
+# Architecture
 
-Lekki arc42 + diagramy C4 (https://c4model.com). Decyzje szczegółowe są w `adr/`.
+Lightweight arc42 + C4 diagrams (https://c4model.com). Detailed decisions are in `adr/`.
 
-## Kontekst (C4 poziom 1)
+## Context (C4 level 1)
 ```mermaid
 flowchart LR
-  user([Użytkownik]) -->|przeglądarka| ww[WordWise]
+  user([User]) -->|browser| ww[WordWise]
 ```
-Brak systemów zewnętrznych w MVP.
+No external systems in the MVP.
 
-## Kontenery (C4 poziom 2)
+## Containers (C4 level 2)
 ```mermaid
 flowchart LR
-  user([Użytkownik]) --> web[Angular SPA<br/>src/web]
+  user([User]) --> web[Angular SPA<br/>src/web]
   web -->|HTTP JSON /api, cookie auth| api[ASP.NET Core API<br/>src/api/WordWise.Api]
   api -->|EF Core / Npgsql| db[(PostgreSQL)]
 ```
-W dev Angular (`:4200`) przekazuje `/api` przez proxy do API (`:5033`). Dzięki temu SPA i API są dla przeglądarki jednym originem (ADR-0004).
+In dev, Angular (`:4200`) proxies `/api` to the API (`:5033`). This way the SPA and the API are a single origin from the browser's point of view (ADR-0004).
 
 ## Backend: vertical slices (ADR-0002)
-Kod zorganizowany wg funkcji (`Features/Words`, `Features/Study`, `Features/Account`), a nie wg warstw technicznych. Każdy slice zawiera kontroler, DTO i logikę przypadku użycia. Wspólne są tylko `Domain/` (encje) i `Infrastructure/` (DbContext).
+Code is organized by feature (`Features/Words`, `Features/Study`, `Features/Account`), not by technical layer. Each slice contains the controller, DTOs and use-case logic. Only `Domain/` (entities) and `Infrastructure/` (DbContext) are shared.
 
-## Model danych (ADR-0005)
+## Data model (ADR-0005)
 ```mermaid
 erDiagram
-  Concept ||--o{ Word : "ma formy"
-  Word ||--o{ UserWordProgress : "postęp"
-  AppUser ||--o{ UserWordProgress : "postęp"
+  Concept ||--o{ Word : "has forms"
+  Word ||--o{ UserWordProgress : "progress"
+  AppUser ||--o{ UserWordProgress : "progress"
   Concept {
     int Id
-    string Key "np. house, right_direction"
+    string Key "e.g. house, right_direction"
     string PartOfSpeech
   }
   Word {
@@ -37,11 +37,11 @@ erDiagram
     int ConceptId
     string Language "en | pl | tr"
     string Text
-    int FrequencyRank "nullable; ranking w danym języku"
+    int FrequencyRank "nullable; rank within the language"
   }
   UserWordProgress {
     string UserId
-    int WordId "słowo w języku docelowym"
+    int WordId "word in the target language"
     int TimesSeen
     int TimesKnown
     datetime LastSeenAt
@@ -53,11 +53,11 @@ erDiagram
     string TargetLanguage
   }
 ```
-- Unikalność: `Word(ConceptId, Language, Text)`, `Concept(Key)`, `UserWordProgress(UserId, WordId)`.
-- Sesja nauki (bazowy B → docelowy T): słowa `Language = T` z rankiem, sortowane po ranku lub losowo; tłumaczenia to słowa `Language = B` o tym samym `ConceptId`.
-- Postęp jest per słowo docelowe, wspólny dla wszystkich języków bazowych.
+- Uniqueness: `Word(ConceptId, Language, Text)`, `Concept(Key)`, `UserWordProgress(UserId, WordId)`.
+- Study session (base B → target T): words with `Language = T` that have a rank, sorted by rank or randomly; translations are words with `Language = B` sharing the same `ConceptId`.
+- Progress is tracked per target word and shared across all base languages.
 
-## Jakość i przekroje
-- Błędy API: `ProblemDetails` (RFC 9457).
-- Kontrakt: OpenAPI (`/openapi/v1.json`) jako źródło prawdy dla DTO w TS.
-- i18n UI: Transloco (ADR-0006). Treść (słowa) przychodzi z API.
+## Quality and cross-cutting concerns
+- API errors: `ProblemDetails` (RFC 9457).
+- Contract: OpenAPI (`/openapi/v1.json`) as the source of truth for TS DTOs.
+- UI i18n: Transloco (ADR-0006). Content (words) comes from the API.

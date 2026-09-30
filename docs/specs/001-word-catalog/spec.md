@@ -1,18 +1,18 @@
-# Spec 001: Katalog słów (model, seed, odczyt kart)
+# Spec 001: Word catalog (model, seed, reading cards)
 
 - Status: Ready
 - ADR: 0003, 0005, 0007
-- User stories z `vision.md`: fundament pod nr 3 i 4 (bez auth: to spec 002)
+- User stories from `vision.md`: foundation for no. 3 and 4 (no auth: that's spec 002)
 
-## Cel
-Baza zawiera Concepty i słowa EN/PL/TR z seeda, a API zwraca listę fiszek dla pary języków po kolei lub losowo.
+## Goal
+The database contains Concepts and EN/PL/TR words from the seed, and the API returns a list of flashcards for a language pair, in order or randomly.
 
-## Zakres
-1. Encje `Concept`, `Word` + `WordWiseDbContext` + pierwsza migracja (Postgres).
-2. Import `data/seed/words.seed.csv` przy starcie w trybie Development, idempotentny.
+## Scope
+1. `Concept`, `Word` entities + `WordWiseDbContext` + the first migration (Postgres).
+2. Import of `data/seed/words.seed.csv` at startup in Development mode, idempotent.
 3. `GET /api/words/cards?base=pl&target=tr&order=sequential|random`
 
-## Kontrakt
+## Contract
 ```http
 GET /api/words/cards?base=pl&target=tr&order=sequential
 200 OK
@@ -22,20 +22,20 @@ GET /api/words/cards?base=pl&target=tr&order=sequential
 ]
 ```
 
-## Reguły
-- R1: `base` i `target` ∈ {`en`,`pl`,`tr`}, `base ≠ target`. W przeciwnym razie **400 ValidationProblem**.
-- R2: `order` domyślnie `sequential` (po `rank` rosnąco, słowa bez ranku pomijane). `random` zwraca te same karty w losowej kolejności.
-- R3: słowo docelowe bez żadnego tłumaczenia w języku bazowym **nie trafia** do listy.
-- R4: słowo z kilkoma znaczeniami (np. EN *right*) daje **jedną kartę na Word**. Tłumaczenia z jego Conceptu, synonimy w kolejności alfabetycznej wg kultury języka bazowego.
-- R5: ponowny import tego samego CSV nie zmienia liczby wierszy.
+## Rules
+- R1: `base` and `target` ∈ {`en`,`pl`,`tr`}, `base ≠ target`. Otherwise **400 ValidationProblem**.
+- R2: `order` defaults to `sequential` (by `rank` ascending, words without a rank are skipped). `random` returns the same cards in random order.
+- R3: a target word with no translation in the base language is **not included** in the list.
+- R4: a word with several meanings (e.g. EN *right*) produces **one card per Word**. Translations come from its Concept; synonyms are sorted alphabetically using the base language's culture.
+- R5: re-importing the same CSV does not change the row count.
 
-## Kryteria akceptacji
-- [ ] `docker compose up -d` + `dotnet run` tworzy schemat i wczytuje seed.
-- [ ] `GET /api/words/cards?base=pl&target=tr` zwraca karty posortowane po `rank`.
+## Acceptance criteria
+- [ ] `docker compose up -d` + `dotnet run` creates the schema and loads the seed.
+- [ ] `GET /api/words/cards?base=pl&target=tr` returns cards sorted by `rank`.
 - [ ] Test: `base=tr&target=tr` → 400.
-- [ ] Test: parser CSV poprawnie czyta synonimy `a|b` i puste rangi.
-- [ ] Test: import 2× → ta sama liczba słów.
-- [ ] Wpis w `docs/learning/journal.md`.
+- [ ] Test: the CSV parser correctly reads `a|b` synonyms and empty ranks.
+- [ ] Test: importing 2× → the same number of words.
+- [ ] Entry in `docs/learning/journal.md`.
 
-## Poza zakresem
-Auth, postęp użytkownika (spec 002/003), paginacja (≤1000 kart, na razie niepotrzebna).
+## Out of scope
+Auth, user progress (spec 002/003), pagination (≤1000 cards, not needed for now).

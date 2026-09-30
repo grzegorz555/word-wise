@@ -1,23 +1,23 @@
-# Backend (ASP.NET Core 10): kontekst dla Claude
+# Backend (ASP.NET Core 10): context for Claude
 
-Pełne konwencje: `docs/conventions/backend.md`. Testy: `docs/conventions/testing.md`.
+Full conventions: `docs/conventions/backend.md`. Tests: `docs/conventions/testing.md`.
 
-## Struktura (vertical slices)
+## Structure (vertical slices)
 ```
 WordWise.Api/
-  Program.cs                 # DI + pipeline; tylko wywołania Add*/Map*, bez logiki
-  Features/<Feature>/        # np. Words/, Study/, Account/
-    <Feature>Controller.cs   # cienki kontroler: walidacja wejścia → handler/serwis → wynik HTTP
-    <UseCase>.cs             # request/response DTO + logika przypadku użycia
-  Domain/                    # encje EF (Concept, Word, UserWordProgress, AppUser)
-  Infrastructure/Data/       # WordWiseDbContext, konfiguracje IEntityTypeConfiguration, migracje
+  Program.cs                 # DI + pipeline; only Add*/Map* calls, no logic
+  Features/<Feature>/        # e.g. Words/, Study/, Account/
+    <Feature>Controller.cs   # thin controller: input validation → handler/service → HTTP result
+    <UseCase>.cs             # request/response DTO + use-case logic
+  Domain/                    # EF entities (Concept, Word, UserWordProgress, AppUser)
+  Infrastructure/Data/       # WordWiseDbContext, IEntityTypeConfiguration configs, migrations
 ```
 
-## Najważniejsze reguły
-- Kontroler nie odwołuje się bezpośrednio do `DbContext`; robi to kod feature'a. Kontroler zwraca `ActionResult<T>` / `ProblemDetails`.
-- DTO to `record`y. Encji nie zwracamy z API.
-- Asynchronicznie wszędzie z I/O, `CancellationToken` przekazywany do EF.
-- Zapytania tylko do odczytu: `AsNoTracking()` + projekcja `Select` do DTO.
-- Konfiguracja EF przez Fluent API (`IEntityTypeConfiguration<T>`), nie atrybuty.
-- Język jako kod ISO 639-1 (`en`/`pl`/`tr`); porównania przez `StringComparison.Ordinal`/`CultureInfo`, nigdy przez domyślną kulturę.
-- Build ma `TreatWarningsAsErrors` + analyzery `latest-recommended`. Ostrzeżenie analyzera to okazja do nauki: wyjaśnij regułę z linkiem (CAxxxx) zamiast ją wyłączać.
+## Key rules
+- The controller doesn't access `DbContext` directly; the feature code does. The controller returns `ActionResult<T>` / `ProblemDetails`.
+- DTOs are `record`s. Entities are never returned from the API.
+- Async everywhere there is I/O, with `CancellationToken` passed to EF.
+- Read-only queries: `AsNoTracking()` + `Select` projection to a DTO.
+- EF configuration via Fluent API (`IEntityTypeConfiguration<T>`), not attributes.
+- Language as an ISO 639-1 code (`en`/`pl`/`tr`); comparisons via `StringComparison.Ordinal`/`CultureInfo`, never the default culture.
+- The build has `TreatWarningsAsErrors` + `latest-recommended` analyzers. An analyzer warning is a learning opportunity: explain the rule with a link (CAxxxx) instead of disabling it.

@@ -1,18 +1,18 @@
-# Tasks: Spec 001, katalog słów
+# Tasks: Spec 001, word catalog
 
-Tryby: `[solo]` piszesz sam · `[learn]` szkielet + TODO(human) · `[gen]` Claude generuje, Ty robisz explain-back.
-Tryby możesz zmienić przed startem zadania.
+Modes: `[solo]` you write it yourself · `[learn]` skeleton + TODO(human) · `[gen]` Claude generates, you do an explain-back.
+You can change the mode before starting a task.
 
-- [ ] **T1 `[gen]`** Pakiety EF Core + Npgsql, `WordWiseDbContext`, connection string w `appsettings.Development.json`, rejestracja w DI.
-  - *Do zrozumienia:* DI lifetime `Scoped` dla DbContext, konfiguracja z `IConfiguration`.
-- [ ] **T2 `[learn]`** Encje `Concept`, `Word` + `IEntityTypeConfiguration` (relacja 1-N, unikalne indeksy z ADR-0005).
-  - *Ty piszesz:* właściwości encji i konfigurację indeksów. *Claude:* szkielet plików.
-- [ ] **T3 `[gen]`** Pierwsza migracja `InitialWordCatalog` + `dotnet ef database update`.
-  - *Predict before run:* jakie tabele i indeksy powstaną? Zapisz, potem porównaj z plikiem migracji.
-- [ ] **T4 `[solo]`** Parser CSV (`WordSeedCsvParser`): wiersz → rekord z listą form per język. Najpierw testy (synonimy, pusta ranga, polskie i tureckie znaki).
-- [ ] **T5 `[learn]`** Import idempotentny (`WordSeedImporter`) uruchamiany przy starcie w Development.
-  - *Do zrozumienia:* `IHostedService` vs wywołanie w `Program.cs`, `AnyAsync`, jeden `SaveChangesAsync`.
-- [ ] **T6 `[learn]`** `WordsController` + zapytanie LINQ dla R2–R4 (`AsNoTracking`, `Select` do `WordCardResponse`).
-  - *Ty piszesz:* zapytanie LINQ. *Claude:* kontroler, DTO, walidacja R1.
-- [ ] **T7 `[solo]`** Testy integracyjne endpointu: 400 dla R1 (bez bazy).
-- [ ] **T8 `[gen]`** Review agentem `code-reviewer` + wpis w dzienniku + `/quiz-me` z tematów T1–T6.
+- [ ] **T1 `[gen]`** EF Core + Npgsql packages, `WordWiseDbContext`, connection string in `appsettings.Development.json`, DI registration.
+  - *To understand:* `Scoped` DI lifetime for DbContext, configuration from `IConfiguration`.
+- [ ] **T2 `[learn]`** `Concept`, `Word` entities + `IEntityTypeConfiguration` (1-N relationship, unique indexes from ADR-0005).
+  - *You write:* entity properties and index configuration. *Claude:* file skeletons.
+- [ ] **T3 `[gen]`** First migration `InitialWordCatalog` + `dotnet ef database update`.
+  - *Predict before run:* which tables and indexes will be created? Write it down, then compare with the migration file.
+- [ ] **T4 `[solo]`** CSV parser (`WordSeedCsvParser`): row → record with a list of forms per language. Tests first (synonyms, empty rank, Polish and Turkish characters).
+- [ ] **T5 `[learn]`** Idempotent import (`WordSeedImporter`) run at startup in Development.
+  - *To understand:* `IHostedService` vs a call in `Program.cs`, `AnyAsync`, a single `SaveChangesAsync`.
+- [ ] **T6 `[learn]`** `WordsController` + LINQ query for R2–R4 (`AsNoTracking`, `Select` into `WordCardResponse`).
+  - *You write:* the LINQ query. *Claude:* controller, DTOs, R1 validation.
+- [ ] **T7 `[solo]`** Endpoint integration tests: 400 for R1 (no database).
+- [ ] **T8 `[gen]`** Review with the `code-reviewer` agent + journal entry + `/quiz-me` on topics from T1–T6.

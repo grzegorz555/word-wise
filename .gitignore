@@ -6,6 +6,9 @@
 # WordWise: local-only session summaries and notes (never committed)
 .local/
 
+# WordWise: local Polish copies of the (English) docs, never committed
+*.local.md
+
 # Claude Code: personal settings
 .claude/settings.local.json
 

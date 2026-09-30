@@ -1,24 +1,24 @@
-# ADR-0004: ASP.NET Core Identity z uwierzytelnianiem cookie
+# ADR-0004: ASP.NET Core Identity with cookie authentication
 
-- Status: Accepted (sposób przekazywania: cookie vs token, do ewentualnej rewizji)
-- Data: 2026-09-30
+- Status: Accepted (transport mechanism, cookie vs token, may be revisited)
+- Date: 2026-09-30
 
-## Kontekst
-Auth ma być w MVP, bo postęp nauki jest per użytkownik. SPA i API działają pod jednym originem (proxy w dev, wspólny host w produkcji).
+## Context
+Auth belongs in the MVP because learning progress is per user. The SPA and API run on a single origin (proxy in dev, shared host in production).
 
-## Rozważane opcje
-1. **Identity + cookie (Identity API endpoints `MapIdentityApi<AppUser>()`, `useCookies=true`)**: ciasteczko HttpOnly, więc JS nie ma dostępu do sesji. Najmniej kodu, bezpieczne domyślnie.
-2. Identity + bearer token: token trzymany w JS. Wygodne dla aplikacji mobilnych, ale wymaga obsługi odświeżania i jest bardziej podatne na XSS.
-3. Zewnętrzny IdP (Entra ID, Auth0, Keycloak): za dużo na MVP.
+## Considered options
+1. **Identity + cookie (Identity API endpoints `MapIdentityApi<AppUser>()`, `useCookies=true`)**: HttpOnly cookie, so JS has no access to the session. The least code, secure by default.
+2. Identity + bearer token: token stored in JS. Convenient for mobile apps, but requires refresh handling and is more exposed to XSS.
+3. External IdP (Entra ID, Auth0, Keycloak): too much for the MVP.
 
-## Decyzja
-Opcja 1. Własna encja `AppUser : IdentityUser` z preferencjami językowymi.
+## Decision
+Option 1. A custom `AppUser : IdentityUser` entity with language preferences.
 
-## Konsekwencje
-- Frontend wysyła żądania z `withCredentials` (lub przez ten sam origin), a API zwraca 401 zamiast przekierowania.
-- Rejestracja/logowanie przez gotowe endpointy (`/api/auth/register`, `/api/auth/login?useCookies=true`).
-- Ochrona przed CSRF: SameSite=Strict/Lax + ten sam origin. Do przejrzenia przy wdrożeniu.
+## Consequences
+- The frontend sends requests with `withCredentials` (or via the same origin), and the API returns 401 instead of a redirect.
+- Registration/login via the built-in endpoints (`/api/auth/register`, `/api/auth/login?useCookies=true`).
+- CSRF protection: SameSite=Strict/Lax + same origin. To be reviewed at deployment.
 
-## Do nauki
-- Identity dla SPA: https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
-- Uwierzytelnianie vs autoryzacja: https://learn.microsoft.com/aspnet/core/security/authentication/
+## Learning resources
+- Identity for SPAs: https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
+- Authentication vs authorization: https://learn.microsoft.com/aspnet/core/security/authentication/

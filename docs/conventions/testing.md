@@ -1,21 +1,21 @@
-# Konwencje testów
+# Testing conventions
 
 ## Backend
-- Projekt `tests/WordWise.Api.Tests`, struktura folderów lustrzana do `src/api/WordWise.Api`.
-- Nazwa testu: `Method_Scenario_ExpectedResult`, np. `GetCards_RandomOrder_ReturnsAllWordsOnce`.
-- Układ **Arrange / Act / Assert**, jeden powód do porażki na test.
-- Asercje: Shouldly (`result.ShouldBe(...)`, `list.ShouldContain(...)`).
-- Rodzaje:
-  - **unit**: czysta logika (np. kolejność kart, parser CSV), bez bazy;
-  - **integration**: `WebApplicationFactory<Program>` (cały pipeline HTTP). Baza docelowo przez Testcontainers.
-- `TestContext.Current.CancellationToken` przekazuj do wywołań async (reguła analyzera xUnit v3).
-- Uruchamianie: `dotnet test --solution WordWise.slnx` (Microsoft.Testing.Platform).
+- Project `tests/WordWise.Api.Tests`, folder structure mirrors `src/api/WordWise.Api`.
+- Test name: `Method_Scenario_ExpectedResult`, e.g. `GetCards_RandomOrder_ReturnsAllWordsOnce`.
+- **Arrange / Act / Assert** layout, one reason to fail per test.
+- Assertions: Shouldly (`result.ShouldBe(...)`, `list.ShouldContain(...)`).
+- Kinds:
+  - **unit**: pure logic (e.g. card order, CSV parser), no database;
+  - **integration**: `WebApplicationFactory<Program>` (the whole HTTP pipeline). Database eventually via Testcontainers.
+- Pass `TestContext.Current.CancellationToken` to async calls (xUnit v3 analyzer rule).
+- Running: `dotnet test --solution WordWise.slnx` (Microsoft.Testing.Platform).
 
 ## Frontend
-- Vitest + TestBed. Testuj zachowanie widoczne dla użytkownika (tekst, kliknięcie), a nie szczegóły implementacji.
-- Transloco w testach: `TranslocoTestingModule.forRoot({ langs: { pl, en }, ... })`.
+- Vitest + TestBed. Test user-visible behavior (text, clicks), not implementation details.
+- Transloco in tests: `TranslocoTestingModule.forRoot({ langs: { pl, en }, ... })`.
 
-## Zasada nauki
-Przy zadaniach `[learn]` i `[solo]` **autor pisze testy pierwszy** (lub przynajmniej listę przypadków), a Claude ocenia ich kompletność.
+## Learning rule
+For `[learn]` and `[solo]` tasks **the author writes the tests first** (or at least a list of cases), and Claude assesses their completeness.
 
-Dokumentacja: https://learn.microsoft.com/dotnet/core/testing/unit-testing-best-practices
+Documentation: https://learn.microsoft.com/dotnet/core/testing/unit-testing-best-practices

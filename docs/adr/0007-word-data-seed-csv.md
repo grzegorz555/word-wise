@@ -1,19 +1,19 @@
-# ADR-0007: Dane słów: seed ~50 słów + import CSV
+# ADR-0007: Word data: seed of ~50 words + CSV import
 
 - Status: Accepted
-- Data: 2026-09-30
+- Date: 2026-09-30
 
-## Kontekst
-Pełne listy top-1000 wymagają researchu (licencje, np. CC BY-SA), lematyzacji (turecki zapisuje odmiany jako osobne słowa) i tłumaczeń. To osobne zadanie, które nie powinno blokować budowy aplikacji.
+## Context
+Full top-1000 lists require research (licenses, e.g. CC BY-SA), lemmatization (Turkish writes inflected forms as separate words) and translations. That is a separate task and should not block building the app.
 
-## Decyzja
-- Plik `data/seed/words.seed.csv` z ~50 znaczeniami. Separator `;`, UTF-8. Synonimy rozdzielone `|`.
-- Kolumny: `concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank`.
-- **Rangi w seedzie są orientacyjne (porządek w pliku)**, a nie prawdziwe dane frekwencyjne. Zastąpi je import pełnych list.
-- Import jest idempotentny (ponowne uruchomienie nie duplikuje danych), więc ten sam kod posłuży potem do pełnych list.
+## Decision
+- File `data/seed/words.seed.csv` with ~50 meanings. Separator `;`, UTF-8. Synonyms separated by `|`.
+- Columns: `concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank`.
+- **Ranks in the seed are approximate (order in the file)**, not real frequency data. They will be replaced by importing the full lists.
+- The import is idempotent (re-running it does not duplicate data), so the same code will later serve the full lists.
 
-## Konsekwencje
-- Źródło pełnych danych i jego licencję opiszemy w nowym ADR, zanim trafią do publicznego repo.
+## Consequences
+- The source of the full data and its license will be described in a new ADR before it lands in the public repo.
 
-## Do nauki
-- Seeding w EF Core: https://learn.microsoft.com/ef/core/modeling/data-seeding
+## Learning resources
+- Seeding in EF Core: https://learn.microsoft.com/ef/core/modeling/data-seeding

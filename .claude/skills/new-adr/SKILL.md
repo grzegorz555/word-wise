@@ -1,13 +1,13 @@
 ---
 name: new-adr
-description: Tworzy nowy Architecture Decision Record w docs/adr/ na podstawie szablonu. Używaj, gdy zapada lub jest proponowana decyzja architektoniczna/technologiczna (biblioteka, wzorzec, struktura danych, sposób auth itp.).
+description: Creates a new Architecture Decision Record in docs/adr/ from the template. Use when an architectural/technology decision is being made or proposed (library, pattern, data structure, auth approach, etc.).
 ---
 
-# Nowy ADR
+# New ADR
 
-1. Ustal kolejny numer: najwyższy `docs/adr/NNNN-*.md` + 1.
-2. Jeśli decyzja nie jest jeszcze podjęta przez autora — przedstaw 2–3 opcje z plusami/minusami i rekomendacją, zapytaj (AskUserQuestion), status `Proposed`.
-3. Utwórz `docs/adr/NNNN-krotki-slug.md` wg `docs/adr/0000-template.md`, wypełniając sekcję **„Do nauki”** linkami z MCP `microsoft-learn`/`angular-cli`.
-4. Jeśli ADR zastępuje inny — zmień status starego na `Superseded by ADR-NNNN`.
-5. Jeśli decyzja zmienia architekturę/model — zaktualizuj `docs/architecture.md`.
-6. Zwięźle: ADR ma mieścić się na jednym ekranie.
+1. Determine the next number: the highest `docs/adr/NNNN-*.md` + 1.
+2. If the author hasn't made the decision yet, present 2–3 options with pros/cons and a recommendation, ask (AskUserQuestion), status `Proposed`.
+3. Create `docs/adr/NNNN-short-slug.md` following `docs/adr/0000-template.md`, filling in the **"Learning resources"** section with links from the `microsoft-learn`/`angular-cli` MCP.
+4. If the ADR supersedes another one, change the old one's status to `Superseded by ADR-NNNN`.
+5. If the decision changes the architecture/model, update `docs/architecture.md`.
+6. Keep it concise: an ADR should fit on one screen.
