@@ -1,0 +1,22 @@
+# Local development infrastructure. Start with: docker compose up -d
+# Values come from .env (copy .env.example -> .env); defaults below are for local dev only.
+services:
+  postgres:
+    image: postgres:18
+    container_name: wordwise-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-wordwise}
+      POSTGRES_USER: ${POSTGRES_USER:-wordwise}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-wordwise_dev}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - wordwise-pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-wordwise} -d ${POSTGRES_DB:-wordwise}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  wordwise-pgdata:
