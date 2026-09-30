@@ -1,0 +1,10 @@
+@WordWise.Api_HostAddress = http://localhost:5033
+
+GET {{WordWise.Api_HostAddress}}/health
+
+###
+
+GET {{WordWise.Api_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
