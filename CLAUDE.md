@@ -1,6 +1,7 @@
 # WordWise — instrukcje dla Claude
 
 > **Izolacja:** ten projekt jest całkowicie odseparowany od innych repozytoriów autora. Metodyki, konwencje, dane i decyzje obowiązują **tylko tutaj**. Nie przenoś ich do innych projektów i nie przenoś tu reguł z innych projektów (poza ogólnymi zasadami bezpieczeństwa).
+> Narzędzia służbowe są tu wyłączone: skill `kup-archiwum` (deny w `.claude/settings.json`) i globalne hooki gita (`git config --local core.hooksPath .git/hooks`). Nie archiwizuj niczego z tego repo do SVN KUP.
 
 Fiszki z 1000 najczęstszych słów w językach **EN / PL / TR** (każdy jest też językiem UI).
 Projekt do **nauki + portfolio**. Autor uczy się C#/.NET (kurs freeCodeCamp „Foundational C# with Microsoft”), a Angulara zna z pracy.

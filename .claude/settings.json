@@ -15,6 +15,9 @@
       "Bash(powershell.exe -NoProfile -Command \"git log*)"
     ],
     "deny": [
+      "Skill(kup-archiwum)",
+      "Bash(*kup-pre-push*)",
+      "Bash(*SVN_50KUP*)",
       "Read(./.env)",
       "Read(./.env.*)",
       "Read(**/appsettings.*.local.json)"

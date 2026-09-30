@@ -10,6 +10,7 @@
 ## 1. Pierwsze uruchomienie (raz)
 ```powershell
 cd C:\Repozytorium\WordWise\word-wise
+git config --local core.hooksPath .git/hooks   # izolacja od globalnych hooków gita
 copy .env.example .env                  # lokalne hasło/port do Postgresa (plik jest poza repo)
 dotnet restore WordWise.slnx
 cd src\web; npm ci; cd ..\..
