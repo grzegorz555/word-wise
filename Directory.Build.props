@@ -1,0 +1,17 @@
+<Project>
+  <!-- Common settings for every project in the repo.
+       Docs: https://learn.microsoft.com/visualstudio/msbuild/customize-by-directory -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+
+    <!-- Code quality: warnings fail the build, analyzers enforce .NET conventions.
+         Docs: https://learn.microsoft.com/dotnet/fundamentals/code-analysis/overview -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>
