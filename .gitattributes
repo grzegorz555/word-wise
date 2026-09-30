@@ -1,0 +1,4 @@
+# Normalize line endings to LF in the repo (matches .editorconfig end_of_line = lf).
+* text=auto eol=lf
+*.ico binary
+*.png binary

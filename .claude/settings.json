@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "outputStyle": "Mentor",
+  "enableAllProjectMcpServers": false,
+  "enabledMcpjsonServers": ["microsoft-learn", "angular-cli"],
+  "permissions": {
+    "allow": [
+      "mcp__microsoft-learn",
+      "mcp__angular-cli",
+      "Bash(powershell.exe -NoProfile -Command \"dotnet build*)",
+      "Bash(powershell.exe -NoProfile -Command \"dotnet test*)",
+      "Bash(powershell.exe -NoProfile -Command \"dotnet format*)",
+      "Bash(powershell.exe -NoProfile -Command \"git status*)",
+      "Bash(powershell.exe -NoProfile -Command \"git diff*)",
+      "Bash(powershell.exe -NoProfile -Command \"git log*)"
+    ],
+    "deny": [
+      "Skill(kup-archiwum)",
+      "Bash(*kup-pre-push*)",
+      "Bash(*SVN_50KUP*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(**/appsettings.*.local.json)"
+    ]
+  }
+}

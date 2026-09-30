@@ -1,0 +1,20 @@
+<header class="app-header">
+  <h1>{{ 'app.title' | transloco }}</h1>
+  <nav class="lang-switch" [attr.aria-label]="'app.uiLanguage' | transloco">
+    @for (lang of languages; track lang) {
+      <button
+        type="button"
+        [class.active]="lang === activeLang()"
+        [attr.aria-pressed]="lang === activeLang()"
+        (click)="setLanguage(lang)"
+      >
+        {{ lang.toUpperCase() }}
+      </button>
+    }
+  </nav>
+</header>
+
+<main>
+  <p>{{ 'app.tagline' | transloco }}</p>
+  <router-outlet />
+</main>
