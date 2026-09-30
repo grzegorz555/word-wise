@@ -1,0 +1,7 @@
+{
+  "app": {
+    "title": "WordWise",
+    "tagline": "The 1000 most common words, one flashcard at a time.",
+    "uiLanguage": "Interface language"
+  }
+}
