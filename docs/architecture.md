@@ -59,7 +59,8 @@ erDiagram
 
 ## Quality and cross-cutting concerns
 - API errors: `ProblemDetails` (RFC 9457).
-- Contract: OpenAPI (`/openapi/v1.json`) as the source of truth for TS DTOs.
+- Contract: OpenAPI (`/openapi/v1.json`, also written to `src/web/openapi/` at build time) is the source of truth; the Angular client (models + `HttpClient` functions) is generated from it with ng-openapi-gen (ADR-0012).
+- UI components: spartan/ui (brain primitives + helm components in `shared/ui/`), theme in CSS variables (ADR-0011). Mobile first.
 - UI i18n: Transloco (ADR-0006). Content (words) comes from the API.
 
 ## Authentication: framework plan (ADR-0004)
