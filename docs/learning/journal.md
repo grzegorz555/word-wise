@@ -13,6 +13,18 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-01: spartan/ui setup + WordWise theme, mode [gen]
+- Concepts: headless primitives (brain) vs copied, styled components (helm), CSS custom properties as design tokens, `@theme inline`, OKLCH colors, WCAG contrast ratio (relative luminance), self-hosted fonts and `unicode-range`, npm `overrides` for transitive vulnerabilities, TypeScript path aliases.
+- Docs:
+  - https://www.spartan.ng/documentation/installation
+  - https://www.spartan.ng/documentation/theming
+  - https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html
+  - https://docs.npmjs.com/cli/v11/configuring-npm/package-json#overrides
+- Fun fact: the input border color from Figma (#D4D4D8 on white) had only 1.48:1 contrast; WCAG 1.4.11 needs 3:1 for component boundaries, so it became #8A8A93 (3.42:1). `npm audit fix` made things worse (downgraded nx, 15 findings); scoped `overrides` fixed it (0 findings).
+- In my own words: _…_
+- Check question: Why is `@spartan-ng/helm/button` not an npm package, and what does that mean when spartan releases a new version?
+- fCC course: beyond the course (frontend).
+
 ## 2026-10-01: App header in Tailwind utilities, mode [learn]
 - Concepts: spacing scale (`gap-4` = 4 × 0.25rem), variant + utility (`aria-pressed:bg-zinc-800`), styling by state attribute, Preflight resets (headings, margins), `host` metadata instead of `:host`, Prettier plugins for class sorting and wrapping.
 - Docs:

@@ -9,6 +9,8 @@ Source: Angular Style Guide: https://angular.dev/style-guide and best practices 
 - All texts go through Transloco (`| transloco`), keys `feature.element` (`study.revealButton`), added in `pl`, `en`, `tr`.
 - HTTP: services in `features/<feature>/data-access/` wrap the client generated from OpenAPI in `core/api/` (ADR-0012, `npm run api:gen`). Never edit generated files and never write DTOs by hand.
 - UI components: spartan/ui helm components in `shared/ui/` (ADR-0011). Use them before building your own; edit a helm component only on purpose, since it is our code.
+  - Add a component: `npx ng g @spartan-ng/cli:ui <name> --no-interactive` (names: `node_modules/@spartan-ng/cli/src/generators/ui/supported-ui-libraries.json`). It is generated into `shared/ui/<name>/`, imported as `@spartan-ng/helm/<name>` (path in `tsconfig.json`), config in `components.json`. Run Prettier and `npm audit` afterwards.
+  - Theme colors live only in `src/styles.css` (`:root` and `:root.dark`, OKLCH, same names as the Figma variables). Check WCAG contrast before changing one.
 - Accessibility: buttons are `<button>`, toggle state in `aria-pressed`, labels for navigation.
 
 ## Styling: Tailwind CSS v4 (ADR-0010)
