@@ -7,8 +7,8 @@ import { LanguageCode, SUPPORTED_LANGUAGES } from './core/i18n/languages';
 @Component({
   imports: [RouterOutlet, TranslocoPipe],
   selector: 'app-root',
-  styleUrl: './app.scss',
   templateUrl: './app.html',
+  host: { class: 'block max-w-4xl p-4 mx-auto' },
 })
 export class App {
   private readonly transloco = inject(TranslocoService);
