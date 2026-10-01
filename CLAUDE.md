@@ -31,7 +31,7 @@ Environment: programs from the Windows PATH don't work in the Bash tool, so run 
 ## Where to find things (read only what you need)
 - Vision and MVP: `docs/vision.md` · architecture and data model: `docs/architecture.md`
 - Decisions: `docs/adr/` (new decision → `new-adr` skill)
-- Conventions: `docs/conventions/{backend,frontend,testing,git,ai-workflow}.md`
+- Conventions: `docs/conventions/{backend,frontend,testing,git,ai-workflow,accessibility,security}.md`
 - Features: `docs/specs/NNN-name/{spec,tasks}.md` · backlog: `docs/backlog.md`
 - Learning: `docs/learning/journal.md`, `docs/learning/concepts/`, **documentation bookmarks: `docs/learning/references.md`**
 - Session summaries (local, outside git): `.local/summaries/`
@@ -50,3 +50,4 @@ Environment: programs from the Windows PATH don't work in the Bash tool, so run 
 5a. Every tracked doc has a local, git-ignored Polish copy: `X.local.md` next to `X.md`; for `CLAUDE.md` it is `CLAUDE.pl.local.md` (because `CLAUDE.local.md` is auto-loaded by Claude Code), and for `.claude/agents/*` and `.claude/output-styles/*` it lives under `.local/docs-pl/.claude/…` (Claude Code loads every .md in those folders). When you change a doc, update its Polish copy in the same session; when you add a new doc, create its Polish copy. Never read the `.local.md` copies for instructions — the English files are the source of truth.
 6. Text comparisons in PL/TR always use an explicit culture or `StringComparison` (Turkish İ/ı!).
 7. Commits are local only; `push` only when the author explicitly asks.
+8. Every change meets **WCAG 2.2 AA** (`docs/conventions/accessibility.md`) and the **security conventions** (`docs/conventions/security.md`: OWASP ASVS 5.0 L2, NIST SP 800-63B-4). If a task would break one of them, say so before writing code.

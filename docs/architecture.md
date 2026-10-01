@@ -91,7 +91,7 @@ The high-level plan for accounts and sign-in. Details, rules and tasks go into s
   Unused built-in endpoints (`/refresh`, bearer tokens) stay off the contract or are documented as unused.
 - Cookie: HttpOnly (default), `SameSite=Lax`, `SecurePolicy=Always` outside Development, sliding expiration.
 - 401/403 instead of a redirect: the default in .NET 10 for `[ApiController]` endpoints, so no custom events are needed. An integration test confirms it.
-- Identity options: password policy (min. length), lockout after failed attempts, unique email.
+- Identity options per `docs/conventions/security.md` (NIST SP 800-63B-4): min. 15 characters, no composition rules, blocklist of common/breached passwords; lockout after failed attempts; unique email.
 - Authorization: `[Authorize]` on the controllers that need a user. Proposal for spec 002: the word catalog (`/api/words/cards`) stays anonymous, progress requires sign-in.
 
 ### Frontend (A1)
