@@ -20,7 +20,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://www.spartan.ng/documentation/theming
   - https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html
   - https://docs.npmjs.com/cli/v11/configuring-npm/package-json#overrides
-- Fun fact: the input border color from Figma (#D4D4D8 on white) had only 1.48:1 contrast; WCAG 1.4.11 needs 3:1 for component boundaries, so it became #8A8A93 (3.42:1). `npm audit fix` made things worse (downgraded nx, 15 findings); scoped `overrides` fixed it (0 findings).
+- Fun fact: the input border color was far too light (#E4E4E7 in Figma, #D4D4D8 in the first code draft: at most 1.48:1 on white) contrast; WCAG 1.4.11 needs 3:1 for component boundaries, so it became #8A8A93 (3.42:1). `npm audit fix` made things worse (downgraded nx, 15 findings); scoped `overrides` fixed it (0 findings).
 - In my own words: _…_
 - Check question: Why is `@spartan-ng/helm/button` not an npm package, and what does that mean when spartan releases a new version?
 - fCC course: beyond the course (frontend).
