@@ -11,3 +11,7 @@
 - [ ] Example sentences.
 - [ ] Listen to the word: speaker button on the flashcard (lucide `volume-2`, `aria-label="Play pronunciation"`). First version: the browser Web Speech API (`speechSynthesis`, utterance `lang` = `en-US` / `pl-PL` / `tr-TR`), free and without a backend. Voices depend on the device, so hide or disable the button when there is no voice for the language. Later option: server-side TTS for consistent quality. Docs: https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis
 - [ ] Deployment (container + hosting), external sign-in.
+- [ ] Dark mode:
+  - Theme switch (light / dark / system) in the account menu; the code already has the colors (`src/web/src/styles.css`, `:root.dark`).
+  - Figma: dark variants of the screens. The Starter plan allows one variable mode only, so either upgrade (modes Light/Dark) or add a second collection `theme-dark` with the same variable names and duplicate the screens. Values: copy the hex comments from `:root.dark` in `styles.css`.
+  - Figma: fix the light `input` variable `#E4E4E7` → `#8A8A93` (WCAG 1.4.11, 3:1 for field borders).
