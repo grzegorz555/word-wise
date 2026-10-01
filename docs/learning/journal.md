@@ -13,6 +13,18 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-01: Tailwind CSS setup + authentication framework plan, mode [gen]
+- Concepts: utility-first CSS, PostCSS plugin, Tailwind v4 CSS-first config (`@import 'tailwindcss'`, `@theme`), class detection by plain-text scanning; cookie auth with Identity API endpoints, 401 instead of redirect for `[ApiController]` (.NET 10), route guard, HTTP interceptor.
+- Docs:
+  - https://angular.dev/guide/tailwind
+  - https://tailwindcss.com/docs/styling-with-utility-classes
+  - https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
+  - https://learn.microsoft.com/aspnet/core/security/authentication/api-endpoint-auth
+- Fun fact: Tailwind v4 "is not designed to be used with CSS preprocessors like Sass", so global styles moved from `styles.scss` to `styles.css`. Native CSS already has nesting and variables.
+- In my own words: _…_
+- Check question: Why does `'bg-' + color` not work in Tailwind, while `[class.bg-red-600]="error()"` does?
+- fCC course: beyond the course (frontend tooling, ASP.NET Core security).
+
 ## 2026-09-30: Repo setup, mode [gen]
 - Concepts: `.slnx` solution, `Directory.Build.props`, Central Package Management, Roslyn analyzers (`TreatWarningsAsErrors`), `WebApplicationFactory`, Microsoft.Testing.Platform.
 - Docs:

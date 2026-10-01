@@ -1,0 +1,2 @@
+/* Global styles. Tailwind v4 is configured in CSS (ADR-0010): add theme tokens with @theme here. */
+@import 'tailwindcss';

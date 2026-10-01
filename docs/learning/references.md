@@ -29,6 +29,7 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 - Configuration and the Options pattern: https://learn.microsoft.com/aspnet/core/fundamentals/configuration/
 - OpenAPI: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/overview
 - Identity for SPAs: https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
+- API endpoints and cookie auth (401/403 instead of redirects, .NET 10): https://learn.microsoft.com/aspnet/core/security/authentication/api-endpoint-auth
 - Integration tests: https://learn.microsoft.com/aspnet/core/test/integration-tests
 
 ## EF Core (database)
@@ -46,6 +47,16 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 - HttpClient: https://angular.dev/guide/http
 - Testing: https://angular.dev/guide/testing
 - Transloco (i18n): https://jsverse.gitbook.io/transloco
+- Route guards: https://angular.dev/guide/routing/route-guards
+- HTTP interceptors: https://angular.dev/guide/http/interceptors
+
+## Tailwind CSS (styling)
+- ⭐ **Styling with utility classes** (the core idea): https://tailwindcss.com/docs/styling-with-utility-classes
+- Tailwind in Angular (setup): https://angular.dev/guide/tailwind
+- Hover, focus and other states (variants): https://tailwindcss.com/docs/hover-focus-and-other-states
+- Responsive design (mobile first): https://tailwindcss.com/docs/responsive-design
+- Theme variables (`@theme`): https://tailwindcss.com/docs/theme
+- Class detection (why no dynamic class names): https://tailwindcss.com/docs/detecting-classes-in-source-files
 
 ## Architecture and methodologies
 - ADR: https://adr.github.io

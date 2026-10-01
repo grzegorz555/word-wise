@@ -9,7 +9,7 @@ A **learning + portfolio** project. The author is learning C#/.NET (freeCodeCamp
 
 ## Stack
 - API: ASP.NET Core 10 (LTS), controllers + vertical slices → `src/api/WordWise.Api` (details: `src/api/CLAUDE.md`)
-- Web: Angular 22 (standalone, signals, zoneless), Transloco → `src/web` (details: `src/web/CLAUDE.md`)
+- Web: Angular 22 (standalone, signals, zoneless), Transloco, Tailwind CSS v4 → `src/web` (details: `src/web/CLAUDE.md`)
 - DB: PostgreSQL 18 (`compose.yaml`), EF Core, ASP.NET Core Identity
 - Tests: xUnit v3 + Shouldly (Microsoft.Testing.Platform), Vitest on the frontend
 - CI: GitHub Actions (`.github/workflows/ci.yml`)

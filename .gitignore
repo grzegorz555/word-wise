@@ -489,3 +489,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Angular CLI disk cache (can appear outside src/web when ng runs from another cwd)
+.angular/
