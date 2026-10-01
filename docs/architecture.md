@@ -72,7 +72,7 @@ The high-level plan for accounts and sign-in. Details, rules and tasks go into s
 | A1 | Register, sign in, sign out, "who am I", language preferences. Cookie session. | 002 |
 | A2 | Protecting user data: progress endpoints require sign-in, `UserId` always from the cookie, never from the request. | 003 |
 | A3 | Email confirmation and password reset (needs an `IEmailSender`; dev: log to console or a local mail catcher). | backlog |
-| A4 | Before deployment: HTTPS-only cookie, CSRF review (antiforgery), rate limiting on `/api/auth/login`, account deletion. | backlog |
+| A4 | Before deployment: HTTPS-only cookie, security headers (CSP), rate limiting on `/api/auth/login`, account deletion. | backlog |
 | A5 | Optional: external sign-in (Google), 2FA (the Identity API already has `/manage/2fa`). | backlog |
 
 ### Backend (A1)
@@ -90,6 +90,7 @@ The high-level plan for accounts and sign-in. Details, rules and tasks go into s
 
   Unused built-in endpoints (`/refresh`, bearer tokens) stay off the contract or are documented as unused.
 - Cookie: HttpOnly (default), `SameSite=Lax`, `SecurePolicy=Always` outside Development, sliding expiration.
+- Antiforgery (ADR-0004): `AddAntiforgery(o => o.HeaderName = "X-XSRF-TOKEN")`, an endpoint that writes the `XSRF-TOKEN` cookie (called at startup and after sign-in/sign-out), validation on all unsafe methods, including an explicit filter on the `/api/auth` group.
 - 401/403 instead of a redirect: the default in .NET 10 for `[ApiController]` endpoints, so no custom events are needed. An integration test confirms it.
 - Identity options per `docs/conventions/security.md` (NIST SP 800-63B-4): min. 15 characters, no composition rules, blocklist of common/breached passwords; lockout after failed attempts; unique email.
 - Authorization: `[Authorize]` on the controllers that need a user. Proposal for spec 002: the word catalog (`/api/words/cards`) stays anonymous, progress requires sign-in.

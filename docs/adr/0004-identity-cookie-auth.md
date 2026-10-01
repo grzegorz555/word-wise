@@ -17,9 +17,11 @@ Option 1. A custom `AppUser : IdentityUser` entity with language preferences.
 ## Consequences
 - The frontend sends requests with `withCredentials` (or via the same origin), and the API returns 401 instead of a redirect.
 - Registration/login via the built-in endpoints (`/api/auth/register`, `/api/auth/login?useCookies=true`).
-- CSRF protection: SameSite=Strict/Lax + same origin. To be reviewed at deployment.
+- CSRF protection: SameSite=Strict/Lax + same origin, **plus antiforgery tokens** (updated 2026-10-01, decided by the author, following OWASP and Microsoft guidance). The API issues an `XSRF-TOKEN` cookie (readable by JS, not HttpOnly) and validates the `X-XSRF-TOKEN` header on POST/PUT/PATCH/DELETE; Angular `HttpClient` sends the header automatically for same-origin requests.
 
 ## Learning resources
 - Identity for SPAs: https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
 - Authentication vs authorization: https://learn.microsoft.com/aspnet/core/security/authentication/
+- Antiforgery (XSRF/CSRF) in ASP.NET Core, SPA section: https://learn.microsoft.com/aspnet/core/security/anti-request-forgery
+- Angular HttpClient XSRF protection: https://angular.dev/best-practices/security
 - Framework plan (phases, endpoints, tests): `docs/architecture.md`, section "Authentication: framework plan"
