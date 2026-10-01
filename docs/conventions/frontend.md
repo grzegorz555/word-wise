@@ -9,6 +9,8 @@ Source: Angular Style Guide: https://angular.dev/style-guide and best practices 
 - All texts go through Transloco (`| transloco`), keys `feature.element` (`study.revealButton`), added in `pl`, `en`, `tr`.
 - HTTP: services in `features/<feature>/data-access/` wrap the client generated from OpenAPI in `core/api/` (ADR-0012, `npm run api:gen`). Never edit generated files and never write DTOs by hand.
 - UI components: spartan/ui helm components in `shared/ui/` (ADR-0011). Use them before building your own; edit a helm component only on purpose, since it is our code.
+  - Add a component: `npx ng g @spartan-ng/cli:ui <name> --no-interactive` (names: `node_modules/@spartan-ng/cli/src/generators/ui/supported-ui-libraries.json`). It is generated into `shared/ui/<name>/`, imported as `@spartan-ng/helm/<name>` (path in `tsconfig.json`), config in `components.json`. Run Prettier and `npm audit` afterwards.
+  - Design tokens (colors, font, radius) live only in `src/styles/tokens.css` (`:root` and `:root.dark`, OKLCH, same names as the Figma variables). Check WCAG contrast before changing one.
 - Accessibility: buttons are `<button>`, toggle state in `aria-pressed`, labels for navigation.
 
 ## Styling: Tailwind CSS v4 (ADR-0010)
@@ -20,7 +22,7 @@ Source: Angular Style Guide: https://angular.dev/style-guide and best practices 
   3. `[class]` with an object: **one class per key**. Angular class bindings do not support space-separated class names in a single key (https://angular.dev/guide/templates/binding); only `ngClass` does.
   Long conditional lists go into a `computed` in the component.
 - Host element: classes for the component's own element go into `host: { class: '…' }` in `@Component`, not `:host` in a stylesheet (https://angular.dev/guide/components/host-elements). Remember `block`: custom elements are inline by default.
-- Theme tokens (brand colors, fonts) only in `@theme` in `src/styles.css`, so colors are not hardcoded in templates as `[#123456]`.
+- Theme tokens (brand colors, fonts) only in `src/styles/tokens.css` (CSS variables + `@theme inline`), so colors are not hardcoded in templates as `[#123456]`.
 - Responsive: mobile first, add `sm:`/`md:` prefixes for bigger screens. Accessibility: visible focus (`focus-visible:ring-2`), don't communicate state with color alone.
 - Repeated class sets (e.g. a button) → a small shared component in `shared/`, not copy-paste and not `@apply`.
 - Docs: https://tailwindcss.com/docs/styling-with-utility-classes

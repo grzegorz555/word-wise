@@ -1,2 +1,23 @@
-/* Global styles. Tailwind v4 is configured in CSS (ADR-0010): add theme tokens with @theme here. */
-@import 'tailwindcss';
+/*
+ * Global styles: Tailwind CSS v4 (ADR-0010) + spartan/ui (ADR-0011).
+ * Colors, font and radius live in styles/tokens.css.
+ */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css';
+
+@import '@spartan-ng/brain/hlm-tailwind-preset.css';
+/* Self-hosted Inter (OFL-1.1), includes the latin-ext glyphs for Polish and Turkish. */
+@import '@fontsource-variable/inter';
+
+@import './styles/tokens.css';
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background font-sans text-foreground;
+  }
+}

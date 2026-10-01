@@ -16,9 +16,10 @@ Option 1: **spartan/ui**. Setup with the Angular CLI generators (`ng g @spartan-
 
 ## Consequences
 - Helm components are **our code**: we can edit them, and spartan updates are applied deliberately (re-generate and compare), not via `npm update`.
-- `styles.css` switches to the layered Tailwind imports + `@spartan-ng/brain/hlm-tailwind-preset.css`, as in the spartan installation guide. The brand lives in the theme variables (`:root`, `.dark`).
-- Figma variables use the same names as the CSS variables, so tokens move 1:1 (Figma MCP `get_variable_defs` → `styles.css`).
-- New dependency `@angular/cdk` (overlays, a11y), required by brain.
+- `styles.css` switches to the layered Tailwind imports + `@spartan-ng/brain/hlm-tailwind-preset.css`, as in the spartan installation guide. The brand lives in the theme variables (`:root`, `:root.dark`) in a separate file, `src/styles/tokens.css`.
+- Figma variables use the same names as the CSS variables, so tokens move 1:1 (Figma MCP `get_variable_defs` → `src/styles/tokens.css`).
+- New dependencies: `@angular/cdk` (overlays, a11y, required by brain), `class-variance-authority`, `clsx`, `tailwind-merge` (class variants in helm), `tw-animate-css`, `@ng-icons/core` + `@ng-icons/lucide` (icons). All versions are pinned exactly.
+- `@spartan-ng/cli` (dev only) pulls in `nx`, whose own dependencies had known vulnerabilities at setup (axios, brace-expansion, smol-toml). `package.json` → `overrides.nx` raises them to fixed versions; remove the overrides once a newer CLI ships a fixed `nx` (`npm audit` must stay at 0).
 - Mobile first is a convention, not a library feature: rules go into `docs/conventions/frontend.md`.
 
 ## Learning resources
