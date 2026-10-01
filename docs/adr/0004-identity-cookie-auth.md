@@ -22,3 +22,4 @@ Option 1. A custom `AppUser : IdentityUser` entity with language preferences.
 ## Learning resources
 - Identity for SPAs: https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
 - Authentication vs authorization: https://learn.microsoft.com/aspnet/core/security/authentication/
+- Framework plan (phases, endpoints, tests): `docs/architecture.md`, section "Authentication: framework plan"
