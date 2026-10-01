@@ -13,6 +13,17 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-01: App header in Tailwind utilities, mode [learn]
+- Concepts: spacing scale (`gap-4` = 4 × 0.25rem), variant + utility (`aria-pressed:bg-zinc-800`), styling by state attribute, Preflight resets (headings, margins), `host` metadata instead of `:host`, Prettier plugins for class sorting and wrapping.
+- Docs:
+  - https://tailwindcss.com/docs/hover-focus-and-other-states
+  - https://tailwindcss.com/docs/preflight
+  - https://angular.dev/guide/components/host-elements
+- Fun fact: `aria-pressed:zinc-800` silently generated nothing (a variant needs a full utility, e.g. `bg-zinc-800`). `prettier-plugin-tailwindcss` moved the unknown classes to the front of the list, which exposed the typo.
+- In my own words: _…_
+- Check question: Why is `aria-pressed:bg-zinc-800` better here than `[class.bg-zinc-800]="isActive()"`?
+- fCC course: beyond the course (frontend).
+
 ## 2026-10-01: Tailwind CSS setup + authentication framework plan, mode [gen]
 - Concepts: utility-first CSS, PostCSS plugin, Tailwind v4 CSS-first config (`@import 'tailwindcss'`, `@theme`), class detection by plain-text scanning; cookie auth with Identity API endpoints, 401 instead of redirect for `[ApiController]` (.NET 10), route guard, HTTP interceptor.
 - Docs:

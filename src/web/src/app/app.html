@@ -1,10 +1,11 @@
-<header class="app-header">
-  <h1>{{ 'app.title' | transloco }}</h1>
-  <nav class="lang-switch" [attr.aria-label]="'app.uiLanguage' | transloco">
+<header class="flex items-center justify-between gap-4">
+  <h1 class="text-lg font-semibold">{{ 'app.title' | transloco }}</h1>
+  <nav class="flex gap-1" [attr.aria-label]="'app.uiLanguage' | transloco">
     @for (lang of languages; track lang) {
       <button
+        class="cursor-pointer rounded-sm border border-zinc-500 bg-transparent px-2 py-1
+          aria-pressed:bg-zinc-800 aria-pressed:text-white"
         type="button"
-        [class.active]="lang === activeLang()"
         [attr.aria-pressed]="lang === activeLang()"
         (click)="setLanguage(lang)"
       >
