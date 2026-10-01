@@ -15,7 +15,7 @@ The frontend needs a consistent look (flashcards, forms, navigation) without spe
 Option 1: **Tailwind CSS v4**, integrated through PostCSS, as described in the Angular guide (manual setup, equivalent to `ng add tailwindcss`):
 - packages `tailwindcss`, `@tailwindcss/postcss`, `postcss`; config in `src/web/.postcssrc.json`;
 - global styles in **`src/styles.css` (plain CSS, not SCSS)** with `@import 'tailwindcss';`, because Tailwind v4 "is not designed to be used with CSS preprocessors like Sass". Native CSS already has nesting and variables;
-- theme customization (colors, fonts) in CSS via `@theme` in `styles.css`; there is no `tailwind.config.js` in v4;
+- theme customization (colors, fonts) in CSS via `@theme` (since ADR-0011: design tokens in `src/styles/tokens.css`, imported by `styles.css`); there is no `tailwind.config.js` in v4;
 - new components get `.css` style files (`angular.json` schematics), and usually none at all: utilities go in the template.
 
 ## Consequences

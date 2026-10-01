@@ -3,7 +3,7 @@
 Target: **WCAG 2.2 level AA** for every screen (https://www.w3.org/TR/WCAG22/, quick reference: https://www.w3.org/WAI/WCAG22/quickref/). Accessibility is part of "done", not a later phase. Angular guide: https://angular.dev/best-practices/a11y.
 
 ## Perceivable
-- **Text contrast** at least 4.5:1, large text (≥ 24 px, or ≥ 18.66 px bold) at least 3:1 (SC 1.4.3). Check new theme colors before adding them to `styles.css`, in both light and dark mode.
+- **Text contrast** at least 4.5:1, large text (≥ 24 px, or ≥ 18.66 px bold) at least 3:1 (SC 1.4.3). Check new theme colors before adding them to `src/styles/tokens.css`, in both light and dark mode.
 - **Non-text contrast** (input borders, focus ring, icons that carry meaning, toggle state) at least 3:1 against the background (SC 1.4.11).
 - **Never color alone** (SC 1.4.1): "I know / I don't know" have a text label, the selected toggle also has `aria-pressed`/`aria-checked`.
 - Text resizes to 200% and reflows at 320 px width without horizontal scrolling (SC 1.4.4, 1.4.10). Use `rem`, never fixed heights on text containers.
