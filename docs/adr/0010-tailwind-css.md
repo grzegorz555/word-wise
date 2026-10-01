@@ -23,7 +23,8 @@ Option 1: **Tailwind CSS v4**, integrated through PostCSS, as described in the A
 - When a component stylesheet needs theme values, use CSS variables (`var(--color-sky-600)`) instead of `@apply`. If `@apply` is really needed, the file must start with `@reference` to the global stylesheet.
 - `src/app/app.scss` stays for now. Rewriting the header into utilities and deleting the file is the first Tailwind learning task (`[learn]`).
 - Prettier checks `.css` files too (CI and `src/web/CLAUDE.md`).
-- Possible later: `prettier-plugin-tailwindcss` (automatic class order), dark mode via the `dark:` variant.
+- Prettier plugins (added 2026-10-01): `prettier-plugin-tailwindcss` sorts classes in the recommended order, `prettier-plugin-classnames` wraps long `class` values at `printWidth`, `prettier-plugin-merge` lets both run on the same attribute (order in `.prettierrc` matters). Unknown classes (typos, missing utility prefix) are sorted to the front, which makes them easy to spot.
+- Possible later: dark mode via the `dark:` variant.
 
 ## Learning resources
 - Tailwind in Angular: https://angular.dev/guide/tailwind
