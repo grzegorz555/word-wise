@@ -13,7 +13,12 @@ Source: Angular Style Guide: https://angular.dev/style-guide and best practices 
 ## Styling: Tailwind CSS v4 (ADR-0010)
 - Utilities in the template first. A component stylesheet only for things utilities can't express nicely (e.g. a 3D card flip animation); there, use theme variables `var(--color-…)` instead of `@apply`.
 - **No dynamically built class names** (`'bg-' + color`): Tailwind scans files as plain text and only sees complete names. Map state to full class names instead.
-- State: `[class.bg-slate-800]="active()"` for one class; for several, an object binding `[class]="{ 'bg-slate-800 text-white': active() }"`. Long conditional lists go into a `computed` in the component.
+- State, in this order of preference:
+  1. A state attribute + variant: if the element already has `[attr.aria-pressed]`, `aria-expanded`, `aria-selected` etc., style it with `aria-pressed:bg-slate-800`. One source of truth for accessibility and looks. For non-ARIA state: `[attr.data-active]` + `data-active:…`.
+  2. `[class.bg-slate-800]="active()"`: **one class per binding**.
+  3. `[class]` with an object: **one class per key**. Angular class bindings do not support space-separated class names in a single key (https://angular.dev/guide/templates/binding); only `ngClass` does.
+  Long conditional lists go into a `computed` in the component.
+- Host element: classes for the component's own element go into `host: { class: '…' }` in `@Component`, not `:host` in a stylesheet (https://angular.dev/guide/components/host-elements). Remember `block`: custom elements are inline by default.
 - Theme tokens (brand colors, fonts) only in `@theme` in `src/styles.css`, so colors are not hardcoded in templates as `[#123456]`.
 - Responsive: mobile first, add `sm:`/`md:` prefixes for bigger screens. Accessibility: visible focus (`focus-visible:ring-2`), don't communicate state with color alone.
 - Repeated class sets (e.g. a button) → a small shared component in `shared/`, not copy-paste and not `@apply`.
