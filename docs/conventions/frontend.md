@@ -31,3 +31,9 @@ Source: Angular Style Guide: https://angular.dev/style-guide and best practices 
 - Full-height screens use `min-h-dvh`, not `h-screen` (the mobile address bar changes the viewport height). Respect `env(safe-area-inset-*)` on edge-to-edge layouts.
 - Primary actions sit within thumb reach (bottom of the screen). Gestures such as swipe are an extra, never the only way to do something.
 - Check every view in DevTools device mode at 360, 390, 768 and 1280 px before a PR.
+
+## Language names and tooltips
+- **Learning-language pickers** ("I know", "I'm learning") show full names in the current UI language: English, Polish, Turkish (Transloco keys `languages.en`, `languages.pl`, `languages.tr`).
+- **UI-language switch** shows each language in its own name (endonym): English, Polski, Türkçe, so people can find their language even if they can't read the current one. Endonyms are constants, not translated.
+- **Codes (EN / PL / TR) only where space is tight**, e.g. the header switch on a phone. A button with only a code gets an `aria-label` with the full name and a tooltip (`hlmTooltip`, https://www.spartan.ng/components/tooltip).
+- Tooltips appear on hover and keyboard focus only; touch screens have no hover. A tooltip is therefore never the only place where information lives (https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/).
