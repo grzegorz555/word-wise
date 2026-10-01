@@ -28,6 +28,8 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 - Middleware (pipeline): https://learn.microsoft.com/aspnet/core/fundamentals/middleware
 - Configuration and the Options pattern: https://learn.microsoft.com/aspnet/core/fundamentals/configuration/
 - OpenAPI: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/overview
+- OpenAPI at build time: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/aspnetcore-openapi#generate-openapi-documents-at-build-time
+- ng-openapi-gen (Angular client from OpenAPI): https://github.com/cyclosproject/ng-openapi-gen
 - Identity for SPAs: https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
 - API endpoints and cookie auth (401/403 instead of redirects, .NET 10): https://learn.microsoft.com/aspnet/core/security/authentication/api-endpoint-auth
 - Integration tests: https://learn.microsoft.com/aspnet/core/test/integration-tests
@@ -57,6 +59,12 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 - Responsive design (mobile first): https://tailwindcss.com/docs/responsive-design
 - Theme variables (`@theme`): https://tailwindcss.com/docs/theme
 - Class detection (why no dynamic class names): https://tailwindcss.com/docs/detecting-classes-in-source-files
+
+## UI kit and design (spartan/ui, Figma)
+- ⭐ **spartan/ui** (brain vs helm): https://www.spartan.ng/documentation/introduction
+- spartan theming (CSS variables): https://www.spartan.ng/documentation/theming
+- shadcn/ui Figma kits: https://ui.shadcn.com/docs/figma
+- Angular CDK (a11y, overlays): https://material.angular.dev/cdk/categories
 
 ## Architecture and methodologies
 - ADR: https://adr.github.io
