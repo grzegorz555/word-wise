@@ -14,7 +14,7 @@ Source: Angular Style Guide: https://angular.dev/style-guide and best practices 
 - Utilities in the template first. A component stylesheet only for things utilities can't express nicely (e.g. a 3D card flip animation); there, use theme variables `var(--color-…)` instead of `@apply`.
 - **No dynamically built class names** (`'bg-' + color`): Tailwind scans files as plain text and only sees complete names. Map state to full class names instead.
 - State, in this order of preference:
-  1. A state attribute + variant: if the element already has `[attr.aria-pressed]`, `aria-expanded`, `aria-selected` etc., style it with `aria-pressed:bg-slate-800`. One source of truth for accessibility and looks. For non-ARIA state: `[attr.data-active]` + `data-active:…`.
+  1. A state attribute + variant: if the element already has `[attr.aria-pressed]`, `aria-expanded`, `aria-selected` etc., style it with `aria-pressed:bg-slate-800`. One source of truth for accessibility and looks. For non-ARIA state: `[attr.data-active]="active() || null"` + `data-active:…` (`null` removes the attribute; `false` would render `data-active="false"`, which the variant still matches because it only checks that the attribute exists).
   2. `[class.bg-slate-800]="active()"`: **one class per binding**.
   3. `[class]` with an object: **one class per key**. Angular class bindings do not support space-separated class names in a single key (https://angular.dev/guide/templates/binding); only `ngClass` does.
   Long conditional lists go into a `computed` in the component.
