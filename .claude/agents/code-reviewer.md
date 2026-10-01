@@ -15,7 +15,8 @@ Check:
 3. **ADR compliance** — if the change violates an ADR, report it as blocking.
 4. **Tests** — do they cover the spec's rules; list missing cases.
 5. **Culture/strings** — PL/TR comparisons (Turkish I).
-6. **Security** — secrets in code, missing `[Authorize]` where needed.
+6. **Security** (`docs/conventions/security.md`) — secrets in code or logs, missing `[Authorize]`, user ID taken from the request instead of `User`, unvalidated input, raw SQL, `bypassSecurityTrust*`/`innerHTML`, state change on GET.
+7. **Accessibility** (`docs/conventions/accessibility.md`, WCAG 2.2 AA) — labels and `aria-label` on icon-only buttons, keyboard access and visible focus, contrast of new colors, target size, color not the only signal, `lang` on foreign words.
 
 Format (max ~10 points, most important first):
 - `[blocking|important|minor] file:line — problem → suggestion` + link to docs/rule, if applicable.
