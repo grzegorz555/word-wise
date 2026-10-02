@@ -16,6 +16,11 @@ jobs:
       - run: dotnet restore WordWise.slnx
       - run: dotnet format WordWise.slnx --verify-no-changes --no-restore
       - run: dotnet build WordWise.slnx --no-restore -c Release
+      # The build writes src/web/openapi/WordWise.Api.json (ADR-0012): it must match the committed file.
+      - name: OpenAPI document is up to date
+        run: |
+          git diff --exit-code -- src/web/openapi
+          test -z "$(git status --porcelain -- src/web/openapi)"
       - run: dotnet test --solution WordWise.slnx --no-build -c Release
 
   web:
@@ -31,6 +36,12 @@ jobs:
           cache: npm
           cache-dependency-path: src/web/package-lock.json
       - run: npm ci
+      # The client in src/app/core/api is generated from the committed OpenAPI document (ADR-0012).
+      - name: API client is up to date
+        run: |
+          npm run api:gen
+          git diff --exit-code -- src/app/core/api
+          test -z "$(git status --porcelain -- src/app/core/api)"
       - run: npx prettier --check "src/**/*.{ts,html,scss,css}"
       - run: npx ng build
       - run: npx ng test --watch=false
