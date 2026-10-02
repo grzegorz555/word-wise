@@ -25,6 +25,7 @@ dotnet test --solution WordWise.slnx
 dotnet format WordWise.slnx                  # before committing
 cd src/web && npm start                      # http://localhost:4200, proxy /api → :5033
 cd src/web && npx ng test --watch=false
+cd src/web && npm run api                # after an API contract change: OpenAPI document + Angular client
 ```
 Environment: programs from the Windows PATH don't work in the Bash tool, so run them via `powershell.exe -NoProfile -Command "..."`.
 

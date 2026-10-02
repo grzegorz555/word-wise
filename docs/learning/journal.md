@@ -13,6 +13,16 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-02: OpenAPI document at build time + generated Angular client, mode [gen]
+- Concepts: API contract as the source of truth, build-time OpenAPI generation (MSBuild properties, `PrivateAssets`), code generation from a contract, "generated code is never edited", CI drift check (`git diff --exit-code`), Observables vs Promises for HTTP.
+- Docs:
+  - https://learn.microsoft.com/aspnet/core/fundamentals/openapi/aspnetcore-openapi#generate-openapi-documents-at-build-time
+  - https://github.com/cyclosproject/ng-openapi-gen
+- Fun fact: build-time generation starts the app's `Program.cs` with a mock server, so anything that needs real infrastructure (the database in spec 001) must be skipped in that mode.
+- In my own words: _…_
+- Check question: You add a new property to a response DTO in C#. Which two files change after `npm run api`, and what does CI do if you commit only the C# change?
+- fCC course: beyond the course (.NET tooling, MSBuild).
+
 ## 2026-10-01: spartan/ui setup + WordWise theme, mode [gen]
 - Concepts: headless primitives (brain) vs copied, styled components (helm), CSS custom properties as design tokens, `@theme inline`, OKLCH colors, WCAG contrast ratio (relative luminance), self-hosted fonts and `unicode-range`, npm `overrides` for transitive vulnerabilities, TypeScript path aliases.
 - Docs:
