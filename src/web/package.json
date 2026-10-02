@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "api:spec": "dotnet build ../api/WordWise.Api/WordWise.Api.csproj",
+    "api:gen": "ng-openapi-gen && prettier --write --log-level warn src/app/core/api",
+    "api": "npm run api:spec && npm run api:gen"
   },
   "private": true,
   "packageManager": "npm@11.19.0",
@@ -37,6 +40,7 @@
     "@spartan-ng/cli": "1.5.0",
     "@tailwindcss/postcss": "^4.3.3",
     "jsdom": "^30.0.0",
+    "ng-openapi-gen": "1.1.0",
     "postcss": "^8.5.28",
     "prettier": "^3.8.1",
     "prettier-plugin-classnames": "^0.10.4",
