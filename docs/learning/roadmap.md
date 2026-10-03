@@ -24,7 +24,7 @@ Hosting target: **Azure** (author's choice, 2026-10-03). The specific Azure serv
 ## 2. API and full-stack integration
 | Level | Topic | Where in WordWise | Options to compare |
 |---|---|---|---|
-| [~] | REST resource design, status codes, ProblemDetails | spec 001 endpoints | — |
+| [ ] | REST resource design, status codes, ProblemDetails | spec 001 endpoints | — |
 | [~] | Contract-first vs code-first, client generation | ADR-0012 (OpenAPI → ng-openapi-gen) | hand-written DTOs · generated client · tRPC/GraphQL |
 | [ ] | Pagination, filtering, API versioning | word list | offset · cursor (keyset) |
 | [ ] | Auth for an SPA: cookies vs tokens, CSRF, CORS | auth spec (planned), ADR-0004 | cookie + same-site · JWT in memory · BFF |
@@ -33,7 +33,7 @@ Hosting target: **Azure** (author's choice, 2026-10-03). The specific Azure serv
 ## 3. Data
 | Level | Topic | Where in WordWise | Options to compare |
 |---|---|---|---|
-| [~] | EF Core model, migrations in development | ADR-0003 | — |
+| [ ] | EF Core model, migrations in development | ADR-0003 | — |
 | [ ] | **Migrations in production** | first deploy | runtime `MigrateAsync` · migration bundle · reviewed SQL script |
 | [ ] | Backward-compatible schema changes (expand/contract) | first column rename | big-bang · expand/contract |
 | [ ] | Indexes, query plans (`EXPLAIN`) | word lookup, user progress | — |
