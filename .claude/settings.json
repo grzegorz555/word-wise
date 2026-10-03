@@ -2,11 +2,12 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "outputStyle": "Mentor",
   "enableAllProjectMcpServers": false,
-  "enabledMcpjsonServers": ["microsoft-learn", "angular-cli"],
+  "enabledMcpjsonServers": ["microsoft-learn", "angular-cli", "spartan-ui"],
   "permissions": {
     "allow": [
       "mcp__microsoft-learn",
       "mcp__angular-cli",
+      "mcp__spartan-ui",
       "Bash(powershell.exe -NoProfile -Command \"dotnet build*)",
       "Bash(powershell.exe -NoProfile -Command \"dotnet test*)",
       "Bash(powershell.exe -NoProfile -Command \"dotnet format*)",
