@@ -34,7 +34,7 @@ Environment: programs from the Windows PATH don't work in the Bash tool, so run 
 - Decisions: `docs/adr/` (new decision → `new-adr` skill)
 - Conventions: `docs/conventions/{backend,frontend,testing,git,ai-workflow,accessibility,security}.md`
 - Features: `docs/specs/NNN-name/{spec,tasks}.md` · backlog: `docs/backlog.md`
-- Learning: `docs/learning/journal.md`, `docs/learning/concepts/`, **documentation bookmarks: `docs/learning/references.md`**
+- Learning (**start here: `docs/learning/README.md`**): `docs/learning/journal.md`, `docs/learning/concepts/`, **documentation bookmarks: `docs/learning/references.md`**, full-stack and delivery roadmap: `docs/learning/roadmap.md`
 - Session summaries (local, outside git): `.local/summaries/`
 
 ## Working rules (mandatory)

@@ -13,6 +13,16 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-03: Learning roadmap for full-stack delivery + spartan MCP, mode [gen]
+- Concepts: MCP server as a documentation source, supply-chain risk of `npx -y` without a version (pinning), decision drill (criteria → options → trade-offs → "revisit when"), learning roadmap tied to project milestones.
+- Docs:
+  - https://www.spartan.ng/documentation/mcp
+  - https://learn.microsoft.com/azure/well-architected/pillars
+  - https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying
+- In my own words: _…_
+- Check question: Why does `.mcp.json` pin `@spartan-ng/mcp@1.5.0` instead of `npx -y @spartan-ng/mcp`, and when should we bump it?
+- fCC course: beyond the course (delivery).
+
 ## 2026-10-02: OpenAPI document at build time + generated Angular client, mode [gen]
 - Concepts: API contract as the source of truth, build-time OpenAPI generation (MSBuild properties, `PrivateAssets`), code generation from a contract, "generated code is never edited", CI drift check (`git diff --exit-code`), Observables vs Promises for HTTP.
 - Docs:

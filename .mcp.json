@@ -7,6 +7,10 @@
     "angular-cli": {
       "command": "cmd",
       "args": ["/c", "npx", "-y", "@angular/cli@22", "mcp"]
+    },
+    "spartan-ui": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@spartan-ng/mcp@1.5.0"]
     }
   }
 }
