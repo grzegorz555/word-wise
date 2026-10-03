@@ -23,7 +23,7 @@ Starting ratio: roughly 1/3 of each mode. Boilerplate and configuration are `[ge
 - The **Mentor** output style (`.claude/output-styles/mentor.md`) is enabled by default in `.claude/settings.json`. To change it: `/output-style`.
 - Agents (`.claude/agents/`): `backend-mentor` (C#/.NET, explains, guides Socratically), `delivery-mentor` (architecture, CI/CD, Azure, releases, operations; always shows the options), `code-reviewer` (assesses code against the conventions).
 - Skills (`.claude/skills/`): `/spec-feature`, `/new-adr`, `/compare-options` (decision drill: the author chooses first, then the trade-offs and an ADR), `/explain-this`, `/quiz-me` (`/quiz-me roadmap` for delivery topics).
-- Learning guide (`docs/learning/README.md`): "I want to… → use this", priorities, and the queue to tick off.
+- Learning guide (`docs/learning/README.md`): "I want to… → use this", rhythm and priorities; the queue to tick off is issue #9.
 - Learning roadmap (`docs/learning/roadmap.md`): full-stack and delivery topics tied to WordWise steps, with levels and "options to compare".
 - MCP (`.mcp.json`): `microsoft-learn` (official .NET/Azure docs), `angular-cli` (Angular docs + best practices), `spartan-ui` (spartan/ui components, API, blocks, accessibility checks). The source of links in explanations. Third-party MCP packages are pinned to an exact version (supply chain, `docs/conventions/security.md`); bump the version deliberately together with the library.
 - Docs language: repo docs are in English; explanations to the author are in Polish. Every tracked doc has a local, git-ignored Polish copy (`*.local.md`, `CLAUDE.pl.local.md`, `.local/docs-pl/.claude/…`), updated together with the English doc (see rule 5a in `CLAUDE.md`).

@@ -1,7 +1,7 @@
 # Learning guide: start here
 
 A lot of learning tooling lives in this repo. This page answers three questions: **what do I use right now**, **what matters most**, and **what is next in the queue**.
-Tick the queue as you go: change `[ ]` to `[x]` in this file. Topic levels (`[ ]` / `[~]` / `[x]`) live in [roadmap.md](roadmap.md).
+Tick the queue in [issue #9](https://github.com/grzegorz555/word-wise/issues/9). Topic levels (`[ ]` / `[~]` / `[x]`) live in [roadmap.md](roadmap.md).
 
 ---
 
@@ -58,37 +58,7 @@ Microservices and messaging, Kubernetes, distributed caching (Redis), load testi
 
 ---
 
-## 4. The queue (tick as you go)
+## 4. The queue
 
-Ordered by importance and dependency. Top = next.
-
-### Now
-- [ ] **Spec 001: word catalog, T1–T8** ([tasks](../specs/001-word-catalog/tasks.md)). First real backend work: EF Core, migrations, LINQ, a parser written test-first. *Tier 1: data, testing, C#.*
-- [ ] Fill in "In my own words" for the existing journal entries ([journal.md](journal.md)).
-- [ ] First `/quiz-me` and first concept note in [concepts/](concepts/README.md) (suggestion: dependency injection).
-
-### Next
-- [ ] `/compare-options` for the Azure services (Container Apps or App Service, Static Web Apps, Postgres flexible server) → ADR-0013. *Tier 1: trade-offs.*
-- [ ] Integration tests against a real Postgres (Testcontainers). Needed before auth. *Tier 1: testing.*
-- [ ] **Spec 002: account** (sign-up, sign-in, cookie session, language preferences; auth A1). *Tier 1: security.*
-- [ ] **Spec 003: study session** (flashcards, progress; auth A2).
-
-### Deployment to Azure (one milestone = one spec)
-- [ ] 1. Container image for the API (Dockerfile vs SDK container publish, health checks).
-- [ ] 2. CI extensions: Playwright e2e + axe, CodeQL, Dependabot.
-- [ ] 3. CD to staging: OIDC login, Bicep, EF migration bundle, secrets.
-- [ ] 4. First release `v0.1.0`: SemVer, changelog from commits.
-- [ ] 5. Observability: structured logs, OpenTelemetry, alerts, one SLO.
-- [ ] 6. Production + rollback drill + first "break and fix" exercise with a postmortem.
-- [ ] Auth A4 before production: HTTPS-only cookie, security headers, rate limiting, account deletion.
-
-### Later (product features, each one also teaches something)
-- [ ] Spaced repetition (SM-2), released behind a feature flag. *Teaches: algorithms, feature flags.*
-- [ ] Games: multiple choice, typing (culture-aware comparison for TR/PL), matching pairs.
-- [ ] Listen to the word (Web Speech API).
-- [ ] Dark mode.
-- [ ] Email confirmation and password reset (auth A3).
-
-### Recurring
-- [ ] This week's `/quiz-me` (untick and tick again each week, or keep the score in the journal).
-- [ ] This month's design kata.
+The ordered list of what is next (now → next → deployment to Azure → later) lives in **[issue #9: Learning queue](https://github.com/grzegorz555/word-wise/issues/9)**, where the checkboxes are clickable. Top = next.
+When a learning step is done, tick it there. When a new spec or exercise comes up, add it there in the right place.
