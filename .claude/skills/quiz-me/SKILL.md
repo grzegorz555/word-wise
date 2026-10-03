@@ -5,7 +5,7 @@ description: Quizzes the author on concepts that have come up in the project (do
 
 # Learning journal quiz
 
-1. Read `docs/learning/journal.md` (and optionally files from `docs/learning/concepts/`). If the author gave a topic in the arguments, narrow it down to that.
+1. Read `docs/learning/journal.md` (and optionally files from `docs/learning/concepts/`). If the author gave a topic in the arguments, narrow it down to that. With the argument `roadmap`, take the topics marked `[~]` in `docs/learning/roadmap.md` instead, and prefer "which option would you pick for WordWise and why?" and "what breaks in production if…" questions.
 2. Pick **5 questions**: prefer the oldest topics and those with an empty "In my own words" (spaced repetition). Mix the types:
    - "explain in your own words",
    - "what happens when…" (predict),

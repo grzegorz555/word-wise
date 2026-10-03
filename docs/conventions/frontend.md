@@ -7,7 +7,9 @@ Source: Angular Style Guide: https://angular.dev/style-guide and best practices 
 - Files: `name.ts`, `name.html`, `name.css` (only if needed), `name.spec.ts` (Angular 20+ convention without the `.component` suffix).
 - Folders: `core/` (singletons: i18n, auth, http), `features/<feature>/` (pages + feature components), `shared/` (presentational components).
 - All texts go through Transloco (`| transloco`), keys `feature.element` (`study.revealButton`), added in `pl`, `en`, `tr`.
-- HTTP: services in `features/<feature>/data-access/` wrap the client generated from OpenAPI in `core/api/` (ADR-0012, `npm run api:gen`). Never edit generated files and never write DTOs by hand.
+- HTTP: services in `features/<feature>/data-access/` wrap the client generated from OpenAPI in `core/api/` (ADR-0012). Never edit generated files and never write DTOs by hand.
+  - After changing an API endpoint or DTO: `npm run api` in `src/web` (`api:spec` builds the API and writes `openapi/WordWise.Api.json`, `api:gen` regenerates `src/app/core/api`), then commit both. CI fails if either is out of date.
+  - The client returns Observables (`promises: false` in `ng-openapi-gen.json`), so it works with `HttpClient` interceptors and RxJS like hand-written calls.
 - UI components: spartan/ui helm components in `shared/ui/` (ADR-0011). Use them before building your own; edit a helm component only on purpose, since it is our code.
   - Add a component: `npx ng g @spartan-ng/cli:ui <name> --no-interactive` (names: `node_modules/@spartan-ng/cli/src/generators/ui/supported-ui-libraries.json`). It is generated into `shared/ui/<name>/`, imported as `@spartan-ng/helm/<name>` (path in `tsconfig.json`), config in `components.json`. Run Prettier and `npm audit` afterwards.
   - Design tokens (colors, font, radius) live only in `src/styles/tokens.css` (`:root` and `:root.dark`, OKLCH, same names as the Figma variables). Check WCAG contrast before changing one.

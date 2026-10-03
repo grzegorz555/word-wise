@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/ng-openapi-gen/ng-openapi-gen-schema.json",
+  "input": "openapi/WordWise.Api.json",
+  "output": "src/app/core/api",
+  "promises": false,
+  "endOfLineStyle": "lf",
+  "silent": true
+}

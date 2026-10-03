@@ -65,6 +65,48 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 - spartan theming (CSS variables): https://www.spartan.ng/documentation/theming
 - shadcn/ui Figma kits: https://ui.shadcn.com/docs/figma
 - Angular CDK (a11y, overlays): https://material.angular.dev/cdk/categories
+- spartan MCP server (docs and components for Claude): https://www.spartan.ng/documentation/mcp
+
+## Delivery and operations (see `roadmap.md`)
+Architecture
+- ⭐ **Azure Architecture Center: architecture styles**: https://learn.microsoft.com/azure/architecture/guide/architecture-styles/
+- ⭐ **Well-Architected Framework pillars**: https://learn.microsoft.com/azure/well-architected/pillars
+- Cloud design patterns: https://learn.microsoft.com/azure/architecture/patterns/
+- The Twelve-Factor App: https://12factor.net
+
+Testing
+- The Practical Test Pyramid (Martin Fowler): https://martinfowler.com/articles/practical-test-pyramid.html
+- Testcontainers for .NET: https://testcontainers.com/guides/getting-started-with-testcontainers-for-dotnet/
+- Playwright: https://playwright.dev/docs/intro · accessibility testing (axe): https://playwright.dev/docs/accessibility-testing
+- k6 (load testing): https://grafana.com/docs/k6/latest/
+
+Containers and Azure
+- Containerize a .NET app (Dockerfile): https://learn.microsoft.com/dotnet/core/docker/build-container
+- Containerize with `dotnet publish` (no Dockerfile): https://learn.microsoft.com/dotnet/core/containers/sdk-publish
+- ⭐ **.NET on Azure Container Apps**: https://learn.microsoft.com/azure/container-apps/dotnet-overview
+- Container Apps revisions, traffic splitting, blue-green: https://learn.microsoft.com/azure/container-apps/revisions · https://learn.microsoft.com/azure/container-apps/blue-green-deployment
+- Azure Database for PostgreSQL flexible server: https://learn.microsoft.com/azure/postgresql/overview
+- Bicep (infrastructure as code): https://learn.microsoft.com/azure/azure-resource-manager/bicep/overview · learning path: https://learn.microsoft.com/training/paths/fundamentals-bicep/
+- Bicep vs Terraform: https://learn.microsoft.com/azure/developer/terraform/comparing-terraform-and-bicep
+
+CI/CD and releases
+- GitHub Actions OIDC (no long-lived secrets): https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect
+- Deploy to App Service with GitHub Actions (OIDC options explained): https://learn.microsoft.com/azure/app-service/deploy-github-actions
+- ⭐ **EF Core: applying migrations (bundles, scripts, trade-offs)**: https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying
+- Semantic Versioning: https://semver.org
+- release-please (changelog and versions from Conventional Commits): https://github.com/googleapis/release-please
+- Trunk-based development: https://trunkbaseddevelopment.com
+- Feature toggles (Martin Fowler): https://martinfowler.com/articles/feature-toggles.html
+- DORA metrics: https://dora.dev
+
+Supply chain security
+- Dependabot: https://docs.github.com/en/code-security/dependabot
+- CodeQL code scanning: https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql
+
+Operations
+- ⭐ **.NET observability with OpenTelemetry**: https://learn.microsoft.com/dotnet/core/diagnostics/observability-with-otel
+- Health checks in ASP.NET Core: https://learn.microsoft.com/aspnet/core/host-and-deploy/health-checks
+- Google SRE book (SLO, incidents, postmortems): https://sre.google/sre-book/table-of-contents/
 
 ## Architecture and methodologies
 - ADR: https://adr.github.io
