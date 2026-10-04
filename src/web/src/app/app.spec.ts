@@ -42,4 +42,16 @@ describe('App', () => {
 
     expect(compiled.querySelector('main p')?.textContent).toContain(en.app.tagline);
   });
+
+  it('marks PL as the active language on start', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    const plButton = [...compiled.querySelectorAll('button')].find(
+      (b) => b.textContent?.trim() === 'PL',
+    );
+
+    expect(plButton?.getAttribute('aria-pressed')).toBe('true');
+  });
 });

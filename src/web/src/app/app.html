@@ -1,17 +1,25 @@
 <header class="flex items-center justify-between gap-4">
   <h1 class="text-lg font-semibold">{{ 'app.title' | transloco }}</h1>
-  <nav class="flex gap-1" [attr.aria-label]="'app.uiLanguage' | transloco">
-    @for (lang of languages; track lang) {
-      <button
-        class="cursor-pointer rounded-sm border border-zinc-500 bg-transparent px-2 py-1
-          aria-pressed:bg-zinc-800 aria-pressed:text-white"
-        type="button"
-        [attr.aria-pressed]="lang === activeLang()"
-        (click)="setLanguage(lang)"
-      >
-        {{ lang.toUpperCase() }}
-      </button>
-    }
+  <nav [attr.aria-label]="'app.uiLanguage' | transloco">
+    <hlm-toggle-group
+      type="single"
+      [nullable]="false"
+      [value]="activeLang()"
+      (valueChange)="setLanguage($event)"
+    >
+      @for (lang of languages; track lang) {
+        <button
+          class="h-11 min-w-11"
+          hlmToggleGroupItem
+          [hlmTooltip]="endonyms[lang]"
+          [value]="lang"
+          [aria-label]="endonyms[lang]"
+          [attr.lang]="lang"
+        >
+          {{ lang.toUpperCase() }}
+        </button>
+      }
+    </hlm-toggle-group>
   </nav>
 </header>
 

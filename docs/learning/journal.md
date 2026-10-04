@@ -13,6 +13,19 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-04: Language switch with spartan Toggle Group, mode [learn]
+- Concepts: helm as owned code (shadcn-style copy, not a library), host directives and their inputs (`[aria-label]` instead of `[attr.aria-label]`), `as const` and literal types, `(typeof X)[number]` (indexed access type), type predicate (`value is LanguageCode`) to narrow `unknown`, `toUpperCase()` for identifiers vs `toLocaleUpperCase('tr')` for text, `it.each` argument spreading, testing a pure function without TestBed.
+- Docs:
+  - https://www.spartan.ng/components/toggle-group
+  - https://angular.dev/guide/directives/directive-composition-api
+  - https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-4.html#const-assertions
+  - https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates
+  - https://vitest.dev/api/#test-each
+- Fun fact: removing `as const` made the build pass, because `LanguageCode` silently became `string` and the type guard stopped guarding anything. A green build is not proof that types work.
+- In my own words: _…_
+- Check question: Why does `it.each([['pl', 'en', 'tr']])` run only one test, and what does `value` hold in it?
+- fCC course: beyond the course (TypeScript, frontend testing).
+
 ## 2026-10-03: Learning roadmap for full-stack delivery + spartan MCP, mode [gen]
 - Concepts: MCP server as a documentation source, supply-chain risk of `npx -y` without a version (pinning), decision drill (criteria → options → trade-offs → "revisit when"), learning roadmap tied to project milestones.
 - Docs:
