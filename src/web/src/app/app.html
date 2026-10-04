@@ -1,31 +1,25 @@
 <header class="flex items-center justify-between gap-4">
   <h1 class="text-lg font-semibold">{{ 'app.title' | transloco }}</h1>
-  <!--
-    TODO(human) [learn]: replace the buttons below with spartan's Toggle Group.
-    1. <div hlmToggleGroup type="single" [nullable]="false" [value]="activeLang()" (valueChange)="…">
-       - type="single": exactly one language at a time; [nullable]="false": it can't be deselected.
-       - (valueChange) gives you the new code: call setLanguage().
-    2. Each item: <button hlmToggleGroupItem [value]="lang" …>{{ lang.toUpperCase() }}</button>
-       - The code is short, so add [attr.aria-label]="endonyms[lang]" (screen readers read "Polski").
-       - Tooltip with the full name: hlmTooltip — check its input name in
-         shared/ui/tooltip/src/lib/hlm-tooltip.ts or https://www.spartan.ng/components/tooltip
-    3. Remove [attr.aria-pressed] and (click): brain sets aria-checked / aria-pressed and the keyboard
-       handling (arrows) for you. Check it in DevTools and with the keyboard (Tab, arrows, Space).
-    4. Mobile first: each item at least 44×44 px (size="lg" or classes), see docs/conventions/accessibility.md.
-    Docs: https://www.spartan.ng/components/toggle-group
-  -->
-  <nav class="flex gap-1" [attr.aria-label]="'app.uiLanguage' | transloco">
-    @for (lang of languages; track lang) {
-      <button
-        class="cursor-pointer rounded-sm border border-zinc-500 bg-transparent px-2 py-1
-          aria-pressed:bg-zinc-800 aria-pressed:text-white"
-        type="button"
-        [attr.aria-pressed]="lang === activeLang()"
-        (click)="setLanguage(lang)"
-      >
-        {{ lang.toUpperCase() }}
-      </button>
-    }
+  <nav [attr.aria-label]="'app.uiLanguage' | transloco">
+    <hlm-toggle-group
+      type="single"
+      [nullable]="false"
+      [value]="activeLang()"
+      (valueChange)="setLanguage($event)"
+    >
+      @for (lang of languages; track lang) {
+        <button
+          class="h-11 min-w-11"
+          hlmToggleGroupItem
+          [hlmTooltip]="endonyms[lang]"
+          [value]="lang"
+          [aria-label]="endonyms[lang]"
+          [attr.lang]="lang"
+        >
+          {{ lang.toUpperCase() }}
+        </button>
+      }
+    </hlm-toggle-group>
   </nav>
 </header>
 

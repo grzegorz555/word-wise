@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { HlmToggleGroupImports } from '@spartan-ng/helm/toggle-group';
 import { HlmTooltipImports } from '@spartan-ng/helm/tooltip';
-import { LANGUAGE_ENDONYMS, LanguageCode, SUPPORTED_LANGUAGES } from './core/i18n/languages';
+import { isLanguageCode, LANGUAGE_ENDONYMS, SUPPORTED_LANGUAGES } from './core/i18n/languages';
 
 @Component({
   imports: [RouterOutlet, TranslocoPipe, HlmToggleGroupImports, HlmTooltipImports],
@@ -21,7 +21,11 @@ export class App {
     initialValue: this.transloco.getActiveLang(),
   });
 
-  protected setLanguage(lang: LanguageCode): void {
+  protected setLanguage(lang: unknown): void {
+    if (!isLanguageCode(lang)) {
+      return;
+    }
+
     this.transloco.setActiveLang(lang);
   }
 }

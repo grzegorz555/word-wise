@@ -5,6 +5,10 @@ export type LanguageCode = (typeof SUPPORTED_LANGUAGES)[number];
 
 export const DEFAULT_LANGUAGE: LanguageCode = 'pl';
 
+export function isLanguageCode(value: unknown): value is LanguageCode {
+  return SUPPORTED_LANGUAGES.some((lang) => lang === value);
+}
+
 /**
  * Each language in its own name (endonym), used by the UI-language switch so people can find
  * their language even if they can't read the current one. Constants, not translated
