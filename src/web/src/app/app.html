@@ -16,19 +16,10 @@
       (valueChange)="setLanguage($event)"
     >
       @for (lang of languages; track lang) {
-        <!--
-          TODO(human) [learn]: style the active item as in Figma.
-          1. White background for every item: a token from styles/tokens.css (which one is white?).
-          2. Active item: background primary, text primary-foreground. brain sets data-state="on"
-             on it, so use Tailwind's data attribute variant: data-[state=on]:…
-             https://tailwindcss.com/docs/hover-focus-and-other-states#data-attributes
-          3. helm adds hover:bg-muted, so the active item turns grey on hover. Add a hover class
-             that only applies while it is on (variants stack left to right).
-          Check: the active item against the page background needs >= 3:1 (SC 1.4.11), and the
-          focus ring must still be visible (Tab).
-        -->
         <button
-          class="h-11 min-w-11"
+          class="h-11 min-w-11 cursor-pointer border-(--border) bg-(--primary-foreground)
+            hover:bg-muted data-[state=on]:border-transparent data-[state=on]:bg-(--primary)
+            data-[state=on]:text-(--primary-foreground)"
           hlmToggleGroupItem
           [hlmTooltip]="endonyms[lang]"
           [value]="lang"
