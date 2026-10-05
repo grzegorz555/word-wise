@@ -17,8 +17,8 @@
     >
       @for (lang of languages; track lang) {
         <button
-          class="h-11 min-w-11 cursor-pointer border-(--border) bg-(--primary-foreground)
-            hover:bg-muted data-[state=on]:border-transparent data-[state=on]:bg-(--primary)
+          class="h-11 min-w-11 cursor-pointer border-(--border) bg-(--card) hover:bg-muted
+            data-[state=on]:border-transparent data-[state=on]:bg-(--primary)
             data-[state=on]:text-(--primary-foreground)"
           hlmToggleGroupItem
           [hlmTooltip]="endonyms[lang]"
