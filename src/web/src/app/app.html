@@ -1,15 +1,25 @@
 <header class="flex items-center justify-between gap-4">
   <h1 class="text-lg font-semibold">{{ 'app.title' | transloco }}</h1>
   <nav [attr.aria-label]="'app.uiLanguage' | transloco">
+    <!--
+      Figma "WordWise — mobile proposal", node 7:26: separate buttons with a gap, border, white
+      background; the active one is primary with white text.
+      variant="outline" gives every item a border; spacing="2" (8 px) separates the items and turns
+      off the "joined" rounded corners (helm only joins them when spacing is 0).
+    -->
     <hlm-toggle-group
       type="single"
+      variant="outline"
+      spacing="2"
       [nullable]="false"
       [value]="activeLang()"
       (valueChange)="setLanguage($event)"
     >
       @for (lang of languages; track lang) {
         <button
-          class="h-11 min-w-11"
+          class="h-11 min-w-11 cursor-pointer border-(--border) bg-(--card) hover:bg-muted
+            data-[state=on]:border-transparent data-[state=on]:bg-(--primary)
+            data-[state=on]:text-(--primary-foreground)"
           hlmToggleGroupItem
           [hlmTooltip]="endonyms[lang]"
           [value]="lang"

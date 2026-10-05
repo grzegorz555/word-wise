@@ -13,6 +13,15 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-05: Language switch styling from Figma, mode [learn]
+- Concepts: design tokens as CSS custom properties, Tailwind v4 CSS-variable shorthand (`bg-(--token)`), data attribute variants (`data-[state=on]:`), stacking variants, conflicts decided by utility order in the generated CSS (not in `class`), overriding helm variant classes, non-text contrast.
+- Docs:
+  - https://tailwindcss.com/docs/hover-focus-and-other-states#data-attributes
+  - https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html
+- In my own words: _…_
+- Check question: Why does `data-[state=on]:bg-(--primary)` style only the active item without any `[class.x]` binding in the template?
+- fCC course: beyond the course (frontend).
+
 ## 2026-10-04: Language switch with spartan Toggle Group, mode [learn]
 - Concepts: helm as owned code (shadcn-style copy, not a library), host directives and their inputs (`[aria-label]` instead of `[attr.aria-label]`), `as const` and literal types, `(typeof X)[number]` (indexed access type), type predicate (`value is LanguageCode`) to narrow `unknown`, `toUpperCase()` for identifiers vs `toLocaleUpperCase('tr')` for text, `it.each` argument spreading, testing a pure function without TestBed.
 - Docs:
