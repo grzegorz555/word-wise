@@ -13,6 +13,19 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-05: Spec 001 / T1, EF Core + Npgsql + `WordWiseDbContext`, mode [gen]
+- Concepts: `DbContext` as a unit of work, `AddDbContext` = scoped lifetime (one context per HTTP request), `DbContextOptions<T>` passed through a primary constructor, configuration keys (`ConnectionStrings:WordWise`, `GetConnectionString`, env var `ConnectionStrings__WordWise`), `ApplyConfigurationsFromAssembly`, Central Package Management and pinning a transitive package (MSB3277), local .NET tools (`dotnet-tools.json`, `dotnet tool restore`).
+- Docs:
+  - https://learn.microsoft.com/ef/core/dbcontext-configuration/#dbcontext-in-dependency-injection-for-aspnet-core
+  - https://learn.microsoft.com/dotnet/core/extensions/dependency-injection/service-lifetimes#scoped
+  - https://learn.microsoft.com/ef/core/miscellaneous/connection-strings#aspnet-core
+  - https://learn.microsoft.com/ef/core/modeling/#grouping-configuration
+  - https://learn.microsoft.com/dotnet/core/tools/local-tools-how-to-use
+- Fun fact: Npgsql 10.0.3 depends on EF Core 10.0.4, `Design` on 10.0.12. The API built fine, but the test project saw both versions (MSB3277), so `Microsoft.EntityFrameworkCore.Relational` is pinned in `Directory.Packages.props`.
+- In my own words: _…_
+- Check question: Why must a singleton service never take `WordWiseDbContext` in its constructor, and what do you use instead (hint: T5 `IHostedService`)?
+- fCC course: beyond the course (DI, EF Core, configuration).
+
 ## 2026-10-04: Language switch with spartan Toggle Group, mode [learn]
 - Concepts: helm as owned code (shadcn-style copy, not a library), host directives and their inputs (`[aria-label]` instead of `[attr.aria-label]`), `as const` and literal types, `(typeof X)[number]` (indexed access type), type predicate (`value is LanguageCode`) to narrow `unknown`, `toUpperCase()` for identifiers vs `toLocaleUpperCase('tr')` for text, `it.each` argument spreading, testing a pure function without TestBed.
 - Docs:

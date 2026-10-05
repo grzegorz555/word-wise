@@ -13,6 +13,7 @@ cd C:\Repozytorium\WordWise\word-wise
 git config --local core.hooksPath .git/hooks   # isolate from global git hooks
 copy .env.example .env                  # local Postgres password/port (file is not committed)
 dotnet restore WordWise.slnx
+dotnet tool restore                     # local tools from dotnet-tools.json (dotnet-ef)
 cd src\web; npm ci; cd ..\..
 ```
 
@@ -21,7 +22,9 @@ cd src\web; npm ci; cd ..\..
 docker compose up -d                    # start Postgres in the background
 docker compose ps                       # STATUS: healthy
 ```
-At this stage the API doesn't connect to the database yet; the connection arrives in spec 001 / T1. Postgres can already be running.
+The API reads the connection string `ConnectionStrings:WordWise` from `appsettings.Development.json` (local defaults from `compose.yaml`). If you changed the password or port in `.env`, override it without editing the file, with an environment variable in the API terminal (`__` stands for `:` in configuration keys): `$env:ConnectionStrings__WordWise = "Host=localhost;Port=…;Database=wordwise;Username=wordwise;Password=…"`. Docs: https://learn.microsoft.com/aspnet/core/fundamentals/configuration/#environment-variables
+
+Check the connection: `dotnet ef dbcontext info --project src/api/WordWise.Api` → `Provider name: Npgsql…`, `Database name: wordwise`. Tables arrive with the first migration (spec 001 / T3).
 
 ## 3. API (terminal 1)
 ```powershell

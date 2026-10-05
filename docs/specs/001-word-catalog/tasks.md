@@ -3,7 +3,7 @@
 Modes: `[solo]` you write it yourself · `[learn]` skeleton + TODO(human) · `[gen]` Claude generates, you do an explain-back.
 You can change the mode before starting a task.
 
-- [ ] **T1 `[gen]`** EF Core + Npgsql packages, `WordWiseDbContext`, connection string in `appsettings.Development.json`, DI registration.
+- [x] **T1 `[gen]`** EF Core + Npgsql packages, `WordWiseDbContext`, connection string in `appsettings.Development.json`, DI registration.
   - *To understand:* `Scoped` DI lifetime for DbContext, configuration from `IConfiguration`.
 - [ ] **T2 `[learn]`** `Concept`, `Word` entities + `IEntityTypeConfiguration` (1-N relationship, unique indexes from ADR-0005).
   - *You write:* entity properties and index configuration. *Claude:* file skeletons.
