@@ -13,16 +13,32 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-05: Spec 001 / T1, EF Core + Npgsql + `WordWiseDbContext`, mode [gen]
+
+- Concepts: `DbContext` as a unit of work, `AddDbContext` = scoped lifetime (one context per HTTP request), `DbContextOptions<T>` passed through a primary constructor, configuration keys (`ConnectionStrings:WordWise`, `GetConnectionString`, env var `ConnectionStrings__WordWise`), `ApplyConfigurationsFromAssembly`, Central Package Management and pinning a transitive package (MSB3277), local .NET tools (`dotnet-tools.json`, `dotnet tool restore`).
+- Docs:
+  - https://learn.microsoft.com/ef/core/dbcontext-configuration/#dbcontext-in-dependency-injection-for-aspnet-core
+  - https://learn.microsoft.com/dotnet/core/extensions/dependency-injection/service-lifetimes#scoped
+  - https://learn.microsoft.com/ef/core/miscellaneous/connection-strings#aspnet-core
+  - https://learn.microsoft.com/ef/core/modeling/#grouping-configuration
+  - https://learn.microsoft.com/dotnet/core/tools/local-tools-how-to-use
+- Fun fact: Npgsql 10.0.3 depends on EF Core 10.0.4, `Design` on 10.0.12. The API built fine, but the test project saw both versions (MSB3277), so `Microsoft.EntityFrameworkCore.Relational` is pinned in `Directory.Packages.props`.
+- In my own words: Setting the DB Context, Using EF Core Framework and definition of connection with Database by PSQL standing locally on the Docker container
+- Check question: Why must a singleton service never take `WordWiseDbContext` in its constructor, and what do you use instead (hint: T5 `IHostedService`)?
+- fCC course: beyond the course (DI, EF Core, configuration).
+
 ## 2026-10-05: Language switch styling from Figma, mode [learn]
+
 - Concepts: design tokens as CSS custom properties, Tailwind v4 CSS-variable shorthand (`bg-(--token)`), data attribute variants (`data-[state=on]:`), stacking variants, conflicts decided by utility order in the generated CSS (not in `class`), overriding helm variant classes, non-text contrast.
 - Docs:
   - https://tailwindcss.com/docs/hover-focus-and-other-states#data-attributes
   - https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html
-- In my own words: _…_
+- In my own words: Adjusting language switch using Tailwind & template optimalization
 - Check question: Why does `data-[state=on]:bg-(--primary)` style only the active item without any `[class.x]` binding in the template?
 - fCC course: beyond the course (frontend).
 
 ## 2026-10-04: Language switch with spartan Toggle Group, mode [learn]
+
 - Concepts: helm as owned code (shadcn-style copy, not a library), host directives and their inputs (`[aria-label]` instead of `[attr.aria-label]`), `as const` and literal types, `(typeof X)[number]` (indexed access type), type predicate (`value is LanguageCode`) to narrow `unknown`, `toUpperCase()` for identifiers vs `toLocaleUpperCase('tr')` for text, `it.each` argument spreading, testing a pure function without TestBed.
 - Docs:
   - https://www.spartan.ng/components/toggle-group
@@ -36,6 +52,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 - fCC course: beyond the course (TypeScript, frontend testing).
 
 ## 2026-10-03: Learning roadmap for full-stack delivery + spartan MCP, mode [gen]
+
 - Concepts: MCP server as a documentation source, supply-chain risk of `npx -y` without a version (pinning), decision drill (criteria → options → trade-offs → "revisit when"), learning roadmap tied to project milestones.
 - Docs:
   - https://www.spartan.ng/documentation/mcp
@@ -46,6 +63,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 - fCC course: beyond the course (delivery).
 
 ## 2026-10-02: OpenAPI document at build time + generated Angular client, mode [gen]
+
 - Concepts: API contract as the source of truth, build-time OpenAPI generation (MSBuild properties, `PrivateAssets`), code generation from a contract, "generated code is never edited", CI drift check (`git diff --exit-code`), Observables vs Promises for HTTP.
 - Docs:
   - https://learn.microsoft.com/aspnet/core/fundamentals/openapi/aspnetcore-openapi#generate-openapi-documents-at-build-time
@@ -56,6 +74,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 - fCC course: beyond the course (.NET tooling, MSBuild).
 
 ## 2026-10-01: spartan/ui setup + WordWise theme, mode [gen]
+
 - Concepts: headless primitives (brain) vs copied, styled components (helm), CSS custom properties as design tokens, `@theme inline`, OKLCH colors, WCAG contrast ratio (relative luminance), self-hosted fonts and `unicode-range`, npm `overrides` for transitive vulnerabilities, TypeScript path aliases.
 - Docs:
   - https://www.spartan.ng/documentation/installation
@@ -68,6 +87,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 - fCC course: beyond the course (frontend).
 
 ## 2026-10-01: App header in Tailwind utilities, mode [learn]
+
 - Concepts: spacing scale (`gap-4` = 4 × 0.25rem), variant + utility (`aria-pressed:bg-zinc-800`), styling by state attribute, Preflight resets (headings, margins), `host` metadata instead of `:host`, Prettier plugins for class sorting and wrapping.
 - Docs:
   - https://tailwindcss.com/docs/hover-focus-and-other-states
@@ -79,6 +99,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 - fCC course: beyond the course (frontend).
 
 ## 2026-10-01: Tailwind CSS setup + authentication framework plan, mode [gen]
+
 - Concepts: utility-first CSS, PostCSS plugin, Tailwind v4 CSS-first config (`@import 'tailwindcss'`, `@theme`), class detection by plain-text scanning; cookie auth with Identity API endpoints, 401 instead of redirect for `[ApiController]` (.NET 10), route guard, HTTP interceptor.
 - Docs:
   - https://angular.dev/guide/tailwind
@@ -91,6 +112,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 - fCC course: beyond the course (frontend tooling, ASP.NET Core security).
 
 ## 2026-09-30: Repo setup, mode [gen]
+
 - Concepts: `.slnx` solution, `Directory.Build.props`, Central Package Management, Roslyn analyzers (`TreatWarningsAsErrors`), `WebApplicationFactory`, Microsoft.Testing.Platform.
 - Docs:
   - https://learn.microsoft.com/visualstudio/msbuild/customize-by-directory
