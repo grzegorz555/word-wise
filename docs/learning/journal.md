@@ -23,7 +23,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/ef/core/modeling/#grouping-configuration
   - https://learn.microsoft.com/dotnet/core/tools/local-tools-how-to-use
 - Fun fact: Npgsql 10.0.3 depends on EF Core 10.0.4, `Design` on 10.0.12. The API built fine, but the test project saw both versions (MSB3277), so `Microsoft.EntityFrameworkCore.Relational` is pinned in `Directory.Packages.props`.
-- In my own words: _…_
+- In my own words: Setting the DB Context, Using EF Core Framework and definition of connection with Database by PSQL standing locally on the Docker container
 - Check question: Why must a singleton service never take `WordWiseDbContext` in its constructor, and what do you use instead (hint: T5 `IHostedService`)?
 - fCC course: beyond the course (DI, EF Core, configuration).
 
@@ -33,7 +33,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 - Docs:
   - https://tailwindcss.com/docs/hover-focus-and-other-states#data-attributes
   - https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html
-- In my own words: _…_
+- In my own words: Adjusting language switch using Tailwind & template optimalization
 - Check question: Why does `data-[state=on]:bg-(--primary)` style only the active item without any `[class.x]` binding in the template?
 - fCC course: beyond the course (frontend).
 
