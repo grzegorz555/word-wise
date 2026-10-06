@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
+using WordWise.Api.Domain;
+
 namespace WordWise.Api.Infrastructure.Data;
 
 // The application's unit of work and gateway to PostgreSQL (ADR-0003).
@@ -7,7 +9,11 @@ namespace WordWise.Api.Infrastructure.Data;
 // Docs: https://learn.microsoft.com/ef/core/dbcontext-configuration/
 public sealed class WordWiseDbContext(DbContextOptions<WordWiseDbContext> options) : DbContext(options)
 {
-    // DbSet<Concept> and DbSet<Word> arrive in T2, together with their IEntityTypeConfiguration classes.
+    // One DbSet per entity we query directly. Expression-bodied Set<T>() is read-only: nothing can reassign it.
+    // Docs: https://learn.microsoft.com/ef/core/miscellaneous/nullable-reference-types#dbcontext-and-dbset
+    public DbSet<Concept> Concepts => Set<Concept>();
+
+    public DbSet<Word> Words => Set<Word>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
