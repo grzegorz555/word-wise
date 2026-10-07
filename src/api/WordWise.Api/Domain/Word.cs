@@ -5,9 +5,9 @@ namespace WordWise.Api.Domain;
 public sealed class Word
 {
     public int Id { get; set; }
-
-    // TODO(human): add ConceptId (FK), Concept (reference navigation), Language ("en"/"pl"/"tr"),
-    // Text and FrequencyRank (nullable: null = outside the top 1000).
-    // hint: a non-nullable FK makes the relationship required; the navigation is `= null!;`, because EF fills it.
-    // Concept "Nullable reference types in EF": https://learn.microsoft.com/ef/core/miscellaneous/nullable-reference-types
+    public int ConceptId { get; set; }
+    public Concept Concept { get; set; } = null!;
+    public string Language { get; set; } = string.Empty;
+    public string Text { get; set; } = string.Empty;
+    public int? FrequencyRank { get; set; }
 }

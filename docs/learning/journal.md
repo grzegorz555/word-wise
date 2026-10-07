@@ -13,6 +13,21 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-07: Spec 001 / T2, `Concept` and `Word` entities + `IEntityTypeConfiguration`, mode [learn]
+
+- Concepts: entity vs navigation vs foreign key (FK is a column, navigations exist only in C#), required one-to-many (non-nullable FK → required → cascade delete by convention), `= null!` for a reference navigation filled by EF, Fluent API (`IsRequired`, `HasMaxLength` as a data contract), unique index as a business rule, composite index and the leftmost-prefix rule, EF skips the FK index when an existing index already starts with the FK. One-to-many vs many-to-many (join table, with payload = `UserWordProgress`) vs one-to-one (FK + unique index).
+- Docs:
+  - https://learn.microsoft.com/ef/core/modeling/relationships/one-to-many#required-one-to-many
+  - https://learn.microsoft.com/ef/core/modeling/relationships/many-to-many
+  - https://learn.microsoft.com/ef/core/modeling/indexes#composite-index
+  - https://learn.microsoft.com/ef/core/modeling/relationships/conventions#indexes
+  - https://learn.microsoft.com/ef/core/saving/cascade-delete
+  - https://learn.microsoft.com/ef/core/miscellaneous/nullable-reference-types
+- Fun fact: `dotnet build` passed, but `dotnet format --verify-no-changes` failed on `FINALNEWLINE` (missing newline at end of file), which CI would catch.
+- In my own words:
+- Check question: The unique index is `(ConceptId, Language, Text)`. Why does it not speed up `WHERE Language = 'tr'`, and why will the migration have no separate `IX_Words_ConceptId`?
+- fCC course: beyond the course (EF Core modeling, relationships, indexes); types, `int?` and properties are from the course.
+
 ## 2026-10-05: Spec 001 / T1, EF Core + Npgsql + `WordWiseDbContext`, mode [gen]
 
 - Concepts: `DbContext` as a unit of work, `AddDbContext` = scoped lifetime (one context per HTTP request), `DbContextOptions<T>` passed through a primary constructor, configuration keys (`ConnectionStrings:WordWise`, `GetConnectionString`, env var `ConnectionStrings__WordWise`), `ApplyConfigurationsFromAssembly`, Central Package Management and pinning a transitive package (MSB3277), local .NET tools (`dotnet-tools.json`, `dotnet tool restore`).

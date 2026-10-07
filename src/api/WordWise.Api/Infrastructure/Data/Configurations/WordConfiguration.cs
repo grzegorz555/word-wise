@@ -11,11 +11,9 @@ internal sealed class WordConfiguration : IEntityTypeConfiguration<Word>
     {
         builder.ToTable("Words");
 
-        // TODO(human): 1) Language and Text: required, max length.
-        // 2) The relationship Word → Concept (one Concept has many Words), required.
-        // 3) Unique composite index (ConceptId, Language, Text) from ADR-0005.
-        // hint: HasOne(...).WithMany(...).HasForeignKey(...); HasIndex(w => new { ... }).IsUnique()
-        // Concept "Composite index": https://learn.microsoft.com/ef/core/modeling/indexes#composite-index
-        // Think: which query from spec 001 (R2: Language = T, sorted by rank) would benefit from a second, non-unique index?
+        builder.Property(w => w.Language).IsRequired().HasMaxLength(2);
+        builder.Property(w => w.Text).IsRequired().HasMaxLength(255);
+        builder.HasOne(w => w.Concept).WithMany(c => c.Words).HasForeignKey(w => w.ConceptId).IsRequired();
+        builder.HasIndex(w => new { w.ConceptId, w.Language, w.Text }).IsUnique();
     }
 }

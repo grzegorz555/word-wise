@@ -13,8 +13,8 @@ internal sealed class ConceptConfiguration : IEntityTypeConfiguration<Concept>
     {
         builder.ToTable("Concepts");
 
-        // TODO(human): Key and PartOfSpeech are required with a sensible max length; Key is unique (ADR-0005).
-        // hint: Property(...).IsRequired().HasMaxLength(n); HasIndex(...).IsUnique()
-        // Concept "Unique index": https://learn.microsoft.com/ef/core/modeling/indexes#index-uniqueness
+        builder.Property(c => c.Key).IsRequired().HasMaxLength(255);
+        builder.HasIndex(c => c.Key).IsUnique();
+        builder.Property(c => c.PartOfSpeech).IsRequired().HasMaxLength(30);
     }
 }

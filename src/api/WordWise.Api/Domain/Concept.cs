@@ -6,9 +6,7 @@ namespace WordWise.Api.Domain;
 public sealed class Concept
 {
     public int Id { get; set; }
-
-    // TODO(human): add Key (string), PartOfSpeech (string) and the collection navigation Words.
-    // hint: non-nullable strings → `= string.Empty;` or the `required` modifier; collection navigation →
-    // `public ICollection<Word> Words { get; } = new List<Word>();`
-    // Concept "Required one-to-many": https://learn.microsoft.com/ef/core/modeling/relationships/one-to-many#required-one-to-many
+    public string Key { get; set; } = string.Empty;
+    public string PartOfSpeech { get; set; } = string.Empty;
+    public ICollection<Word> Words { get; } = new List<Word>();
 }
