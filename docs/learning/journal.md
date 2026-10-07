@@ -24,7 +24,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/ef/core/saving/cascade-delete
   - https://learn.microsoft.com/ef/core/miscellaneous/nullable-reference-types
 - Fun fact: `dotnet build` passed, but `dotnet format --verify-no-changes` failed on `FINALNEWLINE` (missing newline at end of file), which CI would catch.
-- In my own words:
+- In my own words: Adding models (entities) for the Concept and Word as a preparation to keep in the database
 - Check question: The unique index is `(ConceptId, Language, Text)`. Why does it not speed up `WHERE Language = 'tr'`, and why will the migration have no separate `IX_Words_ConceptId`?
 - fCC course: beyond the course (EF Core modeling, relationships, indexes); types, `int?` and properties are from the course.
 
