@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 using Microsoft.EntityFrameworkCore;
 
 using WordWise.Api.Features.Words;
@@ -7,7 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Services (Dependency Injection container).
 // Docs: https://learn.microsoft.com/aspnet/core/fundamentals/dependency-injection
-builder.Services.AddControllers();
+// JSON numbers only as numbers (JsonNumberHandling.Strict), not also as strings ("17"), which is the
+// ASP.NET Core default (AllowReadingFromString). Set twice, because there are two sets of JSON options:
+// MVC options (AddJsonOptions) for what controllers read and write at runtime, and the HTTP JSON options
+// (ConfigureHttpJsonOptions) that the OpenAPI generator reads. Then the contract says `"type": "integer"`
+// and the runtime agrees with it.
+// Docs: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata#numeric-types
+//   https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata#set-json-serialization-options-globally
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.Strict);
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict);
 
 // EF Core + PostgreSQL (ADR-0003). AddDbContext registers the context as scoped (one per request).
 // The connection string comes from configuration ("ConnectionStrings:WordWise"), never from code.
