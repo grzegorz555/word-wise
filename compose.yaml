@@ -1,5 +1,9 @@
 # Local development infrastructure. Start with: docker compose up -d
 # Values come from .env (copy .env.example -> .env); defaults below are for local dev only.
+# Fixed project name: every git worktree shares one Compose project (one container, one volume)
+# instead of a project named after the folder. Docs: https://docs.docker.com/compose/how-tos/project-name/
+name: wordwise
+
 services:
   postgres:
     image: postgres:18
