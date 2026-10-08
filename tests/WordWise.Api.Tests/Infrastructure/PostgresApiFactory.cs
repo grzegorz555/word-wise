@@ -73,7 +73,8 @@ public sealed class PostgresApiFactory : WebApplicationFactory<Program>, IAsyncL
         }
         catch (NpgsqlException ex) when (ex is not PostgresException)
         {
-            // A plain NpgsqlException means no connection at all (a PostgresException means the server answered).
+            // An NpgsqlException that is not a PostgresException is a client-side failure, here: no connection.
+            // (A PostgresException means the server answered with an error, e.g. a wrong password.)
             _databaseMayExist = false;
             throw new InvalidOperationException("Postgres is not running: start it with `docker compose up -d` (ADR-0013).", ex);
         }
