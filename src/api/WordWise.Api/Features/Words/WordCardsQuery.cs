@@ -13,26 +13,37 @@ namespace WordWise.Api.Features.Words;
 // Docs: https://learn.microsoft.com/aspnet/core/web-api/#automatic-http-400-responses
 public sealed record WordCardsQuery : IValidatableObject
 {
+    // The client sees this message, so it names the allowed values, not the C# property.
+    // A `const` built from other consts, because attribute arguments must be compile-time constants.
+    private const string AllowedLanguagesMessage =
+        "Allowed values: " + LanguageCodes.English + ", " + LanguageCodes.Polish + ", " + LanguageCodes.Turkish + ".";
+
     // `base` is a C# keyword, so the property has a clearer name and [FromQuery(Name)] maps the query key.
     // Docs: https://learn.microsoft.com/aspnet/core/mvc/models/model-binding#sources
     // [BindRequired]: the key must be in the query string (model binding; also `required: true` in OpenAPI).
-    // [Required]: the value must not be empty, e.g. ?base= (model validation).
     // Docs: https://learn.microsoft.com/aspnet/core/mvc/models/model-binding#complex-types
+    // No [Required] needed: with nullable reference types on, MVC treats a non-nullable `string` as
+    // required, so an empty value (?base=, bound as null) fails validation anyway.
+    // Docs: https://learn.microsoft.com/aspnet/core/mvc/models/validation#non-nullable-reference-types-and-required-attribute
+    // [Display(Name)]: the name that default messages use for {0}, e.g. "The base field is required."
+    // (without it: "The BaseLanguage field is required.", a C# name the client doesn't know).
+    // Docs: https://learn.microsoft.com/aspnet/core/mvc/models/validation#error-messages
     [FromQuery(Name = "base")]
+    [Display(Name = "base")]
     [BindRequired]
-    [Required]
-    [AllowedValues(LanguageCodes.English, LanguageCodes.Polish, LanguageCodes.Turkish)]
+    [AllowedValues(LanguageCodes.English, LanguageCodes.Polish, LanguageCodes.Turkish, ErrorMessage = AllowedLanguagesMessage)]
     public string BaseLanguage { get; init; } = string.Empty;
 
     [FromQuery(Name = "target")]
+    [Display(Name = "target")]
     [BindRequired]
-    [Required]
-    [AllowedValues(LanguageCodes.English, LanguageCodes.Polish, LanguageCodes.Turkish)]
+    [AllowedValues(LanguageCodes.English, LanguageCodes.Polish, LanguageCodes.Turkish, ErrorMessage = AllowedLanguagesMessage)]
     public string TargetLanguage { get; init; } = string.Empty;
 
     // [DefaultValue] only documents the default (`default` in OpenAPI); the initializer sets it at runtime.
     // Docs: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata#use-attributes-to-add-metadata
     [FromQuery(Name = "order")]
+    [Display(Name = "order")]
     [DefaultValue(CardOrder.Sequential)]
     public CardOrder Order { get; init; } = CardOrder.Sequential;
 
