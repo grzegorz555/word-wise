@@ -1,16 +1,16 @@
 # Tasks: Spec 002, account
 
 Modes: `[solo]` you write it yourself · `[learn]` skeleton + TODO(human) · `[gen]` Claude generates, you do an explain-back.
-**The modes below are a proposal.** Approve or change them before the first task (`docs/conventions/ai-workflow.md`). Answer the open questions in `spec.md` first: Q1 affects T2, Q2 affects T3.
+**The modes below are a proposal.** Approve or change them before the first task (`docs/conventions/ai-workflow.md`). The open questions in `spec.md` are answered (2026-10-08).
 Proposed split: 4 × `[gen]` (configuration), 4 × `[learn]` (security-critical logic), 2 × `[solo]` (patterns you already know: T6 from spec 001, Angular from work).
 
 - [ ] **T1 `[gen]`** Identity packages, `AppUser : IdentityUser` (`UiLanguage`, `BaseLanguage`, `TargetLanguage`, nullable, max length 2), `WordWiseDbContext : IdentityDbContext<AppUser>`, `AddIdentityApiEndpoints<AppUser>()` + `AddEntityFrameworkStores`, migration `AddIdentity`.
   - *Predict before run:* which `AspNet*` tables will the migration create, and where does the password end up (and in what form)?
   - *To understand:* `IdentityDbContext` and why `base.OnModelCreating` matters, password hashing (PBKDF2), security stamp.
-- [ ] **T2 `[learn]`** Password policy (R3): Identity options per NIST SP 800-63B-4 (length 15–128, no composition rules, lockout, unique email) + a custom `IPasswordValidator<AppUser>` for the blocklist (source: Q1).
-  - *You write:* the validator and its unit tests (first). *Claude:* options, registration, the blocklist file or client.
-  - *To understand:* the Options pattern for `IdentityOptions`, why composition rules weaken passwords (NIST), `IdentityResult` errors.
-- [ ] **T3 `[learn]`** `/api/auth` group and authorization: `MapIdentityApi` in a group, built-in endpoints outside A1 → 404 and out of the contract (R5), logout, cookie options (R9), **fallback policy** + the anonymous list (R1), no enumeration on sign-up and sign-in (R4). Rate limiting if Q2 says "now".
+- [ ] **T2 `[learn]`** Password policy (R3): Identity options per NIST SP 800-63B-4 (length 15–128, no composition rules, lockout, unique email) + a custom `IPasswordValidator<AppUser>` for the blocklist (ADR-0015: local list + Pwned Passwords range API, fail open).
+  - *You write:* the validator logic (local list first, then the API result; fail open) and its unit tests first, with a fake `HttpMessageHandler` (hit, miss, timeout). *Claude:* options, registration, the typed `HttpClient` for the range API (SHA-1 prefix, `Add-Padding`, timeout, resilience handler), the list file with its source and license.
+  - *To understand:* the Options pattern for `IdentityOptions`, why composition rules weaken passwords (NIST), `IdentityResult` errors, k-anonymity, `IHttpClientFactory` and typed clients, fail open vs fail closed.
+- [ ] **T3 `[learn]`** `/api/auth` group and authorization: `MapIdentityApi` in a group, built-in endpoints outside A1 → 404 and out of the contract (R5), logout, cookie options (R9), **fallback policy** + the anonymous list (R1), no enumeration on sign-up and sign-in (R4). Rate limiting comes later with A4 (Q2).
   - *You write:* the fallback policy, the anonymous list and the R4 endpoint filter. *Claude:* group wiring, cookie options, logout, the 404 filter for R5.
   - *To understand:* authentication vs authorization, the fallback policy vs `[Authorize]` everywhere, endpoint filters, account enumeration (OWASP).
 - [ ] **T4 `[gen]`** Antiforgery (R2): `AddAntiforgery(o => o.HeaderName = "X-XSRF-TOKEN")`, `GET /api/antiforgery/token` writing the `XSRF-TOKEN` cookie, validation on every unsafe method (MVC + the `/api/auth` group), refresh after sign-in/sign-out; Angular `withXsrfConfiguration`.

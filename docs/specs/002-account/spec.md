@@ -1,7 +1,7 @@
 # Spec 002: Account (sign-up, sign-in, language preferences)
 
-- Status: **Draft** (open questions below; the author approves the task modes before work starts)
-- ADR: 0004 (Identity + cookie), 0006 (languages), 0013 (integration test database)
+- Status: **Draft** (open questions answered 2026-10-08; the author approves the task modes before work starts)
+- ADR: 0004 (Identity + cookie), 0006 (languages), 0013 (integration test database), 0015 (password blocklist)
 - Plan: `docs/architecture.md`, "Authentication: framework plan", phase **A1**
 - User stories from `vision.md`: 1 (account and sign-in), 2 (UI language), 3 (language pair)
 
@@ -30,7 +30,7 @@ PUT  /api/account/preferences           { "uiLanguage": "pl", "baseLanguage": "p
 ## Rules
 - R1: Every endpoint requires a signed-in user, except: `/api/antiforgery/token`, `/api/auth/register`, `/api/auth/login`, `/health`, and the OpenAPI/Swagger UI in Development. `GET /api/words/cards` (spec 001) now requires sign-in too. Without a session the API returns **401** (no redirect); a signed-in user without permission gets **403**.
 - R2: Every POST/PUT/PATCH/DELETE, including `/api/auth/*`, requires a valid `X-XSRF-TOKEN` header matching the `XSRF-TOKEN` cookie; otherwise **400**. The token is refreshed after sign-in and sign-out.
-- R3: Password: **15 to 128 characters**, no composition rules, rejected if it is on the blocklist of common or breached passwords (source: open question Q1). Identity lockout after repeated failed sign-ins.
+- R3: Password: **15 to 128 characters**, no composition rules, rejected if it is on the local list of common passwords or the Pwned Passwords range API reports it (ADR-0015; if the API is unavailable, the local list alone decides and a warning is logged). Identity lockout after repeated failed sign-ins (rate limiting comes with A4).
 - R4: **No account enumeration** (`security.md`): sign-up with an email that already exists answers exactly like a successful sign-up and changes nothing; every failed sign-in (unknown email, wrong password, locked out) returns the same 401 body.
 - R5: Built-in Identity endpoints outside A1 (`/refresh`, `/confirmEmail`, `/resendConfirmationEmail`, `/forgotPassword`, `/resetPassword`, `/manage/*`) return **404** until their phase (A3/A5) and are not in the OpenAPI contract.
 - R6: Preferences: every code ∈ {`en`, `pl`, `tr`}; `uiLanguage` is required; `baseLanguage` and `targetLanguage` are both set or both null, and `baseLanguage ≠ targetLanguage`. Otherwise **400 ValidationProblem**. The user's ID always comes from the cookie, never from the request.
@@ -51,9 +51,9 @@ PUT  /api/account/preferences           { "uiLanguage": "pl", "baseLanguage": "p
 - [ ] Entry in `docs/learning/journal.md`.
 
 ## Out of scope
-Email confirmation and password reset (A3), security headers, account deletion and HTTPS-only deployment settings (A4), external sign-in and 2FA (A5), a demo account for portfolio visitors (backlog idea), user progress (spec 003).
+Email confirmation and password reset (A3), rate limiting on `/api/auth/login` and `/register`, security headers, account deletion and HTTPS-only deployment settings (A4), external sign-in and 2FA (A5), a demo account for portfolio visitors (backlog idea), user progress (spec 003).
 
-## Open questions (the author decides before the status becomes Ready)
-- **Q1, password blocklist source:** (a) a list of common passwords embedded in the app (a few thousand to 100k entries from a permissively licensed source, checked locally), or (b) the Have I Been Pwned "Pwned Passwords" range API (k-anonymity: only the first 5 characters of the SHA-1 hash leave the server; a much larger breach corpus, but an external call at sign-up). Run `/compare-options`.
-- **Q2, rate limiting on `/api/auth/login` and `/register`:** `security.md` lists it with the authentication rules, `architecture.md` plans it for A4 (before deployment). In this spec, or with A4? (Algorithm choice: roadmap §2, "fixed window · sliding window · token bucket".)
-- **Q3, R4 user experience:** with no email confirmation yet (A3), a person who already has an account and signs up again sees "account created" and then signs in with their old password. Acceptable until A3?
+## Decisions on the open questions (author, 2026-10-08)
+- **Q1, password blocklist source:** both layers, a local list of common passwords + the Pwned Passwords range API, fail open → ADR-0015.
+- **Q2, rate limiting:** with A4 (before deployment), together with the forwarded headers from ADR-0014, so a per-IP limit sees the client's IP and not the ingress. Until then Identity lockout protects each account. `security.md` keeps the rule; A4 fulfils it before the app is public.
+- **Q3, R4 user experience:** acceptable until A3; then the existing account owner gets an email instead.
