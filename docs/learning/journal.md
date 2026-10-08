@@ -15,16 +15,29 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ## 2026-10-08: Spec 001 / T6, `WordsController` + card query skeleton, mode [learn]
 
-- Claude wrote: controller, DTOs (`WordCardsQuery`, `WordCardResponse`, `CardOrder`), R1 validation, DI registration, OpenAPI contract and the generated Angular client. **You write:** `TODO(human)` #1 (EF Core query, R2–R4), #2 (culture-aware sort of translations + random order), #3 (second index on `Words` + migration).
-- Concepts: thin controller + feature class (ADR-0002), `[ApiController]` automatic 400 with `ValidationProblemDetails`, model binding of a complex type from the query string (`[FromQuery(Name = "base")]`, because `base` is a C# keyword), `[BindRequired]` (binding: key present) vs `[Required]` (validation: value not empty), `[AllowedValues]` with `const` fields, class-level validation with `IValidatableObject` (runs only after property validation passed), enum in OpenAPI (`integer` without `[JsonConverter]`, string `enum` with `JsonStringEnumConverter<T>` + `[JsonStringEnumMemberName]`), `[EndpointName]` = OpenAPI `operationId`, `ActionResult<T>` has no implicit conversion from an interface type, so `Ok(cards)`.
+- Claude wrote: controller, DTOs (`WordCardsRequest`, `WordCardResponse`, `CardOrder`), R1 validation, the `WordQueries` feature service and its DI registration, OpenAPI contract and the generated Angular client. After the review also: problem+json for 400, integer numbers and language `enum` in the contract, lowercase routes. **You write:** `TODO(human)` #1 (EF Core query, R2–R4), #2 (unit tests first, then the culture-aware sort of translations + random order in `SortTranslationsAndApplyOrder`), #3 (second index on `Words` + migration).
+- Concepts: thin controller + feature class (ADR-0002), `[ApiController]` automatic 400 with `ValidationProblemDetails`, model binding of a complex type from the query string (`[FromQuery(Name = "base")]`, because `base` is a C# keyword), `[BindRequired]` (binding: key present) vs the implicit `[Required]` that MVC adds for non-nullable reference types (validation: value not empty; `?base=` binds as null), `[Display(Name)]` = the name in default messages, `[AllowedValues]` with `const` fields and an `ErrorMessage` without C# names, class-level validation with `IValidatableObject` (runs only after property validation passed), enum in OpenAPI (`integer` without `[JsonConverter]`, string `enum` with `JsonStringEnumConverter<T>` + `[JsonStringEnumMemberName]`), `[EndpointName]` = OpenAPI `operationId`, `ActionResult<T>` has no implicit conversion from an interface type, so `Ok(cards)`.
+- Concepts from the review fixes:
+  - **problem+json content type** (RFC 9457): `[Produces("application/json")]` is also a result filter and turned the automatic 400 into `application/json`; content types per status code go in `[ProducesResponseType]`.
+  - **`JsonNumberHandling`**: the Web default `AllowReadingFromString` makes `int` `["integer", "string"]` in the contract (TS `number | string`); `Strict` is set twice, in the HTTP JSON options (read by the OpenAPI generator) and the MVC JSON options (controllers at runtime).
+  - **OpenAPI schema transformer** (`IOpenApiSchemaTransformer`): `[AllowedValues]` doesn't set `enum`, so `AllowedValuesSchemaTransformer` copies the values (TS: `'en' | 'pl' | 'tr'`); `[DefaultValue]` → `default: "sequential"`.
+  - **Slugify route convention**: `IOutboundParameterTransformer` + `RouteTokenTransformerConvention` turn `[controller]` into lowercase kebab-case (`/api/words/cards`); a regex always gets a timeout.
+  - **Friend assembly** (`InternalsVisibleTo`): `internal` pure logic can be unit-tested without a database.
 - Docs:
   - https://learn.microsoft.com/aspnet/core/web-api/#automatic-http-400-responses
   - https://learn.microsoft.com/aspnet/core/mvc/models/validation#ivalidatableobject
+  - https://learn.microsoft.com/aspnet/core/mvc/models/validation#non-nullable-reference-types-and-required-attribute
   - https://learn.microsoft.com/aspnet/core/mvc/models/model-binding#complex-types
+  - https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata#include-openapi-metadata-for-endpoints
   - https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata#include-openapi-metadata-for-data-types
+  - https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata#set-json-serialization-options-globally
+  - https://learn.microsoft.com/aspnet/core/fundamentals/openapi/customize-openapi#use-schema-transformers
+  - https://learn.microsoft.com/aspnet/core/mvc/controllers/routing#use-a-parameter-transformer-to-customize-token-replacement
   - https://learn.microsoft.com/aspnet/core/web-api/action-return-types#actionresultt-type
+  - https://learn.microsoft.com/dotnet/standard/assembly/friend
   - https://learn.microsoft.com/ef/core/querying/client-eval
-- Verified (temporary probe, not committed, T7 is yours): `base=tr&target=tr`, `base=xx`, missing `base`, `base=`, `base=EN`, `order=foo` → 400; `base=pl&target=tr` and `order=RANDOM` pass validation (500 from the `NotImplementedException` until the TODOs are done).
+- Verified (temporary probe, not committed, T7 is yours): `base=tr&target=tr`, `base=xx`, missing `base`, `base=`, `base=EN`, `order=foo` → 400 with `Content-Type: application/problem+json` (also with `Accept: application/json`) and messages without C# names ("Allowed values: en, pl, tr.", "The base field is required.", "A value for the 'base' parameter or property was not provided.", "The value 'foo' is not valid for order."); `base=pl&target=tr` and `order=RANDOM` pass validation (500 from the `NotImplementedException` until the TODOs are done); `/api/words/cards` works (routing is case-insensitive, so `/api/Words/cards` too).
+- Known gap (accepted): `?order=1` binds to `Random`, because `Enum.TryParse` also accepts numbers.
 - Fun fact: `order=RANDOM` works although the OpenAPI document says `random`: query binding uses `Enum.TryParse` (case-insensitive), not the JSON converter.
 - In my own words:
 - Check question: Why does the base ≠ target rule live in `IValidatableObject` and not in an attribute on one property, and when does `Validate` not run at all?
