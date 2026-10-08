@@ -43,7 +43,7 @@ Hosting target: **Azure** (author's choice, 2026-10-03). The specific Azure serv
 | Level | Topic | Where in WordWise | Options to compare |
 |---|---|---|---|
 | [~] | Unit tests (xUnit + Shouldly, Vitest) | ADR-0008 | — |
-| [ ] | Integration tests against a real database | backlog: Testcontainers | in-memory provider · SQLite · Testcontainers Postgres |
+| [ ] | Integration tests against a real database | ADR-0013 | in-memory provider · SQLite · Testcontainers Postgres |
 | [ ] | Test pyramid vs testing trophy: what to test at which level | all specs | — |
 | [ ] | End-to-end tests | login + study flow | Playwright · Cypress · none (cost vs confidence) |
 | [ ] | Automated accessibility checks | every screen (WCAG 2.2 AA) | axe in Playwright · Lighthouse CI · manual only |

@@ -7,7 +7,7 @@
 - Assertions: Shouldly (`result.ShouldBe(...)`, `list.ShouldContain(...)`).
 - Kinds:
   - **unit**: pure logic (e.g. card order, CSV parser), no database;
-  - **integration**: `WebApplicationFactory<Program>` (the whole HTTP pipeline). Database eventually via Testcontainers.
+  - **integration**: `WebApplicationFactory<Program>` (the whole HTTP pipeline). Tests that need the database use the shared Postgres with one database per test run (ADR-0013).
 - Pass `TestContext.Current.CancellationToken` to async calls (xUnit v3 analyzer rule).
 - Running: `dotnet test --solution WordWise.slnx` (Microsoft.Testing.Platform).
 
