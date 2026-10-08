@@ -55,7 +55,7 @@ Hosting target: **Azure** (author's choice, 2026-10-03). The specific Azure serv
 |---|---|---|---|
 | [~] | CI: build, format, test on every PR | `.github/workflows/ci.yml` | — |
 | [ ] | Containers: Dockerfile vs SDK container publish, multi-stage, image size | API image | Dockerfile · `dotnet publish /t:PublishContainer` |
-| [ ] | Where the SPA lives | Angular build | Static Web Apps · served by the API · separate container |
+| [~] | Where the SPA lives | ADR-0014: served by the API | Static Web Apps · served by the API · separate container |
 | [ ] | Container registry and image tags (commit SHA, SemVer) | first deploy | ACR · GitHub Container Registry |
 | [ ] | Azure login from CI without secrets (OIDC, workload identity federation) | deploy workflow | OIDC · service principal secret · publish profile |
 | [ ] | Infrastructure as code | Azure resources | Bicep · Terraform · portal by hand (why not) |
