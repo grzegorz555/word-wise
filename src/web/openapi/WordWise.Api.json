@@ -5,7 +5,7 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/Words/cards": {
+    "/api/words/cards": {
       "get": {
         "tags": [
           "Words"
@@ -17,6 +17,11 @@
             "in": "query",
             "required": true,
             "schema": {
+              "enum": [
+                "en",
+                "pl",
+                "tr"
+              ],
               "type": "string"
             }
           },
@@ -25,6 +30,11 @@
             "in": "query",
             "required": true,
             "schema": {
+              "enum": [
+                "en",
+                "pl",
+                "tr"
+              ],
               "type": "string"
             }
           },
@@ -32,6 +42,7 @@
             "name": "order",
             "in": "query",
             "schema": {
+              "default": "sequential",
               "$ref": "#/components/schemas/CardOrder"
             }
           }
@@ -53,7 +64,7 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
@@ -88,11 +99,9 @@
             ]
           },
           "status": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
               "null",
-              "integer",
-              "string"
+              "integer"
             ],
             "format": "int32"
           },
@@ -130,22 +139,14 @@
         "type": "object",
         "properties": {
           "wordId": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
+            "type": "integer",
             "format": "int32"
           },
           "text": {
             "type": "string"
           },
           "rank": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
+            "type": "integer",
             "format": "int32"
           },
           "partOfSpeech": {

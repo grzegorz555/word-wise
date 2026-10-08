@@ -3,8 +3,8 @@
 
 export interface WordCardResponse {
   partOfSpeech: string;
-  rank: number | string;
+  rank: number;
   text: string;
   translations: Array<string>;
-  wordId: number | string;
+  wordId: number;
 }

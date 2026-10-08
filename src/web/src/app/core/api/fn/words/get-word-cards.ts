@@ -11,8 +11,8 @@ import { CardOrder } from '../../models/card-order';
 import { WordCardResponse } from '../../models/word-card-response';
 
 export interface GetWordCards$Params {
-  base: string;
-  target: string;
+  base: 'en' | 'pl' | 'tr';
+  target: 'en' | 'pl' | 'tr';
   order?: CardOrder;
 }
 
@@ -37,4 +37,4 @@ export function getWordCards(
   );
 }
 
-getWordCards.PATH = '/api/Words/cards';
+getWordCards.PATH = '/api/words/cards';
