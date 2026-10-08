@@ -56,6 +56,7 @@ cd src\web; npx ng test --watch=false; npx prettier --check "src/**/*.{ts,html,s
 `Ctrl+C` in the terminals, then `docker compose down` (data stays in the `wordwise-pgdata` volume; `docker compose down -v` removes it).
 
 ## Troubleshooting
+- **`The container name "/wordwise-postgres" is already in use`:** the container was created before `compose.yaml` had `name: wordwise`, so Compose named the project after the folder (e.g. a worktree). Remove the old container once with `docker rm -f wordwise-postgres` and run `docker compose up -d` again; from then on every worktree shares the `wordwise` project. Docs: https://docs.docker.com/compose/how-tos/project-name/
 - **Port in use (5033/4200):** change `applicationUrl` in `Properties/launchSettings.json` or use `npm start -- --port 4201`.
 - **`npm ci` warns about install-scripts:** `npm install-scripts approve esbuild` (npm 11 blocks install scripts by default).
 - **HTTPS certificate** (`https` profile): `dotnet dev-certs https --trust`.

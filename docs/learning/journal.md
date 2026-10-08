@@ -13,6 +13,15 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-08: chore, fixed Compose project name (`name: wordwise`), mode [gen]
+
+- Concepts: Compose project name (defaults to the folder name, so each git worktree was a separate project), `container_name` is global per Docker host while volume names get the project prefix, top-level `name:` in `compose.yaml`.
+- Docs:
+  - https://docs.docker.com/compose/how-tos/project-name/
+- In my own words:
+- Check question: Before the fix, why did `docker compose up -d` in a second worktree fail on the container name, and why would it have started with an empty database if it had worked?
+- fCC course: beyond the course (Docker Compose).
+
 ## 2026-10-07: Spec 001 / T2, `Concept` and `Word` entities + `IEntityTypeConfiguration`, mode [learn]
 
 - Concepts: entity vs navigation vs foreign key (FK is a column, navigations exist only in C#), required one-to-many (non-nullable FK → required → cascade delete by convention), `= null!` for a reference navigation filled by EF, Fluent API (`IsRequired`, `HasMaxLength` as a data contract), unique index as a business rule, composite index and the leftmost-prefix rule, EF skips the FK index when an existing index already starts with the FK. One-to-many vs many-to-many (join table, with payload = `UserWordProgress`) vs one-to-one (FK + unique index).
