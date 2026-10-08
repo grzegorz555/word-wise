@@ -7,7 +7,7 @@ You can change the mode before starting a task.
   - *To understand:* `Scoped` DI lifetime for DbContext, configuration from `IConfiguration`.
 - [x] **T2 `[learn]`** `Concept`, `Word` entities + `IEntityTypeConfiguration` (1-N relationship, unique indexes from ADR-0005).
   - *You write:* entity properties and index configuration. *Claude:* file skeletons.
-- [ ] **T3 `[gen]`** First migration `InitialWordCatalog` + `dotnet ef database update`.
+- [x] **T3 `[gen]`** First migration `InitialWordCatalog` + `dotnet ef database update`.
   - *Predict before run:* which tables and indexes will be created? Write it down, then compare with the migration file.
 - [ ] **T4 `[solo]`** CSV parser (`WordSeedCsvParser`): row → record with a list of forms per language. Tests first (synonyms, empty rank, Polish and Turkish characters).
 - [ ] **T5 `[learn]`** Idempotent import (`WordSeedImporter`) run at startup in Development.
