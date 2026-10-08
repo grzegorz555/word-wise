@@ -36,11 +36,16 @@ public sealed class WordQueries(WordWiseDbContext dbContext)
         //   - R4: one card per target Word; Translations = texts of the base-language Words of the same Concept.
         //   - Select straight into WordCardResponse (projection: only the needed columns, no tracking).
         //   - Then make the method `async`, `return await ...`, and delete the two lines below.
+        // Traps (think about them):
+        //   - Translations is IReadOnlyList<string>: what must the projection produce for it?
+        //   - Rank is `int`, but FrequencyRank is `int?`: how do you get from one to the other, and why is it safe?
+        //   - PartOfSpeech lives on Concept, not on Word: how do you reach it from a Word?
+        //   - Two words with the same rank: is the order then deterministic? What would make it so?
         // Hint: navigation properties (w.Concept.Words) inside Where/Select become a JOIN or subquery in SQL.
         //   Print the SQL with ToQueryString() while you work.
         //   https://learn.microsoft.com/ef/core/querying/related-data/
-        //   https://learn.microsoft.com/ef/core/querying/#projections
-        //   https://learn.microsoft.com/ef/core/logging-events-diagnostics/simple-logging#tostring-and-toquerystring
+        //   https://learn.microsoft.com/ef/core/performance/efficient-querying#project-only-properties-you-need
+        //   https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.toquerystring
         _ = (words, baseLanguage, targetLanguage, cancellationToken);
         throw new NotImplementedException("TODO(human) #1: card query (spec 001, R2-R4).");
     }
