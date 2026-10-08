@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
+using WordWise.Api.Features.Words;
 using WordWise.Api.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,9 @@ builder.Services.AddDbContext<WordWiseDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("WordWise")
             ?? throw new InvalidOperationException("Connection string 'WordWise' not found.")));
+
+// Feature services (ADR-0002). Scoped, like the DbContext they use: one instance per request.
+builder.Services.AddScoped<WordCardQueries>();
 
 builder.Services.AddOpenApi(); // https://aka.ms/aspnet/openapi
 builder.Services.AddHealthChecks(); // https://learn.microsoft.com/aspnet/core/host-and-deploy/health-checks
