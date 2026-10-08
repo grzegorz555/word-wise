@@ -22,6 +22,7 @@ We follow the official guidelines. When in doubt, the documentation wins:
 
 ## API
 - Routing: `[Route("api/[controller]")]`, plural nouns (`/api/words`, `/api/study/sessions`).
+- Paths are lowercase kebab-case (`WordsController` → `/api/words`, `StudySessionsController` → `/api/study-sessions`) via the `SlugifyParameterTransformer` route convention in `Program.cs` (https://learn.microsoft.com/aspnet/core/mvc/controllers/routing#use-a-parameter-transformer-to-customize-token-replacement).
 - Return `ActionResult<T>`. Errors as `ProblemDetails` (`Problem(...)`, `ValidationProblem(...)`).
 - DTOs as `record` with a `Response`/`Request` suffix (`WordCardResponse`).
 - Input validation: DataAnnotations attributes on DTOs + `[ApiController]` (automatic 400).

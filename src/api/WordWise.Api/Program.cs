@@ -1,10 +1,12 @@
 using System.Text.Json.Serialization;
 
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 
 using WordWise.Api.Features.Words;
 using WordWise.Api.Infrastructure.Data;
 using WordWise.Api.Infrastructure.OpenApi;
+using WordWise.Api.Infrastructure.Routing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,10 @@ var builder = WebApplication.CreateBuilder(args);
 // and the runtime agrees with it.
 // Docs: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata#numeric-types
 //   https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata#set-json-serialization-options-globally
-builder.Services.AddControllers()
+// The route convention makes [controller] lowercase kebab-case: WordsController → /api/words.
+// Docs: https://learn.microsoft.com/aspnet/core/mvc/controllers/routing#use-a-parameter-transformer-to-customize-token-replacement
+builder.Services.AddControllers(options =>
+        options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer())))
     .AddJsonOptions(options => options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.Strict);
 builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict);
