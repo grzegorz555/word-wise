@@ -8,3 +8,16 @@ GET {{WordWise.Api_HostAddress}}/openapi/v1.json
 Accept: application/json
 
 ###
+
+# Flashcards for a Polish speaker learning Turkish (spec 001).
+# 200 with cards sorted by rank once TODO(human) #1 and #2 are done; until then 500 (NotImplementedException).
+GET {{WordWise.Api_HostAddress}}/api/words/cards?base=pl&target=tr&order=sequential
+Accept: application/json
+
+###
+
+# R1: base = target → 400 ValidationProblemDetails (Content-Type: application/problem+json),
+# errors.target: "The base and target languages must be different."
+GET {{WordWise.Api_HostAddress}}/api/words/cards?base=tr&target=tr
+
+###
