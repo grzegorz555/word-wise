@@ -23,7 +23,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/dotnet/fundamentals/code-analysis/configuration-options#general-options
 - Prediction vs result: tables, columns, lengths, required FK, 1-N and both unique indexes were predicted correctly. Not in the database: "ConceptId cannot be 0" and "FrequencyRank 0–1000" are not constraints (0 is rejected only because no Concept has Id 0; the rank range must be validated in the import or with a check constraint). Not predicted: identity `Id`, `ON DELETE CASCADE`, no separate `IX_Words_ConceptId`.
 - Fun fact: `dotnet ef` writes migrations with CRLF and `new[] { ... }`, so `dotnet format` (LF) and the CA1861 analyzer failed until `Migrations/` was marked as generated code.
-- In my own words:
+- In my own words: Launching the migrations which created basic strucures of database using prepared model
 - Check question: What does `__EFMigrationsHistory` store, and what happens when you run `dotnet ef database update` a second time?
 - fCC course: beyond the course (EF Core migrations, SQL schema).
 
