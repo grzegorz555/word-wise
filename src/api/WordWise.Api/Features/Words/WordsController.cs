@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WordWise.Api.Features.Words;
 
-// Thin controller (ADR-0002): HTTP in, validation by [ApiController], logic in WordCardQueries.
+// Thin controller (ADR-0002): HTTP in, validation by [ApiController], logic in WordQueries.
 // Docs: https://learn.microsoft.com/aspnet/core/web-api/
 [ApiController]
 [Route("api/[controller]")]
-public sealed class WordsController(WordCardQueries queries) : ControllerBase
+public sealed class WordsController(WordQueries queries) : ControllerBase
 {
     // GET /api/words/cards?base=pl&target=tr&order=sequential
     // [FromQuery] on a complex type binds each of its properties from the query string (spec 001, Contract).
@@ -22,10 +22,10 @@ public sealed class WordsController(WordCardQueries queries) : ControllerBase
     [ProducesResponseType<IReadOnlyList<WordCardResponse>>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     public async Task<ActionResult<IReadOnlyList<WordCardResponse>>> GetCards(
-        [FromQuery] WordCardsQuery query,
+        [FromQuery] WordCardsRequest request,
         CancellationToken cancellationToken)
     {
-        var cards = await queries.GetCardsAsync(query, cancellationToken);
+        var cards = await queries.GetCardsAsync(request, cancellationToken);
 
         // Ok(...) is needed: ActionResult<T> has no implicit conversion from an interface type (IReadOnlyList).
         // Docs: https://learn.microsoft.com/aspnet/core/web-api/action-return-types#actionresultt-type

@@ -10,17 +10,17 @@ namespace WordWise.Api.Features.Words;
 // Use-case logic for GET /api/words/cards (ADR-0002: a plain class in DI, no MediatR).
 // Registered as scoped in Program.cs, the same lifetime as the WordWiseDbContext it depends on.
 // Docs: https://learn.microsoft.com/aspnet/core/fundamentals/dependency-injection#service-lifetimes
-public sealed class WordCardQueries(WordWiseDbContext dbContext)
+public sealed class WordQueries(WordWiseDbContext dbContext)
 {
     public async Task<IReadOnlyList<WordCardResponse>> GetCardsAsync(
-        WordCardsQuery query,
+        WordCardsRequest request,
         CancellationToken cancellationToken)
     {
         // Two steps: what the database can do (filter, join, sort by rank), then what only .NET can do
         // (culture-aware sorting, shuffling). Docs: https://learn.microsoft.com/ef/core/querying/client-eval
-        var cards = await LoadCardsAsync(query.BaseLanguage, query.TargetLanguage, cancellationToken);
+        var cards = await LoadCardsAsync(request.BaseLanguage, request.TargetLanguage, cancellationToken);
 
-        return Arrange(cards, LanguageCodes.GetCulture(query.BaseLanguage), query.Order);
+        return Arrange(cards, LanguageCodes.GetCulture(request.BaseLanguage), request.Order);
     }
 
     private Task<List<WordCardResponse>> LoadCardsAsync(

@@ -37,7 +37,7 @@ builder.Services.AddDbContext<WordWiseDbContext>(options =>
             ?? throw new InvalidOperationException("Connection string 'WordWise' not found.")));
 
 // Feature services (ADR-0002). Scoped, like the DbContext they use: one instance per request.
-builder.Services.AddScoped<WordCardQueries>();
+builder.Services.AddScoped<WordQueries>();
 
 // OpenAPI document (https://aka.ms/aspnet/openapi). The schema transformer adds `enum` for [AllowedValues].
 // Docs: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/customize-openapi#use-schema-transformers

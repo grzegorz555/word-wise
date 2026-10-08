@@ -11,7 +11,7 @@ namespace WordWise.Api.Features.Words;
 // Query string of GET /api/words/cards?base=pl&target=tr&order=sequential (spec 001).
 // [ApiController] validates it before the action runs and returns 400 ValidationProblemDetails (R1).
 // Docs: https://learn.microsoft.com/aspnet/core/web-api/#automatic-http-400-responses
-public sealed record WordCardsQuery : IValidatableObject
+public sealed record WordCardsRequest : IValidatableObject
 {
     // The client sees this message, so it names the allowed values, not the C# property.
     // A `const` built from other consts, because attribute arguments must be compile-time constants.
