@@ -15,5 +15,6 @@ You can change the mode before starting a task.
 - [ ] **T6 `[learn]`** `WordsController` + LINQ query for R2–R4 (`AsNoTracking`, `Select` into `WordCardResponse`).
   - *You also write:* a second index on `Words` for R2 (filter by `Language`, sort by `FrequencyRank`): column order, uniqueness, and a migration for it.
   - *You write:* the LINQ query. *Claude:* controller, DTOs, R1 validation.
+  - *Status (2026-10-08):* Claude part done (draft PR). Left for you: `TODO(human)` #1 and #2 in `Features/Words/WordCardQueries.cs`, #3 in `WordConfiguration.cs`.
 - [ ] **T7 `[solo]`** Endpoint integration tests: 400 for R1 (no database).
 - [ ] **T8 `[gen]`** Review with the `code-reviewer` agent + journal entry + `/quiz-me` on topics from T1–T6.
