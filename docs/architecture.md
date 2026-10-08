@@ -93,24 +93,24 @@ The high-level plan for accounts and sign-in. Details, rules and tasks go into s
 - Antiforgery (ADR-0004): `AddAntiforgery(o => o.HeaderName = "X-XSRF-TOKEN")`, an endpoint that writes the `XSRF-TOKEN` cookie (called at startup and after sign-in/sign-out), validation on all unsafe methods, including an explicit filter on the `/api/auth` group.
 - 401/403 instead of a redirect: the default in .NET 10 for `[ApiController]` endpoints, so no custom events are needed. An integration test confirms it.
 - Identity options per `docs/conventions/security.md` (NIST SP 800-63B-4): min. 15 characters, no composition rules, blocklist of common/breached passwords; lockout after failed attempts; unique email.
-- Authorization: `[Authorize]` on the controllers that need a user. Proposal for spec 002: the word catalog (`/api/words/cards`) stays anonymous, progress requires sign-in.
+- Authorization: a **fallback policy** requires a signed-in user on every endpoint; anonymous endpoints are listed explicitly (spec 002, R1). The word catalog (`/api/words/cards`) requires sign-in too (author's decision, 2026-10-08).
 
 ### Frontend (A1)
 - `core/auth/`: `AuthService` with a `currentUser` signal (`null` = signed out) and a `isSignedIn` computed; the state is loaded once at startup from `GET /api/account/me` (`provideAppInitializer`). 401 = signed out, not an error.
 - Functional `authGuard` (`CanActivateFn`) on protected routes → redirect to `/login?returnUrl=…`.
 - Functional HTTP interceptor: a 401 from the API clears `currentUser` and redirects to `/login`. Same origin, so the cookie is sent without `withCredentials`.
-- Pages `features/account/`: `login`, `register` (forms with validation), language preferences. Identity error codes (e.g. `PasswordTooShort`, `DuplicateUserName`) map to Transloco keys `account.errors.<code>` in 3 languages.
+- Pages `features/account/`: `login`, `register` (forms with validation), language preferences. Identity error codes (e.g. `PasswordTooShort`, `InvalidEmail`) map to Transloco keys `account.errors.<code>` in 3 languages.
 - After sign-in the UI language switches to `UiLanguage` from the profile (ADR-0006).
 
 ### Tests (A1)
 - Backend unit: preference validation (language pair), mapping `AppUser` → `MeResponse`.
-- Backend integration (`WebApplicationFactory<Program>`): register → login → `me` returns the email; `me` without a cookie → 401; logout → the next `me` → 401; duplicate email → 400 ValidationProblem. These need a real database: Testcontainers (backlog item moves forward to spec 002) or a decision recorded in the spec.
+- Backend integration (`WebApplicationFactory<Program>`): register → login → `me` returns the email; `me` without a cookie → 401; logout → the next `me` → 401; sign-up with an existing email looks like a new sign-up (no account enumeration, `security.md`). The test database: ADR-0013.
 - Frontend (Vitest): `AuthService` with `HttpTestingController`, the guard (signed in / signed out), the interceptor (401 → redirect), the login form (validation messages, submit).
 
-### Open questions (for spec 002)
-- Testcontainers now vs. a separate test database from `compose.yaml`.
-- Sign-in required for the whole app or only for study/progress (proposal above: only progress).
-- Should registration ask for the language pair right away, or should it get defaults (`UiLanguage` from the browser, pair chosen later)?
+### Decisions for spec 002 (2026-10-08)
+- Test database: the shared Postgres, one database per test run (ADR-0013).
+- Sign-in is required for the whole app, except sign-in and sign-up (spec 002, R1).
+- Sign-up asks only for email and password; `UiLanguage` comes from the active UI language, the pair is chosen later in the preferences (spec 002, R7, R8).
 
 ### Learning resources
 - Identity for SPAs (endpoints, logout): https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization

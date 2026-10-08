@@ -24,3 +24,4 @@
   - Implementation: a host listener on the study component (`host: { '(keydown)': ... }`, https://angular.dev/guide/components/host-elements), no library at first. Use `event.key` for characters and check it on a Turkish Q and F layout and a Polish layout; ignore events with `ctrlKey`/`metaKey`/`altKey` so browser shortcuts keep working.
   - Tests: unit tests dispatching `KeyboardEvent`s on the component (flip, know/don't know, ignored in an input, ignored when switched off); later an e2e run with keyboard only.
   - Open questions: do shortcut labels need translations (Transloco keys for the help dialog: yes)? Where does the on/off setting live before user settings exist (local storage)?
+- [ ] Demo account for portfolio visitors: the whole app requires sign-in (spec 002), so a read-only demo account (or a "try it" sign-up) would let visitors see the app. Needs rules: reset of demo data, no personal data, rate limits.
