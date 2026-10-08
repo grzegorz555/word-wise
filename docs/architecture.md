@@ -45,6 +45,7 @@ erDiagram
     int WordId "word in the target language"
     int TimesSeen
     int TimesKnown
+    bool LastAnswerKnown "latest answer; true = skipped in later sessions (spec 003)"
     datetime LastSeenAt
   }
   AppUser {
