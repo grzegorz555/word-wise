@@ -7,7 +7,9 @@ A learning project built with ASP.NET Core 10 + Angular 22 + PostgreSQL.
 Full guide: **[docs/how-to/run-locally.md](docs/how-to/run-locally.md)**.
 ```bash
 cp .env.example .env            # optional: custom Postgres password/port
-docker compose up -d            # PostgreSQL
+docker compose up -d            # PostgreSQL (one shared container for every worktree)
+dotnet tool restore             # local tools, including dotnet-ef
+dotnet ef database update --project src/api/WordWise.Api         # apply EF Core migrations (again after pulling new ones)
 dotnet run --project src/api/WordWise.Api --launch-profile http   # API: http://localhost:5033, Swagger: /swagger
 cd src/web && npm ci && npm start                                  # Web: http://localhost:4200
 ```
