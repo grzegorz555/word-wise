@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 using WordWise.Api.Features.Words;
 using WordWise.Api.Infrastructure.Data;
+using WordWise.Api.Infrastructure.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,9 @@ builder.Services.AddDbContext<WordWiseDbContext>(options =>
 // Feature services (ADR-0002). Scoped, like the DbContext they use: one instance per request.
 builder.Services.AddScoped<WordCardQueries>();
 
-builder.Services.AddOpenApi(); // https://aka.ms/aspnet/openapi
+// OpenAPI document (https://aka.ms/aspnet/openapi). The schema transformer adds `enum` for [AllowedValues].
+// Docs: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/customize-openapi#use-schema-transformers
+builder.Services.AddOpenApi(options => options.AddSchemaTransformer<AllowedValuesSchemaTransformer>());
 builder.Services.AddHealthChecks(); // https://learn.microsoft.com/aspnet/core/host-and-deploy/health-checks
 
 var app = builder.Build();

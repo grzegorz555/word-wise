@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,10 @@ public sealed record WordCardsQuery : IValidatableObject
     [AllowedValues(LanguageCodes.English, LanguageCodes.Polish, LanguageCodes.Turkish)]
     public string TargetLanguage { get; init; } = string.Empty;
 
+    // [DefaultValue] only documents the default (`default` in OpenAPI); the initializer sets it at runtime.
+    // Docs: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata#use-attributes-to-add-metadata
     [FromQuery(Name = "order")]
+    [DefaultValue(CardOrder.Sequential)]
     public CardOrder Order { get; init; } = CardOrder.Sequential;
 
     // Class-level rule (R1: base ≠ target). It runs only after the attributes above have passed.
