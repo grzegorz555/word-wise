@@ -33,12 +33,21 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 - Identity for SPAs: https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
 - API endpoints and cookie auth (401/403 instead of redirects, .NET 10): https://learn.microsoft.com/aspnet/core/security/authentication/api-endpoint-auth
 - Integration tests: https://learn.microsoft.com/aspnet/core/test/integration-tests
+- Model validation (`[Required]`, `IValidatableObject`, automatic 400): https://learn.microsoft.com/aspnet/core/mvc/models/validation
+- Model binding (`[FromQuery]`, `[BindRequired]`, complex types): https://learn.microsoft.com/aspnet/core/mvc/models/model-binding
+- OpenAPI metadata (enums, `operationId`, required): https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata
+- Hosted services and scoped services in the background: https://learn.microsoft.com/aspnet/core/fundamentals/host/hosted-services
 
 ## EF Core (database)
 - ⭐ **EF Core**: https://learn.microsoft.com/ef/core/
 - Relationships: https://learn.microsoft.com/ef/core/modeling/relationships
 - Migrations: https://learn.microsoft.com/ef/core/managing-schemas/migrations/
 - Querying and tracking: https://learn.microsoft.com/ef/core/querying/tracking
+- ⭐ **Client vs server evaluation** (what runs in SQL, what in .NET): https://learn.microsoft.com/ef/core/querying/client-eval
+- Loading related data and projections: https://learn.microsoft.com/ef/core/querying/related-data/
+- Indexes (composite, unique): https://learn.microsoft.com/ef/core/modeling/indexes
+- Collations and case sensitivity: https://learn.microsoft.com/ef/core/miscellaneous/collations-and-case-sensitivity
+- Data seeding (`UseSeeding`, custom initialization, `HasData`): https://learn.microsoft.com/ef/core/modeling/data-seeding
 - Npgsql (PostgreSQL): https://www.npgsql.org/efcore/
 
 ## Angular
