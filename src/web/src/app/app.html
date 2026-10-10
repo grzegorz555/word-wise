@@ -23,7 +23,7 @@
           hlmToggleGroupItem
           [hlmTooltip]="endonyms[lang]"
           [value]="lang"
-          [aria-label]="endonyms[lang]"
+          [aria-label]="switchLabel(lang)"
           [attr.lang]="lang"
         >
           {{ lang.toUpperCase() }}
