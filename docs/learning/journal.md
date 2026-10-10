@@ -13,6 +13,18 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-08: fix, Label in Name for the language switch (WCAG 2.2 SC 2.5.3), mode [gen]
+
+- Concepts: accessible name vs visible label, SC 2.5.3 Label in Name (level A: the accessible name contains the visible text, best at the start), speech input ("click TR" matches by the name), `aria-label` overrides the button text in the accessible name, ARIA attribute binding in Angular (`[aria-label]` / `[attr.aria-label]`), the tooltip is not part of the name.
+- Docs:
+  - https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html
+  - https://angular.dev/guide/templates/binding#aria-attributes
+  - https://angular.dev/best-practices/a11y#aria-attributes-and-properties
+  - https://developer.mozilla.org/en-US/docs/Glossary/Accessible_name
+- In my own words: aria-label having aria-label with the full name of the language and shortcut - a speech-input user saying "click TR" will hit the button.
+- Check question: The button shows "TR". Why does `aria-label="Türkçe"` fail SC 2.5.3 while `aria-label="TR, Türkçe"` passes, and who is affected by the difference?
+- fCC course: beyond the course (frontend, accessibility).
+
 ## 2026-10-08: chore, CI check for a missing migration (`has-pending-model-changes`), mode [gen]
 
 - Concepts: model snapshot (`WordWiseDbContextModelSnapshot.cs`) as the "last known model", `dotnet ef migrations has-pending-model-changes` compares the current model with the snapshot (exit 1 = a migration is missing), no database connection is opened, design-time host (the tools run `Program.cs` and stop before the app starts), design-time tools default to the `Development` environment, `--no-build --configuration Release` reuses the CI build, local tools (`dotnet tool restore`).
