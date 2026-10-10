@@ -25,7 +25,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1822
   - https://learn.microsoft.com/dotnet/csharp/fundamentals/null-safety/null-operators
 - Fun fact: the first version of the 404 test passed even without the fix. In `ContentType?.MediaType.ShouldBe(...)` the `?.` short-circuits when there is no `Content-Type`, so `ShouldBe` never ran. Running the new tests against the old `Program.cs` (red check) caught it.
-- In my own words:
+- In my own words: Outside Development `UseExceptionHandler` returns a generic 500, so the client never learns the details of the problem: our classes, the depths of the code, the stack trace. In Development `WebApplication` itself adds `DeveloperExceptionPageMiddleware` at the very start of the pipeline; `UseExceptionHandler` would sit deeper, catch the exception first and cover it with the generic 500, hiding the debugging info from the developer. `UseStatusCodePages` leaves `NotFound()` and `ValidationProblem` alone because those responses already have a body, while an unknown route ends with an empty 404, so that one gets filled.
 - Check question: An action throws an exception. What does the client get in Development and what in Production (status, `Content-Type`, which fields), and which middleware writes each response?
 - fCC course: beyond the course (ASP.NET Core middleware, error handling).
 
