@@ -21,7 +21,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying#environment-and-configuration
   - https://learn.microsoft.com/ef/core/cli/dbcontext-creation#from-application-services
 - Fun fact: the check passed even with a connection string pointing to port 1 (no server there). So it really does not touch the database.
-- In my own words:
+- In my own words: It checks whether the current EF model (entities + configuration) differs from the model snapshot in /Migrations, i.e. whether someone changed the model without adding a migration. No database needed, because both sides of the comparison are C# code.
 - Check question: Why does the CI step need neither Postgres nor a `ConnectionStrings__WordWise` variable, but would fail if `appsettings.Development.json` had no connection string?
 - fCC course: beyond the course (EF Core migrations, CI).
 
