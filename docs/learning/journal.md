@@ -13,6 +13,22 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-08: fix, ProblemDetails for unhandled errors and unknown routes (security.md "Fail safely"), mode [gen]
+
+- Concepts: problem details service (`AddProblemDetails` registers `IProblemDetailsService`, RFC 9457, `application/problem+json`), exception handler middleware (`UseExceptionHandler()` without a path writes a generic 500 ProblemDetails), developer exception page (`WebApplication` adds it by itself in Development; with `AddProblemDetails` it answers a non-HTML `Accept` with ProblemDetails that include the stack trace), status code pages middleware (fills only error responses without a body, e.g. 404 for an unknown route), middleware order (error handling first, so it wraps the rest), environments in tests (`UseEnvironment("Production")` in `WithWebHostBuilder`), MVC application parts (a test-only controller from the test assembly), CA1822 vs MVC actions (a static method is not an action), `?.` short-circuiting.
+- Docs:
+  - https://learn.microsoft.com/aspnet/core/fundamentals/error-handling-api#problem-details
+  - https://learn.microsoft.com/aspnet/core/fundamentals/error-handling#problem-details
+  - https://learn.microsoft.com/aspnet/core/fundamentals/error-handling#developer-exception-page
+  - https://learn.microsoft.com/aspnet/core/test/integration-tests#inject-mock-services
+  - https://learn.microsoft.com/aspnet/core/mvc/advanced/app-parts
+  - https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1822
+  - https://learn.microsoft.com/dotnet/csharp/fundamentals/null-safety/null-operators
+- Fun fact: the first version of the 404 test passed even without the fix. In `ContentType?.MediaType.ShouldBe(...)` the `?.` short-circuits when there is no `Content-Type`, so `ShouldBe` never ran. Running the new tests against the old `Program.cs` (red check) caught it.
+- In my own words: Outside Development `UseExceptionHandler` returns a generic 500, so the client never learns the details of the problem: our classes, the depths of the code, the stack trace. In Development `WebApplication` itself adds `DeveloperExceptionPageMiddleware` at the very start of the pipeline; `UseExceptionHandler` would sit deeper, catch the exception first and cover it with the generic 500, hiding the debugging info from the developer. `UseStatusCodePages` leaves `NotFound()` and `ValidationProblem` alone because those responses already have a body, while an unknown route ends with an empty 404, so that one gets filled.
+- Check question: An action throws an exception. What does the client get in Development and what in Production (status, `Content-Type`, which fields), and which middleware writes each response?
+- fCC course: beyond the course (ASP.NET Core middleware, error handling).
+
 ## 2026-10-08: fix, Label in Name for the language switch (WCAG 2.2 SC 2.5.3), mode [gen]
 
 - Concepts: accessible name vs visible label, SC 2.5.3 Label in Name (level A: the accessible name contains the visible text, best at the start), speech input ("click TR" matches by the name), `aria-label` overrides the button text in the accessible name, ARIA attribute binding in Angular (`[aria-label]` / `[attr.aria-label]`), the tooltip is not part of the name.
