@@ -21,7 +21,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://angular.dev/guide/templates/binding#aria-attributes
   - https://angular.dev/best-practices/a11y#aria-attributes-and-properties
   - https://developer.mozilla.org/en-US/docs/Glossary/Accessible_name
-- In my own words:
+- In my own words: aria-label having aria-label with the full name of the language and shortcut - a speech-input user saying "click TR" will hit the button.
 - Check question: The button shows "TR". Why does `aria-label="Türkçe"` fail SC 2.5.3 while `aria-label="TR, Türkçe"` passes, and who is affected by the difference?
 - fCC course: beyond the course (frontend, accessibility).
 
