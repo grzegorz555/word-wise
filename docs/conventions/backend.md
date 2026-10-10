@@ -31,6 +31,7 @@ We follow the official guidelines. When in doubt, the documentation wins:
 - `AsNoTracking()` + `Select` into a DTO for reads.
 - Configuration in `Infrastructure/Data/Configurations/*Configuration.cs`.
 - Migrations: `dotnet ef migrations add <Name> --project src/api/WordWise.Api`. Migration names in PascalCase, descriptive.
+- Before pushing a model change, add a migration. CI checks it with `dotnet ef migrations has-pending-model-changes` (no database needed).
 - Don't call `SaveChangesAsync` in a loop.
 
 ## Strings and culture
