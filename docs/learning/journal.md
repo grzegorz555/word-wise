@@ -22,7 +22,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/aspnet/core/host-and-deploy/scaling-aspnet-apps/scaling-aspnet-apps
   - https://learn.microsoft.com/dotnet/core/docker/container-images
 - Your choices vs Claude's recommendation: test database D (the shared Postgres; Claude: Testcontainers), fixed by one database per run; compute Container Apps (same); SPA served by the API (your first idea: nginx; changed after the trade-offs); production database deferred.
-- In my own words:
+- In my own words: Using Container Apps from Azure for hosting the app, SPA served by the API from wwwroot. Hosting comes after the app is built; if Azure turns out expensive, I may pick another provider.
 - Check question: Why would every deploy on Container Apps sign all users out if nobody thinks about Data Protection keys, and why does an nginx container in front of the API make the forwarded-headers problem harder?
 - fCC course: beyond the course (architecture, cloud).
 
