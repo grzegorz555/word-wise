@@ -8,6 +8,29 @@ on:
 jobs:
   api:
     runs-on: ubuntu-latest
+    # Postgres 18 for the integration tests (ADR-0013). The test fixture creates its own database
+    # wordwise_test_<id> on this server and drops it at the end.
+    # User, password and database are throwaway values for this ephemeral CI container (it lives only
+    # as long as the job and is reachable only from the runner), not secrets.
+    # Docs: https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: wordwise
+          POSTGRES_PASSWORD: wordwise_ci
+          POSTGRES_DB: wordwise
+        ports:
+          - 5432:5432
+        # The job waits until the container is healthy before the first step runs.
+        options: >-
+          --health-cmd "pg_isready -U wordwise -d wordwise"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    # Overrides appsettings.Development.json ("__" stands for ":" in configuration keys); same values as above.
+    env:
+      ConnectionStrings__WordWise: Host=localhost;Port=5432;Database=wordwise;Username=wordwise;Password=wordwise_ci
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v5

@@ -51,12 +51,14 @@ dotnet test --solution WordWise.slnx
 dotnet format WordWise.slnx --verify-no-changes
 cd src\web; npx ng test --watch=false; npx prettier --check "src/**/*.{ts,html,scss}"
 ```
+Database tests need the Postgres from step 2 (`docker compose up -d`); each run creates and drops its own database `wordwise_test_<id>`, so the `wordwise` data stays untouched (ADR-0013).
 
 ## Stopping
 `Ctrl+C` in the terminals, then `docker compose down` (data stays in the `wordwise-pgdata` volume; `docker compose down -v` removes it).
 
 ## Troubleshooting
 - **`The container name "/wordwise-postgres" is already in use`:** the container was created before `compose.yaml` had `name: wordwise`, so Compose named the project after the folder (e.g. a worktree). Remove the old container once with `docker rm -f wordwise-postgres` and run `docker compose up -d` again; from then on every worktree shares the `wordwise` project. Docs: https://docs.docker.com/compose/how-tos/project-name/
+- **Tests fail with `Postgres is not running: start it with docker compose up -d (ADR-0013)`:** the database tests can't reach the server. Run `docker compose up -d`, wait for `docker compose ps` → `healthy`, and run the tests again. If your `.env` uses another port or password, set `$env:ConnectionStrings__WordWise` in the test terminal (as in step 2); the tests replace only the database name. A run killed halfway can leave a `wordwise_test_*` database behind: list them with `docker exec wordwise-postgres psql -U wordwise -l` and remove one with `docker exec wordwise-postgres dropdb -U wordwise <name>`.
 - **Port in use (5033/4200):** change `applicationUrl` in `Properties/launchSettings.json` or use `npm start -- --port 4201`.
 - **`npm ci` warns about install-scripts:** `npm install-scripts approve esbuild` (npm 11 blocks install scripts by default).
 - **HTTPS certificate** (`https` profile): `dotnet dev-certs https --trust`.

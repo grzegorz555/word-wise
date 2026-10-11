@@ -13,6 +13,22 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-08: ADR-0013, Postgres fixture for integration tests (one database per test run), mode [gen]
+
+- Concepts: custom `WebApplicationFactory<Program>` (`ConfigureWebHost`), configuration override with `ConfigureAppConfiguration` + `AddInMemoryCollection` (the source added last wins; it is visible only after `Build()`, which works because `Program.cs` reads the connection string lazily inside `AddDbContext`), `NpgsqlConnectionStringBuilder` (change only `Database`, keep server and credentials from the app's config), xUnit v3 `IAsyncLifetime` (`InitializeAsync` / `DisposeAsync`; xUnit calls `DisposeAsync` even when `InitializeAsync` threw), collection fixture vs assembly fixture (xUnit v3 creates assembly fixtures when the test assembly starts, so without Docker every test would fail; a collection fixture is created only when one of its tests runs), `MigrateAsync` creates the database if it doesn't exist, `EnsureDeletedAsync` drops it, test isolation by database (`wordwise_test_<8 hex>` per run), exception wrapping (`NpgsqlException` that is not a `PostgresException` = no connection), CA1711 (the `Collection` suffix is reserved for real collections, hence `PostgresCollectionDefinition`).
+- Docs:
+  - https://learn.microsoft.com/ef/core/testing/testing-with-the-database
+  - https://learn.microsoft.com/aspnet/core/test/integration-tests#customize-webapplicationfactory (and the section "Customize the WebApplicationFactory with test configurations")
+  - https://learn.microsoft.com/dotnet/core/extensions/configuration-providers#memory-configuration-provider
+  - https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.relationaldatabasefacadeextensions.migrateasync
+  - https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1711
+  - https://xunit.net/docs/shared-context and https://xunit.net/docs/running-tests-in-parallel (xunit.net, not checked via MCP)
+  - https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers (GitHub docs, not checked via MCP)
+- Fun fact: the first plan was an assembly fixture; reading the xUnit v3 source showed it is created at assembly start, so `HealthEndpointTests` would fail without Docker, against ADR-0013.
+- In my own words: (1) An assembly fixture is created when the test run starts, so if Postgres is down it fails every test, even `HealthEndpointTests`; a collection fixture is created only when one of its tests runs, so only the database test fails. (2) The lambda in `AddDbContext` is only a recipe: it runs later, when the first `DbContext` is created, and by then `Build()` has already added the test database from `ConfigureAppConfiguration`. If `Program.cs` read the connection string before `Build()`, it would keep the dev database, and `GetTestDbContext` would stop the test before migrating or dropping it. (3) Idempotent means running the import twice leaves the same data as running it once. The database is shared by the whole run, so the test must not assume it starts empty: import, count, import again, and check the count did not change.
+- Check question: Why are the database tests grouped in a collection fixture and not an assembly fixture, and what happens to `HealthEndpointTests` and to the database test when Docker is stopped?
+- fCC course: beyond the course (integration testing, xUnit fixtures, EF Core migrations at runtime, CI service containers).
+
 ## 2026-10-08: Decision drills: test database (ADR-0013) and Azure hosting (ADR-0014), `/compare-options`
 
 - Concepts: decision criteria with weights, reversibility as a criterion, test doubles vs the real database (EF Core in-memory provider and SQLite as fakes), test isolation (one database per test run), serverless containers and scale to zero, revisions and rollback, one origin for cookie auth (ADR-0004), forwarded headers behind an ingress, Data Protection key ring, globalization-invariant mode and ICU, deferring a decision to "the last responsible moment" (production database).
