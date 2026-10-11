@@ -17,6 +17,7 @@ flowchart LR
   api -->|EF Core / Npgsql| db[(PostgreSQL)]
 ```
 In dev, Angular (`:4200`) proxies `/api` to the API (`:5033`). This way the SPA and the API are a single origin from the browser's point of view (ADR-0004).
+In production (ADR-0014) the API serves the built SPA from `wwwroot`, so it is one origin there too: one container image on Azure Container Apps. The production database is not decided yet.
 
 ## Backend: vertical slices (ADR-0002)
 Code is organized by feature (`Features/Words`, `Features/Study`, `Features/Account`), not by technical layer. Each slice contains the controller, DTOs and use-case logic. Only `Domain/` (entities) and `Infrastructure/` (DbContext) are shared.

@@ -23,6 +23,7 @@ We follow the official guidelines. When in doubt, the documentation wins:
 ## API
 - Routing: `[Route("api/[controller]")]`, plural nouns (`/api/words`, `/api/study/sessions`).
 - Return `ActionResult<T>`. Errors as `ProblemDetails` (`Problem(...)`, `ValidationProblem(...)`).
+- Unhandled exceptions and error responses without a body (e.g. 404 for an unknown route) are also `ProblemDetails`: `AddProblemDetails()` + `UseExceptionHandler()` (outside Development) + `UseStatusCodePages()` in `Program.cs`. No exception messages or stack traces outside Development (`security.md`, "Fail safely"). Docs: https://learn.microsoft.com/aspnet/core/fundamentals/error-handling-api#problem-details
 - DTOs as `record` with a `Response`/`Request` suffix (`WordCardResponse`).
 - Input validation: DataAnnotations attributes on DTOs + `[ApiController]` (automatic 400).
 - `CancellationToken cancellationToken` as the last action parameter, passed down the call chain.
@@ -31,6 +32,7 @@ We follow the official guidelines. When in doubt, the documentation wins:
 - `AsNoTracking()` + `Select` into a DTO for reads.
 - Configuration in `Infrastructure/Data/Configurations/*Configuration.cs`.
 - Migrations: `dotnet ef migrations add <Name> --project src/api/WordWise.Api`. Migration names in PascalCase, descriptive.
+- Before pushing a model change, add a migration. CI checks it with `dotnet ef migrations has-pending-model-changes` (no database needed).
 - Don't call `SaveChangesAsync` in a loop.
 
 ## Strings and culture

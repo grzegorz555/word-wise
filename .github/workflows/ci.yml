@@ -44,6 +44,14 @@ jobs:
         run: |
           git diff --exit-code -- src/web/openapi
           test -z "$(git status --porcelain -- src/web/openapi)"
+      - run: dotnet tool restore
+      # Fails (exit 1) when the EF Core model changed but no migration was added.
+      # No database is needed: it compares the model with the snapshot in Migrations/.
+      # Design-time tools default to the Development environment, so the host reads the
+      # local, non-secret connection string from appsettings.Development.json.
+      # Docs: https://learn.microsoft.com/ef/core/managing-schemas/migrations/managing#checking-for-pending-model-changes
+      - name: EF Core model has a migration
+        run: dotnet ef migrations has-pending-model-changes --project src/api/WordWise.Api --no-build --configuration Release
       - run: dotnet test --solution WordWise.slnx --no-build -c Release
 
   web:
