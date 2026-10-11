@@ -76,6 +76,20 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 - Angular CDK (a11y, overlays): https://material.angular.dev/cdk/categories
 - spartan MCP server (docs and components for Claude): https://www.spartan.ng/documentation/mcp
 
+## Fundamentals: computer, network, debugging (see `roadmap.md` §0)
+- ⭐ **Debugging a .NET app (VS Code / Visual Studio)**: breakpoints, conditional breakpoints, stepping: https://learn.microsoft.com/dotnet/core/tutorials/debug-console-app
+- ⭐ **Processes and threads** (program vs process vs thread): https://learn.microsoft.com/windows/win32/procthread/about-processes-and-threads
+- How .NET runs code (C# → IL → JIT): https://learn.microsoft.com/dotnet/standard/managed-execution-process
+- Memory and garbage collection (managed heap, stack roots, generations): https://learn.microsoft.com/dotnet/standard/garbage-collection/fundamentals
+- async/await explained with a breakfast: https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/
+- ASP.NET Core middleware pipeline (the server half of a request): https://learn.microsoft.com/aspnet/core/fundamentals/middleware/
+- OSI model, layer by layer (Windows networking view): https://learn.microsoft.com/windows-hardware/drivers/network/windows-network-architecture-and-the-osi-model
+- Windows Firewall profiles (why a café network must be "Public"): https://learn.microsoft.com/windows/security/operating-system-security/network-security/windows-firewall/
+- HTTPS and HSTS in ASP.NET Core: https://learn.microsoft.com/aspnet/core/security/enforcing-ssl
+- MDN, an overview of HTTP (not checked via MCP): https://developer.mozilla.org/docs/Web/HTTP/Guides/Overview
+- MDN, the JavaScript event loop (not checked via MCP): https://developer.mozilla.org/docs/Web/JavaScript/Reference/Execution_model
+- Chrome DevTools docs (Sources, Network; not checked via MCP): https://developer.chrome.com/docs/devtools
+
 ## Delivery and operations (see `roadmap.md`)
 Architecture
 - ⭐ **Azure Architecture Center: architecture styles**: https://learn.microsoft.com/azure/architecture/guide/architecture-styles/
