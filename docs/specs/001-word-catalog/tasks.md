@@ -17,7 +17,7 @@ Before each task: [study-guide.md](study-guide.md) (what to read, what to decide
     3. Bad row: throw (fail fast). The message names the line number and the reason. The seed is edited only by developers.
     4. Header: read the language columns from the header (`xx` + `xx_rank` pairs), not by fixed position. A missing `xx_rank` column is an error. Checking that a language code is supported belongs to T5 (`LanguageCodes`).
     5. Whitespace: `" dom | chata "` is valid. Trim both when splitting by `;` and when splitting by `|`.
-    6. Open: an empty synonym (`"dom||chata"`, `"dom|"`) is either removed or an error. Decide and cover it with a test.
+    6. Empty synonym (`"dom||chata"`, `"dom|"`): throw, like any other bad row (decision 3).
 - [ ] **T5 `[learn]`** Idempotent import (`WordSeedImporter`) run at startup in Development.
   - *To understand:* `IHostedService` vs a call in `Program.cs`, `AnyAsync`, a single `SaveChangesAsync`.
 - [ ] **T6 `[learn]`** `WordsController` + LINQ query for R2–R4 (`AsNoTracking`, `Select` into `WordCardResponse`).
