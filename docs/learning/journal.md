@@ -25,7 +25,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://xunit.net/docs/shared-context and https://xunit.net/docs/running-tests-in-parallel (xunit.net, not checked via MCP)
   - https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers (GitHub docs, not checked via MCP)
 - Fun fact: the first plan was an assembly fixture; reading the xUnit v3 source showed it is created at assembly start, so `HealthEndpointTests` would fail without Docker, against ADR-0013.
-- In my own words:
+- In my own words: (1) An assembly fixture is created when the test run starts, so if Postgres is down it fails every test, even `HealthEndpointTests`; a collection fixture is created only when one of its tests runs, so only the database test fails. (2) The lambda in `AddDbContext` is only a recipe: it runs later, when the first `DbContext` is created, and by then `Build()` has already added the test database from `ConfigureAppConfiguration`. If `Program.cs` read the connection string before `Build()`, it would keep the dev database, and `GetTestDbContext` would stop the test before migrating or dropping it. (3) Idempotent means running the import twice leaves the same data as running it once. The database is shared by the whole run, so the test must not assume it starts empty: import, count, import again, and check the count did not change.
 - Check question: Why are the database tests grouped in a collection fixture and not an assembly fixture, and what happens to `HealthEndpointTests` and to the database test when Docker is stopped?
 - fCC course: beyond the course (integration testing, xUnit fixtures, EF Core migrations at runtime, CI service containers).
 
