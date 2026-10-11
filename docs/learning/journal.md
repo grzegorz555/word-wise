@@ -13,6 +13,19 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-08: Decision drills: test database (ADR-0013) and Azure hosting (ADR-0014), `/compare-options`
+
+- Concepts: decision criteria with weights, reversibility as a criterion, test doubles vs the real database (EF Core in-memory provider and SQLite as fakes), test isolation (one database per test run), serverless containers and scale to zero, revisions and rollback, one origin for cookie auth (ADR-0004), forwarded headers behind an ingress, Data Protection key ring, globalization-invariant mode and ICU, deferring a decision to "the last responsible moment" (production database).
+- Docs:
+  - https://learn.microsoft.com/ef/core/testing/choosing-a-testing-strategy
+  - https://learn.microsoft.com/azure/container-apps/billing
+  - https://learn.microsoft.com/aspnet/core/host-and-deploy/scaling-aspnet-apps/scaling-aspnet-apps
+  - https://learn.microsoft.com/dotnet/core/docker/container-images
+- Your choices vs Claude's recommendation: test database D (the shared Postgres; Claude: Testcontainers), fixed by one database per run; compute Container Apps (same); SPA served by the API (your first idea: nginx; changed after the trade-offs); production database deferred.
+- In my own words: Using Container Apps from Azure for hosting the app, SPA served by the API from wwwroot. Hosting comes after the app is built; if Azure turns out expensive, I may pick another provider.
+- Check question: Why would every deploy on Container Apps sign all users out if nobody thinks about Data Protection keys, and why does an nginx container in front of the API make the forwarded-headers problem harder?
+- fCC course: beyond the course (architecture, cloud).
+
 ## 2026-10-08: fix, ProblemDetails for unhandled errors and unknown routes (security.md "Fail safely"), mode [gen]
 
 - Concepts: problem details service (`AddProblemDetails` registers `IProblemDetailsService`, RFC 9457, `application/problem+json`), exception handler middleware (`UseExceptionHandler()` without a path writes a generic 500 ProblemDetails), developer exception page (`WebApplication` adds it by itself in Development; with `AddProblemDetails` it answers a non-HTML `Accept` with ProblemDetails that include the stack trace), status code pages middleware (fills only error responses without a body, e.g. 404 for an unknown route), middleware order (error handling first, so it wraps the rest), environments in tests (`UseEnvironment("Production")` in `WithWebHostBuilder`), MVC application parts (a test-only controller from the test assembly), CA1822 vs MVC actions (a static method is not an action), `?.` short-circuiting.
