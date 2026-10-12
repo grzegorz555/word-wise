@@ -54,4 +54,23 @@ describe('App', () => {
 
     expect(plButton?.getAttribute('aria-pressed')).toBe('true');
   });
+
+  // WCAG 2.2 SC 2.5.3 Label in Name: the accessible name starts with the visible text.
+  it('starts each language button accessible name with its visible code', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    const buttons = [...compiled.querySelectorAll('button')];
+    expect(buttons.map((b) => b.getAttribute('aria-label'))).toEqual([
+      'PL, Polski',
+      'EN, English',
+      'TR, Türkçe',
+    ]);
+    for (const button of buttons) {
+      const visible = button.textContent?.trim() ?? '';
+      expect(visible).not.toBe('');
+      expect(button.getAttribute('aria-label')?.startsWith(visible)).toBe(true);
+    }
+  });
 });
