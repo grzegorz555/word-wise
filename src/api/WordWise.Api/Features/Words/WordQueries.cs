@@ -58,19 +58,16 @@ public sealed class WordQueries(WordWiseDbContext dbContext)
         CultureInfo baseCulture,
         CardOrder order)
     {
-        // TODO(human) #2: in memory, after the database query:
-        //   - Write the unit tests first (no database): call this method with a few hand-made cards.
-        //     For CardOrder.Random assert the same set of cards, not their order (a random order can't be predicted).
-        //   - R4: sort the Translations of each card alphabetically in the culture of the base language.
-        //     The database would sort with its own collation, so do it here with an explicit comparer.
-        //     Records are immutable: use a `with` expression to get a copy with sorted Translations.
-        //   - R2: for CardOrder.Random, return the same cards in random order.
-        //   - Then delete the two lines below.
-        // Hint: StringComparer.Create(culture, ignoreCase: false), Random.Shared.Shuffle(array).
-        //   https://learn.microsoft.com/dotnet/standard/base-types/best-practices-strings
-        //   https://learn.microsoft.com/dotnet/csharp/language-reference/operators/with-expression
-        //   https://learn.microsoft.com/dotnet/api/system.random.shuffle
-        _ = (cards, baseCulture, order);
-        throw new NotImplementedException("TODO(human) #2: translation sort and random order (spec 001, R2, R4).");
+        var comparer = StringComparer.Create(baseCulture, ignoreCase: false);
+        WordCardResponse[] sortedCards = cards.Select(card =>
+            card with { Translations = card.Translations.OrderBy(t => t, comparer).ToList() }
+        ).ToArray();
+
+        if (order == CardOrder.Random)
+        {
+            Random.Shared.Shuffle(sortedCards);
+        }
+
+        return sortedCards;
     }
 }
