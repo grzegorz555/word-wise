@@ -13,6 +13,20 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-10-13: Spec 001 / T6, `TODO(human)` #2: culture-aware translation sort + random order, mode [learn]
+
+- You wrote: `WordQueries.SortTranslationsAndApplyOrder` and its unit tests (Polish letters, `CardOrder.Random`).
+- Concepts: culture-sensitive comparison (`StringComparer.Create(culture, ignoreCase: false)`: `ć` after `c`, `ł` after `l`; ordinal sort puts them at the end), LINQ projection with `Select` (= `map` in JS) vs `List<T>.ForEach` (returns `void`), deferred execution (`OrderBy` returns a lazy `IOrderedEnumerable<T>`; `ToList()`/`ToArray()` runs it), implicit reference conversion (`List<string>` and `T[]` implement `IReadOnlyList<T>`), non-destructive mutation of a record with `with`, in-place `Random.Shared.Shuffle(T[])` (returns `void`, no overload for `List<T>`), statement vs expression lambda, testing randomness (assert the set with `ignoreOrder: true`, find items by key with `Single`, never by index), hard-coded expected values instead of values from the input, analyzers xUnit1013 and CA1822 on a test method without `[Fact]`, collection expressions (IDE0305, `[.. x]`).
+- Docs:
+  - https://learn.microsoft.com/dotnet/standard/base-types/best-practices-strings
+  - https://learn.microsoft.com/dotnet/csharp/language-reference/operators/with-expression
+  - https://learn.microsoft.com/dotnet/api/system.random.shuffle
+  - https://learn.microsoft.com/dotnet/csharp/language-reference/operators/lambda-expressions (not checked via MCP)
+  - https://learn.microsoft.com/dotnet/standard/linq/deferred-execution-lazy-evaluation (not checked via MCP)
+- In my own words: 
+- Check question: Why can't the `CardOrder.Random` test check `result[0].Translations`, and why must it not compare with `cards[i].Translations` from the input?
+- fCC course: arrays, zero-based indexes, `if`, methods; LINQ, lambdas, records and `with` are beyond the course.
+
 ## 2026-10-08: Spec 001 / T6, `WordsController` + card query skeleton, mode [learn]
 
 - Claude wrote: controller, DTOs (`WordCardsRequest`, `WordCardResponse`, `CardOrder`), R1 validation, the `WordQueries` feature service and its DI registration, OpenAPI contract and the generated Angular client. After the review also: problem+json for 400, integer numbers and language `enum` in the contract, lowercase routes. **You write:** `TODO(human)` #1 (EF Core query, R2–R4), #2 (unit tests first, then the culture-aware sort of translations + random order in `SortTranslationsAndApplyOrder`), #3 (second index on `Words` + migration).
