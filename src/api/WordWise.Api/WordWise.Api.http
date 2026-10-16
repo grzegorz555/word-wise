@@ -10,7 +10,7 @@ Accept: application/json
 ###
 
 # Flashcards for a Polish speaker learning Turkish (spec 001).
-# 200 with cards sorted by rank once TODO(human) #1 and #2 are done; until then 500 (NotImplementedException).
+# 200 with cards sorted by rank (an empty list until the word seed exists, spec 001 T4-T5).
 GET {{WordWise.Api_HostAddress}}/api/words/cards?base=pl&target=tr&order=sequential
 Accept: application/json
 
