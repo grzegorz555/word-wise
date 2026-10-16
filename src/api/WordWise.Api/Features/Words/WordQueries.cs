@@ -23,31 +23,24 @@ public sealed class WordQueries(WordWiseDbContext dbContext)
         return SortTranslationsAndApplyOrder(cards, LanguageCodes.GetCulture(request.BaseLanguage), request.Order);
     }
 
-    private Task<List<WordCardResponse>> LoadCardsAsync(
+    private async Task<List<WordCardResponse>> LoadCardsAsync(
         string baseLanguage,
         string targetLanguage,
         CancellationToken cancellationToken)
     {
         IQueryable<Word> words = dbContext.Words.AsNoTracking();
 
-        // TODO(human) #1: build the EF Core query on `words` and run it with ToListAsync(cancellationToken).
-        //   - R2: only target-language words that have a FrequencyRank, ordered by it ascending.
-        //   - R3: skip a word when its Concept has no Word in the base language.
-        //   - R4: one card per target Word; Translations = texts of the base-language Words of the same Concept.
-        //   - Select straight into WordCardResponse (projection: only the needed columns, no tracking).
-        //   - Then make the method `async`, `return await ...`, and delete the two lines below.
-        // Traps (think about them):
-        //   - Translations is IReadOnlyList<string>: what must the projection produce for it?
-        //   - Rank is `int`, but FrequencyRank is `int?`: how do you get from one to the other, and why is it safe?
-        //   - PartOfSpeech lives on Concept, not on Word: how do you reach it from a Word?
-        //   - Two words with the same rank: is the order then deterministic? What would make it so?
-        // Hint: navigation properties (w.Concept.Words) inside Where/Select become a JOIN or subquery in SQL.
-        //   Print the SQL with ToQueryString() while you work.
-        //   https://learn.microsoft.com/ef/core/querying/related-data/
-        //   https://learn.microsoft.com/ef/core/performance/efficient-querying#project-only-properties-you-need
-        //   https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.toquerystring
-        _ = (words, baseLanguage, targetLanguage, cancellationToken);
-        throw new NotImplementedException("TODO(human) #1: card query (spec 001, R2-R4).");
+        IQueryable<WordCardResponse> cards = from word in words
+                                             where word.Language == targetLanguage &&
+                                             word.Concept.Words.Any(conceptWord => conceptWord.Language == baseLanguage) &&
+                                             word.FrequencyRank != null
+                                             orderby word.FrequencyRank, word.Id
+                                             select new WordCardResponse(word.Id, word.Text,
+                                             (int)word.FrequencyRank!,
+                                             word.Concept.PartOfSpeech,
+                                             (from translation in word.Concept.Words where translation.Language == baseLanguage select translation.Text).ToList());
+
+        return await cards.ToListAsync(cancellationToken);
     }
 
     // Pure logic, no database: `internal static`, so WordWise.Api.Tests can call it directly
