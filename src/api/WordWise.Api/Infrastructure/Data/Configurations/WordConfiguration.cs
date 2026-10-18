@@ -15,5 +15,6 @@ internal sealed class WordConfiguration : IEntityTypeConfiguration<Word>
         builder.Property(w => w.Text).IsRequired().HasMaxLength(255);
         builder.HasOne(w => w.Concept).WithMany(c => c.Words).HasForeignKey(w => w.ConceptId).IsRequired();
         builder.HasIndex(w => new { w.ConceptId, w.Language, w.Text }).IsUnique();
+        builder.HasIndex(w => new { w.Language, w.FrequencyRank });
     }
 }

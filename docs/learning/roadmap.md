@@ -55,6 +55,8 @@ Interview classics and the layer under every bug. No "options to compare" here: 
 | [ ] | **Migrations in production** | first deploy | runtime `MigrateAsync` · migration bundle · reviewed SQL script |
 | [ ] | Backward-compatible schema changes (expand/contract) | first column rename | big-bang · expand/contract |
 | [ ] | Indexes, query plans (`EXPLAIN`) | word lookup, user progress | — |
+| [ ] | **LINQ ↔ SQL practice** (deferred to the review phase, 2026-10-18): write more queries (joins, grouping, projections, paging) and compare each one with the SQL from the EF log | card query (`WordQueries.cs`), later study progress | — |
+| [ ] | **Stored procedures/functions vs LINQ** (after the item above) | the same queries rewritten as PostgreSQL functions | LINQ in C# · `FromSql` over a SQL function · stored procedure |
 | [ ] | Backups, restore drill, RPO/RTO | Azure Postgres | built-in PITR · `pg_dump` · long-term backup |
 
 ## 4. Testing and quality

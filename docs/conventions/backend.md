@@ -22,6 +22,7 @@ We follow the official guidelines. When in doubt, the documentation wins:
 
 ## API
 - Routing: `[Route("api/[controller]")]`, plural nouns (`/api/words`, `/api/study/sessions`).
+- Paths are lowercase kebab-case (`WordsController` → `/api/words`, `StudySessionsController` → `/api/study-sessions`) via the `SlugifyParameterTransformer` route convention in `Program.cs` (https://learn.microsoft.com/aspnet/core/mvc/controllers/routing#use-a-parameter-transformer-to-customize-token-replacement).
 - Return `ActionResult<T>`. Errors as `ProblemDetails` (`Problem(...)`, `ValidationProblem(...)`).
 - Unhandled exceptions and error responses without a body (e.g. 404 for an unknown route) are also `ProblemDetails`: `AddProblemDetails()` + `UseExceptionHandler()` (outside Development) + `UseStatusCodePages()` in `Program.cs`. No exception messages or stack traces outside Development (`security.md`, "Fail safely"). Docs: https://learn.microsoft.com/aspnet/core/fundamentals/error-handling-api#problem-details
 - DTOs as `record` with a `Response`/`Request` suffix (`WordCardResponse`).
