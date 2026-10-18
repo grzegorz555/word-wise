@@ -1,0 +1,32 @@
+{
+  // Debugging the API in VS Code / Cursor (docs/how-to/run-locally.md, "Debugging the API").
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API: launch (http)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/api/WordWise.Api/bin/Debug/net10.0/WordWise.Api.dll",
+      "cwd": "${workspaceFolder}/src/api/WordWise.Api",
+      "stopAtEntry": false,
+      // Same environment and URL as the "http" profile in Properties/launchSettings.json.
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5033"
+      },
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/swagger"
+      }
+    },
+    {
+      // For an API already started with `dotnet run`: pick the WordWise.Api process.
+      "name": "API: attach",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:pickProcess}"
+    }
+  ]
+}

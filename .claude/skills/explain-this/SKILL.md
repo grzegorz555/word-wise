@@ -13,6 +13,8 @@ Argument: file path, optionally a `:od-do` line range or a symbol name.
    - **Line by line / block by block** — what and *why*; name every concept (e.g. *primary constructor*, *expression-bodied member*, *LINQ deferred execution*).
    - **Analogy to TS/Angular**, if it helps.
    - **Pitfalls** and what would happen after a typical change (e.g. removing `AsNoTracking`).
+   - **Where it sits in the flow**: who calls this code and what it calls (one line, e.g. `Kestrel → middleware → this controller → EF Core → Postgres`).
+   - **Debug it**: where to put one breakpoint (or which DevTools tab to open), what to watch, and what you should see.
    - **Docs** — 1–3 links from the `microsoft-learn` MCP.
    - **Check yourself** — 1 question.
 3. Don't modify the code.

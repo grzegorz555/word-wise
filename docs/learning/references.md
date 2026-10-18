@@ -33,12 +33,21 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 - Identity for SPAs: https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
 - API endpoints and cookie auth (401/403 instead of redirects, .NET 10): https://learn.microsoft.com/aspnet/core/security/authentication/api-endpoint-auth
 - Integration tests: https://learn.microsoft.com/aspnet/core/test/integration-tests
+- Model validation (`[Required]`, `IValidatableObject`, automatic 400): https://learn.microsoft.com/aspnet/core/mvc/models/validation
+- Model binding (`[FromQuery]`, `[BindRequired]`, complex types): https://learn.microsoft.com/aspnet/core/mvc/models/model-binding
+- OpenAPI metadata (enums, `operationId`, required): https://learn.microsoft.com/aspnet/core/fundamentals/openapi/include-metadata
+- Hosted services and scoped services in the background: https://learn.microsoft.com/aspnet/core/fundamentals/host/hosted-services
 
 ## EF Core (database)
 - ⭐ **EF Core**: https://learn.microsoft.com/ef/core/
 - Relationships: https://learn.microsoft.com/ef/core/modeling/relationships
 - Migrations: https://learn.microsoft.com/ef/core/managing-schemas/migrations/
 - Querying and tracking: https://learn.microsoft.com/ef/core/querying/tracking
+- ⭐ **Client vs server evaluation** (what runs in SQL, what in .NET): https://learn.microsoft.com/ef/core/querying/client-eval
+- Loading related data and projections: https://learn.microsoft.com/ef/core/querying/related-data/
+- Indexes (composite, unique): https://learn.microsoft.com/ef/core/modeling/indexes
+- Collations and case sensitivity: https://learn.microsoft.com/ef/core/miscellaneous/collations-and-case-sensitivity
+- Data seeding (`UseSeeding`, custom initialization, `HasData`): https://learn.microsoft.com/ef/core/modeling/data-seeding
 - Npgsql (PostgreSQL): https://www.npgsql.org/efcore/
 
 ## Angular
@@ -66,6 +75,20 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 - shadcn/ui Figma kits: https://ui.shadcn.com/docs/figma
 - Angular CDK (a11y, overlays): https://material.angular.dev/cdk/categories
 - spartan MCP server (docs and components for Claude): https://www.spartan.ng/documentation/mcp
+
+## Fundamentals: computer, network, debugging (see `roadmap.md` §0)
+- ⭐ **Debugging a .NET app (VS Code / Visual Studio)**: breakpoints, conditional breakpoints, stepping: https://learn.microsoft.com/dotnet/core/tutorials/debug-console-app
+- ⭐ **Processes and threads** (program vs process vs thread): https://learn.microsoft.com/windows/win32/procthread/about-processes-and-threads
+- How .NET runs code (C# → IL → JIT): https://learn.microsoft.com/dotnet/standard/managed-execution-process
+- Memory and garbage collection (managed heap, stack roots, generations): https://learn.microsoft.com/dotnet/standard/garbage-collection/fundamentals
+- async/await explained with a breakfast: https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/
+- ASP.NET Core middleware pipeline (the server half of a request): https://learn.microsoft.com/aspnet/core/fundamentals/middleware/
+- OSI model, layer by layer (Windows networking view): https://learn.microsoft.com/windows-hardware/drivers/network/windows-network-architecture-and-the-osi-model
+- Windows Firewall profiles (why a café network must be "Public"): https://learn.microsoft.com/windows/security/operating-system-security/network-security/windows-firewall/
+- HTTPS and HSTS in ASP.NET Core: https://learn.microsoft.com/aspnet/core/security/enforcing-ssl
+- MDN, an overview of HTTP (not checked via MCP): https://developer.mozilla.org/docs/Web/HTTP/Guides/Overview
+- MDN, the JavaScript event loop (not checked via MCP): https://developer.mozilla.org/docs/Web/JavaScript/Reference/Execution_model
+- Chrome DevTools docs (Sources, Network; not checked via MCP): https://developer.chrome.com/docs/devtools
 
 ## Delivery and operations (see `roadmap.md`)
 Architecture

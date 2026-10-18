@@ -2,6 +2,7 @@
 
 Modes: `[solo]` you write it yourself · `[learn]` skeleton + TODO(human) · `[gen]` Claude generates, you do an explain-back.
 You can change the mode before starting a task.
+Before each task: [study-guide.md](study-guide.md) (what to read, what to decide, traps).
 
 - [x] **T1 `[gen]`** EF Core + Npgsql packages, `WordWiseDbContext`, connection string in `appsettings.Development.json`, DI registration.
   - *To understand:* `Scoped` DI lifetime for DbContext, configuration from `IConfiguration`.
@@ -12,9 +13,10 @@ You can change the mode before starting a task.
 - [ ] **T4 `[solo]`** CSV parser (`WordSeedCsvParser`): row → record with a list of forms per language. Tests first (synonyms, empty rank, Polish and Turkish characters).
 - [ ] **T5 `[learn]`** Idempotent import (`WordSeedImporter`) run at startup in Development.
   - *To understand:* `IHostedService` vs a call in `Program.cs`, `AnyAsync`, a single `SaveChangesAsync`.
-- [ ] **T6 `[learn]`** `WordsController` + LINQ query for R2–R4 (`AsNoTracking`, `Select` into `WordCardResponse`).
+- [x] **T6 `[learn]`** `WordsController` + LINQ query for R2–R4 (`AsNoTracking`, `Select` into `WordCardResponse`).
   - *You also write:* a second index on `Words` for R2 (filter by `Language`, sort by `FrequencyRank`): column order, uniqueness, and a migration for it.
   - *You write:* the LINQ query. *Claude:* controller, DTOs, R1 validation.
   - *Status (2026-10-16):* Claude part done. `TODO(human)` #1 and #2 done (`Features/Words/WordQueries.cs`). Left for you: check the generated SQL (`ToQueryString()`), #3 in `WordConfiguration.cs`.
+  - *Status (2026-10-18):* generated SQL checked in the EF log. Deeper LINQ ↔ SQL analysis is deferred to the review phase (`docs/learning/roadmap.md` §3). #3 done: index `(Language, FrequencyRank)`, migration `AddWordsLanguageRankIndex`.
 - [ ] **T7 `[solo]`** Endpoint integration tests: 400 for R1 (no database).
 - [ ] **T8 `[gen]`** Review with the `code-reviewer` agent + journal entry + `/quiz-me` on topics from T1–T6.
