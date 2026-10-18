@@ -21,7 +21,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/ef/core/modeling/indexes#composite-index
   - https://learn.microsoft.com/ef/core/managing-schemas/migrations/managing#remove-a-migration
   - https://learn.microsoft.com/ef/core/logging-events-diagnostics/simple-logging
-- In my own words:
+- In my own words: Index which helps to find faster word cards, Id does not help a query because it is a main key which already has unique index.
 - Check question: Why does an index on (`Id`, `FrequencyRank`) not help a query that filters by `Language` and sorts by `FrequencyRank`?
 - fCC course: beyond the course (EF Core, SQL indexes); debugging is in the course.
 - Deferred to the review phase: LINQ ↔ SQL practice and stored procedures (`docs/learning/roadmap.md` §3).
@@ -36,7 +36,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/dotnet/api/system.random.shuffle
   - https://learn.microsoft.com/dotnet/csharp/language-reference/operators/lambda-expressions (not checked via MCP)
   - https://learn.microsoft.com/dotnet/standard/linq/deferred-execution-lazy-evaluation (not checked via MCP)
-- In my own words: 
+- In my own words:
 - Check question: Why can't the `CardOrder.Random` test check `result[0].Translations`, and why must it not compare with `cards[i].Translations` from the input?
 - fCC course: arrays, zero-based indexes, `if`, methods; LINQ, lambdas, records and `with` are beyond the course.
 
