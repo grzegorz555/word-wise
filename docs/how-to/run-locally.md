@@ -38,6 +38,15 @@ Check:
 
 Hot reload: `dotnet watch --project src/api/WordWise.Api` instead of `dotnet run`.
 
+### Debugging the API (VS Code / Cursor)
+`dotnet run` starts the API without a debugger, so breakpoints don't stop. The repo has two configurations in `.vscode/launch.json` (Run and Debug view, or F5):
+- **API: launch (http)** builds the API (task `build` in `.vscode/tasks.json`), starts it with the debugger on http://localhost:5033 and opens Swagger.
+- **API: attach** attaches to an API you already started with `dotnet run`: pick the `WordWise.Api` process from the list.
+
+Requirements: a C# extension with a .NET debugger (VS Code: C# Dev Kit; Cursor: its own C# extension). Press F5 with a `.cs` file active, or pick the configuration in Run and Debug; with another file active (e.g. `.http`, which is plain text without the REST Client extension), the editor asks for a debugger for that file type. Docs: https://code.visualstudio.com/docs/csharp/debugging
+
+To see the SQL that EF Core sends, you don't need the debugger: with the default `Information` log level the API console shows every `Executed DbCommand` with its SQL (parameter values are hidden). Docs: https://learn.microsoft.com/ef/core/logging-events-diagnostics/simple-logging
+
 ## 4. Frontend (terminal 2)
 ```powershell
 cd src\web
