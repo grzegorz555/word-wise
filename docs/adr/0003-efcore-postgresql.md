@@ -10,7 +10,7 @@
 
 ## Consequences
 - Docker is required to run the API.
-- Integration tests will eventually use Testcontainers (backlog). Tests without a database are enough to start with.
+- Integration tests will eventually use Testcontainers (backlog). Tests without a database are enough to start with. *Update 2026-10-08: decided in ADR-0013 (the shared Postgres, one database per test run).*
 
 ## Learning resources
 - EF Core: https://learn.microsoft.com/ef/core/

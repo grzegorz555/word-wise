@@ -2,6 +2,7 @@
 
 Modes: `[solo]` you write it yourself · `[learn]` skeleton + TODO(human) · `[gen]` Claude generates, you do an explain-back.
 You can change the mode before starting a task.
+Before each task: [study-guide.md](study-guide.md) (what to read, what to decide, traps).
 
 - [x] **T1 `[gen]`** EF Core + Npgsql packages, `WordWiseDbContext`, connection string in `appsettings.Development.json`, DI registration.
   - *To understand:* `Scoped` DI lifetime for DbContext, configuration from `IConfiguration`.
