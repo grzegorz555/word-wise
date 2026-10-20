@@ -73,6 +73,8 @@ namespace WordWise.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Language", "FrequencyRank");
+
                     b.HasIndex("ConceptId", "Language", "Text")
                         .IsUnique();
 

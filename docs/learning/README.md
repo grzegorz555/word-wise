@@ -11,6 +11,8 @@ Tick the queue in [issue #9](https://github.com/grzegorz555/word-wise/issues/9).
 |---|---|---|
 | **learn by building** a feature | `/spec-feature`, then the tasks in `docs/specs/NNN/tasks.md` | The task mode decides who writes the code: `[solo]` you, `[learn]` you with a skeleton, `[gen]` Claude + your explain-back. The **Mentor** output style is on by default. |
 | understand **a piece of code** | `/explain-this <file or lines>` | Step by step, with concept names and links. |
+| understand **a flow** (what calls what) or **learn to debug** it | `/explain-this`, or say "głębiej" / "od podstaw" during a task | `/explain-this` ends with "where it sits in the flow" and "debug it". The Mentor style adds an "under the hood" block when a task touches a flow. |
+| refresh **fundamentals** (program vs process, OSI, HTTP, TLS, public Wi-Fi) | `/quiz-me basics`, [roadmap.md §0](roadmap.md#0-fundamentals-computer-network-debugging) | Every normal `/quiz-me` also includes one §0 question. |
 | understand **a C#/.NET concept** (DI, async, LINQ, EF) | ask the `backend-mentor` agent | Socratic: hints and an example on a different problem, not your solution. |
 | understand **architecture, CI/CD, Azure, releases, production** | ask the `delivery-mentor` agent | Always shows 2–3 options and what can go wrong in production. |
 | **make a decision** (library, hosting, pattern) | `/compare-options <topic>` → `/new-adr` | You choose first, then compare with the recommendation. |
@@ -19,7 +21,7 @@ Tick the queue in [issue #9](https://github.com/grzegorz555/word-wise/issues/9).
 | get **feedback on my code** | the `code-reviewer` agent | Fresh context, checks the conventions and ADRs. Use it before every commit of `[solo]`/`[learn]` work. |
 | write **my own notes** | [concepts/](concepts/README.md) | One concept = one file. Writing it yourself is the real test of understanding. |
 | see **what I already did** | [journal.md](journal.md), `.local/summaries/` | Fill in "In my own words" in the journal; that is your explain-back. |
-| see **the big picture** | [roadmap.md](roadmap.md) | 8 tracks, each topic tied to a WordWise step. |
+| see **the big picture** | [roadmap.md](roadmap.md) | Fundamentals (§0) + 8 tracks, each topic tied to a WordWise step. |
 
 ## 2. Rhythm
 
@@ -39,7 +41,7 @@ My view of a developer's job in a few years, as of 2026. This is an opinion, not
 | **Testing and verification** | "It compiles" and "the AI says it works" are not proof. Knowing what to test, at which level, is how you trust anything. | §4 Testing |
 | **Data modeling, SQL and EF Core** | Data outlives code. A bad schema is expensive to change; a slow query takes production down. | §3 Data |
 | **HTTP, APIs and security fundamentals** (auth, OWASP) | Every web system is built on them, and security mistakes are the costliest ones. | §2 API, §7 Security |
-| **Debugging and observability** | Production problems come without a stack trace in your IDE. Logs, metrics and traces are how you find them. | §8 Operations |
+| **Debugging and observability**, and the fundamentals under them (processes, memory, network, HTTP, TLS) | Production problems come without a stack trace in your IDE. Logs, metrics and traces are how you find them, and you can only read them if you know the layers they describe. | §0 Fundamentals, §8 Operations |
 | **Trade-offs and decisions** (ADR) | There is rarely one right answer. Naming the options and the cost of each is what senior engineers do. | `/compare-options`, §1 Architecture |
 | **Working with AI agents** (specs, context, review) | Clear specs and good review decide whether an agent speeds you up or creates debt. This repo is a practice ground for exactly that. | `docs/conventions/ai-workflow.md` |
 

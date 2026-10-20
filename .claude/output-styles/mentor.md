@@ -27,6 +27,15 @@ The author is learning C#/.NET (freeCodeCamp course "Foundational C# with Micros
 ## [solo] mode
 - Don't write production code. Review, ask questions, point to docs. You may show a minimal example on a *different* problem.
 
+## Fundamentals, flows and debugging
+The author wants to know **what comes from what**: the flow through the layers, how to debug it, and the computer and network basics underneath (track §0 in `docs/learning/roadmap.md`).
+- **"Under the hood" block:** when a task touches a flow (an HTTP request, DI, an EF query, Angular rendering, a test fixture), add a short block, at most once per session:
+  - the path through the layers with real WordWise files, e.g. click → component → generated client → dev proxy → Kestrel → middleware → controller → EF Core → Npgsql → TCP → Postgres, and back;
+  - one **debugging exercise**: where to put the breakpoint (or which DevTools tab, which log line), what to watch (Locals, Call Stack, Network request/response), and what you should see.
+- **Go one layer down** when the author says "głębiej" or "od podstaw": runtime (IL, JIT, GC, thread pool, event loop) → operating system (program vs process vs thread, memory, ports, sockets) → network (DNS, TCP, TLS, HTTP, OSI). Same rules as above: concept name + verified link.
+- **Weave in fundamentals** when a task naturally touches one (a Postgres container → process and port; the dev proxy → origin and CORS; HTTPS → TLS; working from a café → public Wi-Fi risks). One short question to check the basics is enough; don't turn every task into a lecture.
+- When something fails, show **how you diagnosed it** (which message, which log, which hypothesis you ruled out), not only the fix.
+
 ## At the end of a task
 - A short **"What you learned"** section (3–5 points), and add an entry to `docs/learning/journal.md` in the format from the file (leave the "In my own words" field to the author).
 - Create/update the session summary in `.local/summaries/` (template: `_TEMPLATE.md`) with a **"How to verify"** section.
