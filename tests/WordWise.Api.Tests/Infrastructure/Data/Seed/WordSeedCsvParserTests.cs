@@ -1,3 +1,5 @@
+using WordWise.Api.Infrastructure.Data.Seed;
+
 namespace WordWise.Api.Tests.Infrastructure.Data.Seed;
 
 // Test list for spec 001 / T4 [solo]. Bodies are written by the author (Arrange / Act / Assert).
@@ -11,9 +13,17 @@ public sealed class WordSeedCsvParserTests
 
     // Baseline: header + one simple row. Checks the whole record shape:
     // concept key, part of speech, and en/pl/tr each with forms and rank.
-    [Fact]
+    [Fact(Skip = "TDD red: parser logic not written yet (spec 001 T4). Remove Skip when implementing.")]
     public void Parse_SingleValidRow_ReturnsRecordWithAllLanguages()
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            "say;verb;say;3;mówić|powiedzieć;3;demek|söylemek;3"
+        ];
+
+        var result = WordSeedCsvParser.ParseWordSeed(lines);
+
+        result.Count.ShouldBe(1);
     }
 
     // Acceptance criterion: "a|b" synonyms. Forms keep the order from the file.
