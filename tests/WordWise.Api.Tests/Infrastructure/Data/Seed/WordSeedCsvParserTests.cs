@@ -13,17 +13,36 @@ public sealed class WordSeedCsvParserTests
 
     // Baseline: header + one simple row. Checks the whole record shape:
     // concept key, part of speech, and en/pl/tr each with forms and rank.
-    [Fact(Skip = "TDD red: parser logic not written yet (spec 001 T4). Remove Skip when implementing.")]
+    [Fact]
     public void Parse_SingleValidRow_ReturnsRecordWithAllLanguages()
     {
         string[] lines = [
             "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
-            "say;verb;say;3;mówić|powiedzieć;3;demek|söylemek;3"
+            "say;verb;say;3;mówić|powiedzieć;10;demek|söylemek;4"
         ];
 
         var result = WordSeedCsvParser.ParseWordSeed(lines);
 
         result.Count.ShouldBe(1);
+        result[0].ConceptKey.ShouldBe("say");
+        result[0].PartOfSpeech.ShouldBe("verb");
+        result[0].Languages.Count.ShouldBe(3);
+
+        var en = result[0].Languages[0];
+        var pl = result[0].Languages[1];
+        var tr = result[0].Languages[2];
+
+        en.LanguageCode.ShouldBe("en");
+        pl.LanguageCode.ShouldBe("pl");
+        tr.LanguageCode.ShouldBe("tr");
+
+        en.Rank.ShouldBe(3);
+        pl.Rank.ShouldBe(10);
+        tr.Rank.ShouldBe(4);
+
+        en.Forms.ShouldBe(new List<string> { "say" });
+        pl.Forms.ShouldBe(new List<string> { "mówić", "powiedzieć" });
+        tr.Forms.ShouldBe(new List<string> { "demek", "söylemek" });
     }
 
     // Acceptance criterion: "a|b" synonyms. Forms keep the order from the file.
