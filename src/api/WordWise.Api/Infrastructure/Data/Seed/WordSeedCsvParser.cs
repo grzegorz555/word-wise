@@ -1,10 +1,58 @@
+using System.Globalization;
+
 namespace WordWise.Api.Infrastructure.Data.Seed;
 
 public static class WordSeedCsvParser
 {
+
+    private const string ConceptKeyColumnName = "concept_key";
+    private const string PartOfSpeechColumnName = "part_of_speech";
+    private const string RankSuffix = "_rank";
     public static IReadOnlyList<WordSeed> ParseWordSeed(
         IEnumerable<string> lines)
     {
-        throw new NotImplementedException();
+        var linesList = lines.ToList();
+        string[] headerNames = linesList.First().Split(";", StringSplitOptions.TrimEntries);
+        Dictionary<string, int> headerIndexes = new(StringComparer.Ordinal);
+        List<(string Code, int FormsIndex, int RankIndex)> languagesPositions = [];
+
+        for (int i = 0; i < headerNames.Length; i++)
+        {
+            headerIndexes[headerNames[i]] = i;
+        }
+
+        for (int i = 0; i < headerNames.Length; i++)
+        {
+            if (headerNames[i] == ConceptKeyColumnName
+                || headerNames[i] == PartOfSpeechColumnName
+                || headerNames[i].EndsWith(RankSuffix, StringComparison.Ordinal)
+                )
+            {
+                continue;
+            }
+
+            languagesPositions.Add((headerNames[i], i, headerIndexes[headerNames[i] + RankSuffix]));
+
+        }
+
+        var linesWithoutHeader = linesList.Skip(1);
+        List<WordSeed> wordSeeds = [];
+
+        foreach (string line in linesWithoutHeader)
+        {
+            string[] lineParts = line.Split(';', StringSplitOptions.TrimEntries);
+            List<WordSeedLanguage> wordSeedsLanguages = [];
+
+            foreach ((string Code, int FormsIndex, int RankIndex) language in languagesPositions)
+            {
+                var forms = lineParts[language.FormsIndex].Split('|', StringSplitOptions.TrimEntries);
+                int? rank = lineParts[language.RankIndex] == "" ? null : int.Parse(lineParts[language.RankIndex], CultureInfo.InvariantCulture);
+                wordSeedsLanguages.Add(new WordSeedLanguage(language.Code, forms, rank));
+            }
+
+            wordSeeds.Add(new WordSeed(lineParts[headerIndexes[ConceptKeyColumnName]], lineParts[headerIndexes[PartOfSpeechColumnName]], wordSeedsLanguages));
+        }
+
+        return wordSeeds;
     }
 }
