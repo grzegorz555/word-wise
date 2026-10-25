@@ -27,6 +27,28 @@
       "type": "coreclr",
       "request": "attach",
       "processId": "${command:pickProcess}"
+    },
+    {
+      // Debugs API tests: an xUnit v3 test project is an executable, so the debugger starts it directly.
+      // Started directly, it uses the xUnit console options (-method), not the `dotnet test` ones (--filter-method).
+      // The filter limits the run to the tests you care about (e.g. *Parse_SingleValidRow*).
+      "name": "API tests: debug (filter)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-api-tests",
+      "program": "${workspaceFolder}/tests/WordWise.Api.Tests/bin/Debug/net10.0/WordWise.Api.Tests.dll",
+      "args": ["-method", "${input:testMethodFilter}"],
+      "cwd": "${workspaceFolder}/tests/WordWise.Api.Tests",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    }
+  ],
+  "inputs": [
+    {
+      "id": "testMethodFilter",
+      "type": "promptString",
+      "description": "Test method filter (* = any text)",
+      "default": "*Parse_SingleValidRow*"
     }
   ]
 }
