@@ -10,7 +10,6 @@ namespace WordWise.Api.Tests.Infrastructure.Data.Seed;
 public sealed class WordSeedCsvParserTests
 {
     // ---------- A. Valid input ----------
-
     [Fact]
     public void Parse_SingleValidRow_ReturnsRecordWithAllLanguages()
     {
@@ -47,6 +46,16 @@ public sealed class WordSeedCsvParserTests
     [Fact]
     public void Parse_PipeSeparatedForms_ReturnsEachFormInFileOrder()
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            "say;verb;say;3;powiedzieć|mówić|oznajmić;10;demek|söylemek;4"
+        ];
+
+        var result = WordSeedCsvParser.ParseWordSeed(lines);
+
+        var pl = result[0].Languages[1];
+
+        pl.Forms.ShouldBe(new List<string> { "powiedzieć", "mówić", "oznajmić" });
     }
 
     // Complement of the test above: no "|" means a list with exactly one form.
