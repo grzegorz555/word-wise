@@ -98,6 +98,18 @@ public sealed class WordSeedCsvParserTests
     [Fact]
     public void Parse_PolishAndTurkishCharacters_KeepsFormsUnchanged()
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            "light;noun;Light;300;Światło|łuna;250;Işık|ışıltı;210"
+        ];
+
+        var result = WordSeedCsvParser.ParseWordSeed(lines);
+
+        var pl = result[0].Languages[1];
+        var tr = result[0].Languages[2];
+
+        pl.Forms.ShouldBe(new List<string> { "Światło", "łuna" });
+        tr.Forms.ShouldBe(new List<string> { "Işık", "ışıltı" });
     }
 
     [Fact]
