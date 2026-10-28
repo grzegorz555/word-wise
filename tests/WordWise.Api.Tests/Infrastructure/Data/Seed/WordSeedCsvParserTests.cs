@@ -81,11 +81,34 @@ public sealed class WordSeedCsvParserTests
     {
     }
 
-    // Decision 4: columns are mapped by header name, not by position.
-    // Example header: concept_key;part_of_speech;tr;tr_rank;en;en_rank;pl;pl_rank
     [Fact]
     public void Parse_LanguageColumnsInDifferentOrder_MapsLanguagesByHeader()
     {
+        string[] linesInDifferentOrder = [
+            "part_of_speech;concept_key;tr;tr_rank;en;en_rank;pl;pl_rank",
+            "verb;say;demek|söylemek;4;say;2;mówić|powiedzieć;8"
+        ];
+
+        var result = WordSeedCsvParser.ParseWordSeed(linesInDifferentOrder);
+
+        result[0].ConceptKey.ShouldBe("say");
+        result[0].PartOfSpeech.ShouldBe("verb");
+
+        var en = result[0].Languages[1];
+        var pl = result[0].Languages[2];
+        var tr = result[0].Languages[0];
+
+        en.LanguageCode.ShouldBe("en");
+        pl.LanguageCode.ShouldBe("pl");
+        tr.LanguageCode.ShouldBe("tr");
+
+        en.Rank.ShouldBe(2);
+        pl.Rank.ShouldBe(8);
+        tr.Rank.ShouldBe(4);
+
+        en.Forms.ShouldBe(new List<string> { "say" });
+        pl.Forms.ShouldBe(new List<string> { "mówić", "powiedzieć" });
+        tr.Forms.ShouldBe(new List<string> { "demek", "söylemek" });
     }
 
     // Decision 5: whitespace around ";" is trimmed (e.g. "say ; verb ; ...").
