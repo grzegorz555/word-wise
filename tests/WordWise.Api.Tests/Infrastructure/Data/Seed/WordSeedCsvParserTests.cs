@@ -62,6 +62,16 @@ public sealed class WordSeedCsvParserTests
     [Fact]
     public void Parse_SingleForm_ReturnsOneElementList()
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            "say;verb;say;3;powiedzieć;10;demek;4"
+        ];
+
+        var result = WordSeedCsvParser.ParseWordSeed(lines);
+
+        var pl = result[0].Languages[1];
+
+        pl.Forms.ShouldBe(new List<string> { "powiedzieć" });
     }
 
     [Fact]
