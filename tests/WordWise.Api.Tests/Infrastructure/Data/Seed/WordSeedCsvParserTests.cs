@@ -11,8 +11,6 @@ public sealed class WordSeedCsvParserTests
 {
     // ---------- A. Valid input ----------
 
-    // Baseline: header + one simple row. Checks the whole record shape:
-    // concept key, part of speech, and en/pl/tr each with forms and rank.
     [Fact]
     public void Parse_SingleValidRow_ReturnsRecordWithAllLanguages()
     {
@@ -57,10 +55,23 @@ public sealed class WordSeedCsvParserTests
     {
     }
 
-    // Acceptance criterion + ADR-0005: an empty rank is null, other languages keep their numbers.
     [Fact]
     public void Parse_EmptyRank_ReturnsNullRankForThatLanguageOnly()
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            "say;verb;say;2;mówić|powiedzieć;;demek|söylemek;4"
+        ];
+
+        var result = WordSeedCsvParser.ParseWordSeed(lines);
+
+        var en = result[0].Languages[0];
+        var pl = result[0].Languages[1];
+        var tr = result[0].Languages[2];
+
+        en.Rank.ShouldBe(2);
+        pl.Rank.ShouldBeNull();
+        tr.Rank.ShouldBe(4);
     }
 
     // Convention: no ToLower()/culture-sensitive changes. Use ł, ş, İ, ı and mixed case;
