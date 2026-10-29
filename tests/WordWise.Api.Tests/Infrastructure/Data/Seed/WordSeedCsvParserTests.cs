@@ -188,6 +188,41 @@ public sealed class WordSeedCsvParserTests
     [Fact]
     public void Parse_MultipleRows_ReturnsOneRecordPerRowInFileOrder()
     {
+        string[] lines = [
+        "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+        "say;verb;say;3;mówić|powiedzieć;10;demek|söylemek;4",
+        "house;noun;house;45;dom;20;ev;15"
+        ];
+
+        var result = WordSeedCsvParser.ParseWordSeed(lines);
+
+        result.Count.ShouldBe(2);
+        result[0].ConceptKey.ShouldBe("say");
+        result[1].ConceptKey.ShouldBe("house");
+        result[0].PartOfSpeech.ShouldBe("verb");
+        result[1].PartOfSpeech.ShouldBe("noun");
+
+        result[0].Languages.Count.ShouldBe(3);
+        result[1].Languages.Count.ShouldBe(3);
+
+        var en1 = result[0].Languages[0];
+        var pl1 = result[0].Languages[1];
+        var tr1 = result[0].Languages[2];
+
+        var en2 = result[1].Languages[0];
+        var pl2 = result[1].Languages[1];
+        var tr2 = result[1].Languages[2];
+
+        en1.LanguageCode.ShouldBe("en");
+        pl1.LanguageCode.ShouldBe("pl");
+        tr1.LanguageCode.ShouldBe("tr");
+
+        en2.LanguageCode.ShouldBe("en");
+        pl2.LanguageCode.ShouldBe("pl");
+        tr2.LanguageCode.ShouldBe("tr");
+
+        en2.Rank.ShouldBe(45);
+        pl2.Forms.ShouldBe(["dom"]);
     }
 
     // ---------- B. Invalid input (decision 3: fail fast, message names line number + reason) ----------
