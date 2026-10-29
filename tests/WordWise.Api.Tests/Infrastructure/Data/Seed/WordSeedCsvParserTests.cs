@@ -18,7 +18,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;3;mówić|powiedzieć;10;demek|söylemek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         result.Count.ShouldBe(1);
         result[0].ConceptKey.ShouldBe("say");
@@ -51,7 +51,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;3;powiedzieć|mówić|oznajmić;10;demek|söylemek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var pl = result[0].Languages[1];
 
@@ -67,7 +67,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;3;powiedzieć;10;demek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var pl = result[0].Languages[1];
 
@@ -82,7 +82,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;  ;mówić|powiedzieć;;demek|söylemek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var en = result[0].Languages[0];
         var pl = result[0].Languages[1];
@@ -103,7 +103,7 @@ public sealed class WordSeedCsvParserTests
             "light;noun;Light;300;Światło|łuna;250;Işık|ışıltı;210"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var pl = result[0].Languages[1];
         var tr = result[0].Languages[2];
@@ -120,7 +120,7 @@ public sealed class WordSeedCsvParserTests
             "verb;say;demek|söylemek;4;say;2;mówić|powiedzieć;8"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(linesInDifferentOrder);
+        var result = WordSeedCsvParser.Parse(linesInDifferentOrder);
 
         result[0].ConceptKey.ShouldBe("say");
         result[0].PartOfSpeech.ShouldBe("verb");
@@ -151,7 +151,7 @@ public sealed class WordSeedCsvParserTests
             "  say  ;  verb  ;  say  ;2; mówić|powiedzieć ;8; demek|söylemek ;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         result[0].ConceptKey.ShouldBe("say");
         result[0].PartOfSpeech.ShouldBe("verb");
@@ -172,7 +172,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;2;mówić | powiedzieć;8;demek | söylemek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var pl = result[0].Languages[1];
         var tr = result[0].Languages[2];
@@ -194,7 +194,7 @@ public sealed class WordSeedCsvParserTests
         "house;noun;house;45;dom;20;ev;15"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         result.Count.ShouldBe(2);
         result[0].ConceptKey.ShouldBe("say");
