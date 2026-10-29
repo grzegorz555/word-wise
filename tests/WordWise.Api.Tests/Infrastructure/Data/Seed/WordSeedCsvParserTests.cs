@@ -79,7 +79,7 @@ public sealed class WordSeedCsvParserTests
     {
         string[] lines = [
             "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
-            "say;verb;say;2;mówić|powiedzieć;;demek|söylemek;4"
+            "say;verb;say;  ;mówić|powiedzieć;;demek|söylemek;4"
         ];
 
         var result = WordSeedCsvParser.ParseWordSeed(lines);
@@ -88,7 +88,7 @@ public sealed class WordSeedCsvParserTests
         var pl = result[0].Languages[1];
         var tr = result[0].Languages[2];
 
-        en.Rank.ShouldBe(2);
+        en.Rank.ShouldBeNull();
         pl.Rank.ShouldBeNull();
         tr.Rank.ShouldBe(4);
     }
@@ -148,7 +148,7 @@ public sealed class WordSeedCsvParserTests
     {
         string[] lines = [
             "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
-            "  say  ;  verb  ;  say  ;2; mówić | powiedzieć ;; demek | söylemek ;4"
+            "  say  ;  verb  ;  say  ;2; mówić|powiedzieć ;8; demek|söylemek ;4"
         ];
 
         var result = WordSeedCsvParser.ParseWordSeed(lines);
@@ -157,22 +157,31 @@ public sealed class WordSeedCsvParserTests
         result[0].PartOfSpeech.ShouldBe("verb");
 
         var en = result[0].Languages[0];
-        var pl = result[0].Languages[1];
-        var tr = result[0].Languages[2];
 
         en.LanguageCode.ShouldBe("en");
-        pl.LanguageCode.ShouldBe("pl");
-        tr.LanguageCode.ShouldBe("tr");
 
         en.Forms.ShouldBe(new List<string> { "say" });
-        pl.Forms.ShouldBe(new List<string> { "mówić", "powiedzieć" });
-        tr.Forms.ShouldBe(new List<string> { "demek", "söylemek" });
     }
 
     // Decision 5: whitespace around "|" is trimmed (" dom | chata " -> "dom", "chata").
     [Fact]
     public void Parse_WhitespaceAroundPipes_TrimsForms()
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            "say;verb;say;2;mówić | powiedzieć;8;demek | söylemek;4"
+        ];
+
+        var result = WordSeedCsvParser.ParseWordSeed(lines);
+
+        var pl = result[0].Languages[1];
+        var tr = result[0].Languages[2];
+
+        pl.LanguageCode.ShouldBe("pl");
+        tr.LanguageCode.ShouldBe("tr");
+
+        pl.Forms.ShouldBe(new List<string> { "mówić", "powiedzieć" });
+        tr.Forms.ShouldBe(new List<string> { "demek", "söylemek" });
     }
 
     // Many rows: one record per row, same order as in the file.
