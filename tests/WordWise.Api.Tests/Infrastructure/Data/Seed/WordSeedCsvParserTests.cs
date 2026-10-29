@@ -146,6 +146,27 @@ public sealed class WordSeedCsvParserTests
     [Fact]
     public void Parse_WhitespaceAroundSemicolons_TrimsValues()
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            "  say  ;  verb  ;  say  ;2; mówić | powiedzieć ;; demek | söylemek ;4"
+        ];
+
+        var result = WordSeedCsvParser.ParseWordSeed(lines);
+
+        result[0].ConceptKey.ShouldBe("say");
+        result[0].PartOfSpeech.ShouldBe("verb");
+
+        var en = result[0].Languages[0];
+        var pl = result[0].Languages[1];
+        var tr = result[0].Languages[2];
+
+        en.LanguageCode.ShouldBe("en");
+        pl.LanguageCode.ShouldBe("pl");
+        tr.LanguageCode.ShouldBe("tr");
+
+        en.Forms.ShouldBe(new List<string> { "say" });
+        pl.Forms.ShouldBe(new List<string> { "mówić", "powiedzieć" });
+        tr.Forms.ShouldBe(new List<string> { "demek", "söylemek" });
     }
 
     // Decision 5: whitespace around "|" is trimmed (" dom | chata " -> "dom", "chata").
