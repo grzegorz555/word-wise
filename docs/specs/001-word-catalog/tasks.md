@@ -11,6 +11,13 @@ Before each task: [study-guide.md](study-guide.md) (what to read, what to decide
 - [x] **T3 `[gen]`** First migration `InitialWordCatalog` + `dotnet ef database update`.
   - *Predict before run:* which tables and indexes will be created? Write it down, then compare with the migration file.
 - [ ] **T4 `[solo]`** CSV parser (`WordSeedCsvParser`): row → record with a list of forms per language. Tests first (synonyms, empty rank, Polish and Turkish characters).
+  - *Design decisions (author, 2026-10-10):*
+    1. Input: lines (`IEnumerable<string>`), not a file path. The caller (T5) opens the file, so tests need no files on disk.
+    2. Output: one record per row with a **collection** of languages (code, forms, rank), not one property per language. T5 maps it with one loop, and a new language needs no parser change.
+    3. Bad row: throw (fail fast). The message names the line number and the reason. The seed is edited only by developers.
+    4. Header: read the language columns from the header (`xx` + `xx_rank` pairs), not by fixed position. A missing `xx_rank` column is an error. Checking that a language code is supported belongs to T5 (`LanguageCodes`).
+    5. Whitespace: `" dom | chata "` is valid. Trim both when splitting by `;` and when splitting by `|`.
+    6. Empty synonym (`"dom||chata"`, `"dom|"`): throw, like any other bad row (decision 3).
 - [ ] **T5 `[learn]`** Idempotent import (`WordSeedImporter`) run at startup in Development.
   - *To understand:* `IHostedService` vs a call in `Program.cs`, `AnyAsync`, a single `SaveChangesAsync`.
 - [x] **T6 `[learn]`** `WordsController` + LINQ query for R2–R4 (`AsNoTracking`, `Select` into `WordCardResponse`).
