@@ -18,7 +18,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;3;mówić|powiedzieć;10;demek|söylemek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         result.Count.ShouldBe(1);
         result[0].ConceptKey.ShouldBe("say");
@@ -51,7 +51,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;3;powiedzieć|mówić|oznajmić;10;demek|söylemek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var pl = result[0].Languages[1];
 
@@ -67,7 +67,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;3;powiedzieć;10;demek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var pl = result[0].Languages[1];
 
@@ -82,7 +82,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;  ;mówić|powiedzieć;;demek|söylemek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var en = result[0].Languages[0];
         var pl = result[0].Languages[1];
@@ -103,7 +103,7 @@ public sealed class WordSeedCsvParserTests
             "light;noun;Light;300;Światło|łuna;250;Işık|ışıltı;210"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var pl = result[0].Languages[1];
         var tr = result[0].Languages[2];
@@ -120,7 +120,7 @@ public sealed class WordSeedCsvParserTests
             "verb;say;demek|söylemek;4;say;2;mówić|powiedzieć;8"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(linesInDifferentOrder);
+        var result = WordSeedCsvParser.Parse(linesInDifferentOrder);
 
         result[0].ConceptKey.ShouldBe("say");
         result[0].PartOfSpeech.ShouldBe("verb");
@@ -151,7 +151,7 @@ public sealed class WordSeedCsvParserTests
             "  say  ;  verb  ;  say  ;2; mówić|powiedzieć ;8; demek|söylemek ;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         result[0].ConceptKey.ShouldBe("say");
         result[0].PartOfSpeech.ShouldBe("verb");
@@ -172,7 +172,7 @@ public sealed class WordSeedCsvParserTests
             "say;verb;say;2;mówić | powiedzieć;8;demek | söylemek;4"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         var pl = result[0].Languages[1];
         var tr = result[0].Languages[2];
@@ -194,7 +194,7 @@ public sealed class WordSeedCsvParserTests
         "house;noun;house;45;dom;20;ev;15"
         ];
 
-        var result = WordSeedCsvParser.ParseWordSeed(lines);
+        var result = WordSeedCsvParser.Parse(lines);
 
         result.Count.ShouldBe(2);
         result[0].ConceptKey.ShouldBe("say");
@@ -229,32 +229,32 @@ public sealed class WordSeedCsvParserTests
     // Line numbers: the header is line 1, so the first data row is line 2 (same as in an editor).
 
     // Decision 4: a language column without its "xx_rank" pair is an error in the header.
-    [Fact]
+    [Fact(Skip = "Not written yet: spec 001 T4, section B")]
     public void Parse_HeaderMissingRankColumn_Throws()
     {
     }
 
     // Decision 3: a row with fewer columns than the header.
-    [Fact]
+    [Fact(Skip = "Not written yet: spec 001 T4, section B")]
     public void Parse_RowWithMissingColumns_ThrowsWithLineNumber()
     {
     }
 
     // Decision 3 + CA1305: rank must be an integer (parsed with CultureInfo.InvariantCulture).
-    [Fact]
+    [Fact(Skip = "Not written yet: spec 001 T4, section B")]
     public void Parse_NonNumericRank_ThrowsWithLineNumber()
     {
     }
 
     // Decision 6: an empty synonym between two pipes.
-    [Fact]
+    [Fact(Skip = "Not written yet: spec 001 T4, section B")]
     public void Parse_EmptySynonymBetweenPipes_ThrowsWithLineNumber()
     {
     }
 
     // Decision 6: a trailing pipe also creates an empty synonym.
     // Could be merged with the test above into one [Theory] with [InlineData].
-    [Fact]
+    [Fact(Skip = "Not written yet: spec 001 T4, section B")]
     public void Parse_TrailingPipe_ThrowsWithLineNumber()
     {
     }
@@ -263,37 +263,37 @@ public sealed class WordSeedCsvParserTests
     // The author decides each case, records it in tasks.md (T4), then keeps, renames or deletes the test.
 
     // Proposal: no lines at all = no header = error.
-    [Fact]
+    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
     public void Parse_NoLines_Throws()
     {
     }
 
     // Proposal: header only is valid and gives an empty result.
-    [Fact]
+    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
     public void Parse_HeaderOnly_ReturnsEmptyList()
     {
     }
 
     // Proposal: blank lines (e.g. a trailing newline added by an editor) are skipped.
-    [Fact]
+    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
     public void Parse_BlankLine_SkipsIt()
     {
     }
 
     // Proposal: an empty forms column is a bad row (every concept needs all three languages).
-    [Fact]
+    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
     public void Parse_EmptyFormsColumn_ThrowsWithLineNumber()
     {
     }
 
     // Proposal: an empty concept_key is a bad row (it is the key used by the importer in T5).
-    [Fact]
+    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
     public void Parse_EmptyConceptKey_ThrowsWithLineNumber()
     {
     }
 
     // Proposal: rank must be positive (1 = most common), so 0 and negative numbers are errors.
-    [Fact]
+    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
     public void Parse_ZeroOrNegativeRank_ThrowsWithLineNumber()
     {
     }

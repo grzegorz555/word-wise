@@ -8,7 +8,7 @@ public static class WordSeedCsvParser
     private const string ConceptKeyColumnName = "concept_key";
     private const string PartOfSpeechColumnName = "part_of_speech";
     private const string RankSuffix = "_rank";
-    public static IReadOnlyList<WordSeed> ParseWordSeed(
+    public static IReadOnlyList<WordSeed> Parse(
         IEnumerable<string> lines)
     {
         var linesList = lines.ToList();
