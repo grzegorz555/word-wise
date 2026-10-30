@@ -259,41 +259,40 @@ public sealed class WordSeedCsvParserTests
     {
     }
 
-    // ---------- C. PROPOSALS: not covered by decisions 1-6 yet ----------
-    // The author decides each case, records it in tasks.md (T4), then keeps, renames or deletes the test.
+    // ---------- C. EDGE CASES: decisions 7-12 ----------
 
-    // Proposal: no lines at all = no header = error.
-    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
+    // Decision 7: no lines at all = no header = error.
+    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
     public void Parse_NoLines_Throws()
     {
     }
 
-    // Proposal: header only is valid and gives an empty result.
-    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
+    // Decision 8: header only is valid and gives an empty result.
+    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
     public void Parse_HeaderOnly_ReturnsEmptyList()
     {
     }
 
-    // Proposal: blank lines (e.g. a trailing newline added by an editor) are skipped.
-    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
+    // Decision 9: blank lines (e.g. a trailing newline added by an editor) are skipped.
+    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
     public void Parse_BlankLine_SkipsIt()
     {
     }
 
-    // Proposal: an empty forms column is a bad row (every concept needs all three languages).
-    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
+    // Decision 10: an empty forms column is a bad row (every concept needs all three languages).
+    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
     public void Parse_EmptyFormsColumn_ThrowsWithLineNumber()
     {
     }
 
-    // Proposal: an empty concept_key is a bad row (it is the key used by the importer in T5).
-    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
+    // Decision 11: an empty concept_key is a bad row (it is the key used by the importer in T5).
+    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
     public void Parse_EmptyConceptKey_ThrowsWithLineNumber()
     {
     }
 
-    // Proposal: rank must be positive (1 = most common), so 0 and negative numbers are errors.
-    [Fact(Skip = "Not decided yet: spec 001 T4, section C proposal")]
+    // Decision 12: rank must be positive (1 = most common), so 0 and negative numbers are errors.
+    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
     public void Parse_ZeroOrNegativeRank_ThrowsWithLineNumber()
     {
     }
