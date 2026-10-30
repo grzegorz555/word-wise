@@ -229,9 +229,16 @@ public sealed class WordSeedCsvParserTests
     // Line numbers: the header is line 1, so the first data row is line 2 (same as in an editor).
 
     // Decision 4: a language column without its "xx_rank" pair is an error in the header.
-    [Fact(Skip = "Not written yet: spec 001 T4, section B")]
+    [Fact]
     public void Parse_HeaderMissingRankColumn_Throws()
     {
+        string[] lines = [
+        "concept_key;part_of_speech;en;en_rank;pl;tr;tr_rank",
+        "say;verb;say;3;mówić|powiedzieć;demek|söylemek;4",
+        ];
+
+        var ex = Should.Throw<InvalidDataException>(() => WordSeedCsvParser.Parse(lines));
+        ex.Message.ShouldContain("pl_rank");
     }
 
     // Decision 3: a row with fewer columns than the header.

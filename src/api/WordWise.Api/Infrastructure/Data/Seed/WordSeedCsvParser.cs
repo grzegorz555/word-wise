@@ -31,8 +31,12 @@ public static class WordSeedCsvParser
                 continue;
             }
 
-            languagesPositions.Add((headerNames[i], i, headerIndexes[headerNames[i] + RankSuffix]));
+            if (!headerIndexes.TryGetValue(headerNames[i] + RankSuffix, out int rankIndex))
+            {
+                throw new InvalidDataException($"Line 1: missing column {headerNames[i] + RankSuffix} for language {headerNames[i]}");
+            }
 
+            languagesPositions.Add((headerNames[i], i, rankIndex));
         }
 
         var linesWithoutHeader = linesList.Skip(1);
