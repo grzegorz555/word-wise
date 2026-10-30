@@ -42,10 +42,15 @@ public static class WordSeedCsvParser
         var linesWithoutHeader = linesList.Skip(1);
         List<WordSeed> wordSeeds = [];
 
-        foreach (string line in linesWithoutHeader)
+        foreach ((int index, string line) in linesWithoutHeader.Index())
         {
             string[] lineParts = line.Split(';', StringSplitOptions.TrimEntries);
             List<WordSeedLanguage> wordSeedsLanguages = [];
+
+            if (lineParts.Length != headerNames.Length)
+            {
+                throw new InvalidDataException($"Line {index + 2}: expected {headerNames.Length} columns, found {lineParts.Length}");
+            }
 
             foreach ((string Code, int FormsIndex, int RankIndex) language in languagesPositions)
             {

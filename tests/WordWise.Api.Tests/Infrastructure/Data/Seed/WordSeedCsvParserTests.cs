@@ -242,9 +242,17 @@ public sealed class WordSeedCsvParserTests
     }
 
     // Decision 3: a row with fewer columns than the header.
-    [Fact(Skip = "Not written yet: spec 001 T4, section B")]
+    [Fact]
     public void Parse_RowWithMissingColumns_ThrowsWithLineNumber()
     {
+        string[] lines = [
+        "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+        "say;verb;say;3;mówić|powiedzieć;10;demek|söylemek;4",
+        "house;noun;45;dom;20;ev;15"
+        ];
+
+        var ex = Should.Throw<InvalidDataException>(() => WordSeedCsvParser.Parse(lines));
+        ex.Message.ShouldContain("Line 3");
     }
 
     // Decision 3 + CA1305: rank must be an integer (parsed with CultureInfo.InvariantCulture).
