@@ -21,7 +21,7 @@ Before each task: [study-guide.md](study-guide.md) (what to read, what to decide
   - *Design decisions, invalid input (author, 2026-10-30):*
     7. No lines at all: throw with a message that the header is missing.
     8. Header only: return an empty list. An empty seed is not an error.
-    9. Blank line (e.g. a trailing newline added by an editor): skip it. Line numbers in error messages still count lines in the file, blank lines included.
+    9. Blank line (e.g. a trailing newline added by an editor): skip it. A line with only whitespace counts as blank. Line numbers in error messages still count lines in the file, blank lines included.
     10. Empty forms column (`;;`): throw with the line number.
     11. Empty `concept_key`: throw with the line number.
     12. Rank 0 or negative: throw with the line number. Ranks start at 1.
