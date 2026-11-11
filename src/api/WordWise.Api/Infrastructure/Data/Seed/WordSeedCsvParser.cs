@@ -64,6 +64,11 @@ public static class WordSeedCsvParser
 
             foreach ((string Code, int FormsIndex, int RankIndex) language in languagesPositions)
             {
+                if (lineParts[language.FormsIndex] == "")
+                {
+                    throw new InvalidDataException($"Line {index + 2}: empty forms found for language {language.Code}");
+                }
+
                 var forms = lineParts[language.FormsIndex].Split('|', StringSplitOptions.TrimEntries);
 
                 if (forms.Contains(""))
