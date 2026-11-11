@@ -12,6 +12,11 @@ public static class WordSeedCsvParser
         IEnumerable<string> lines)
     {
         var linesList = lines.ToList();
+        if (linesList.Count == 0)
+        {
+            throw new InvalidDataException("No header found in the input");
+        }
+
         string[] headerNames = linesList.First().Split(";", StringSplitOptions.TrimEntries);
         Dictionary<string, int> headerIndexes = new(StringComparer.Ordinal);
         List<(string Code, int FormsIndex, int RankIndex)> languagesPositions = [];

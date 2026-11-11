@@ -290,9 +290,13 @@ public sealed class WordSeedCsvParserTests
     // ---------- C. EDGE CASES: decisions 7-12 ----------
 
     // Decision 7: no lines at all = no header = error.
-    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
+    [Fact]
     public void Parse_NoLines_Throws()
     {
+        string[] lines = [];
+
+        var ex = Should.Throw<InvalidDataException>(() => WordSeedCsvParser.Parse(lines));
+        ex.Message.ShouldContain("header");
     }
 
     // Decision 8: header only is valid and gives an empty result.
