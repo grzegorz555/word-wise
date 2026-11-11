@@ -13,6 +13,21 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-11-11: Spec 001 / T4, `WordSeedCsvParser` invalid input and edge cases (decisions 3–12), mode [solo]
+
+- You wrote: validation in `WordSeedCsvParser.Parse` (rank not a number, rank ≤ 0, empty synonym, empty forms column, empty `concept_key`, no lines, blank lines) and the tests for each decision (PR #38).
+- Concepts: Try-Parse pattern (`int.TryParse` with `out` and `CultureInfo.InvariantCulture`), definite assignment (CS0165) and short-circuit `||`, IDE0045 as a style suggestion only, `[Theory]` + `[InlineData]` (one method, one run per data row), fail fast (one bad line per test case), Arrange–Act–Assert (a test without an assertion always passes; a `Skip`ped test does not run), `"".Split('|')` returns `[""]`, multiple enumeration of `IEnumerable` (CA1851), `continue` inside the loop keeps file line numbers, string interpolation uses the current culture, a red test can mean a wrong expectation.
+- Docs:
+  - https://learn.microsoft.com/dotnet/api/system.int32.tryparse?view=net-10.0
+  - https://learn.microsoft.com/dotnet/csharp/language-reference/compiler-messages/cs0165
+  - https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/ide0045
+  - https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1851
+  - https://learn.microsoft.com/dotnet/core/testing/unit-testing-csharp-with-xunit#create-a-test
+  - https://learn.microsoft.com/dotnet/core/testing/unit-testing-best-practices#best-practices
+- In my own words: _…_
+- Check question: Why does a blank line have to be skipped with `continue` inside the loop and not with `Where` before it?
+- fCC course: `if`/`else if`, loops, parsing numbers and debugging are in the course; `out` with definite assignment, LINQ, xUnit `[Theory]` and cultures go beyond the course.
+
 ## 2026-10-18: Spec 001 / T6, generated SQL + `TODO(human)` #3: index for the card query, mode [learn]
 
 - You wrote: `HasIndex(w => new { w.Language, w.FrequencyRank })` and the migration `AddWordsLanguageRankIndex`.
