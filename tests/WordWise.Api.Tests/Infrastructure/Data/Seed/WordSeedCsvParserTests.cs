@@ -300,9 +300,16 @@ public sealed class WordSeedCsvParserTests
     }
 
     // Decision 8: header only is valid and gives an empty result.
-    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
+    [Fact]
     public void Parse_HeaderOnly_ReturnsEmptyList()
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank"
+        ];
+
+        var result = WordSeedCsvParser.Parse(lines);
+
+        result.ShouldBeEmpty();
     }
 
     // Decision 9: blank lines (e.g. a trailing newline added by an editor) are skipped.
