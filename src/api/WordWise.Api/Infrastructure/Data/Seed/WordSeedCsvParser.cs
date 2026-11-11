@@ -55,7 +55,21 @@ public static class WordSeedCsvParser
             foreach ((string Code, int FormsIndex, int RankIndex) language in languagesPositions)
             {
                 var forms = lineParts[language.FormsIndex].Split('|', StringSplitOptions.TrimEntries);
-                int? rank = lineParts[language.RankIndex] == "" ? null : int.Parse(lineParts[language.RankIndex], CultureInfo.InvariantCulture);
+                int? rank;
+
+                if (lineParts[language.RankIndex] == "")
+                {
+                    rank = null;
+                }
+                else if (int.TryParse(lineParts[language.RankIndex], NumberStyles.Integer, CultureInfo.InvariantCulture, out int rankInt))
+                {
+                    rank = rankInt;
+                }
+                else
+                {
+                    throw new InvalidDataException($"Line {index + 2}: expected rank as a number, found '{lineParts[language.RankIndex]}'");
+                }
+
                 wordSeedsLanguages.Add(new WordSeedLanguage(language.Code, forms, rank));
             }
 
