@@ -89,6 +89,11 @@ public static class WordSeedCsvParser
                 }
                 else if (int.TryParse(lineParts[language.RankIndex], NumberStyles.Integer, CultureInfo.InvariantCulture, out int rankInt))
                 {
+                    if (rankInt <= 0)
+                    {
+                        throw new InvalidDataException($"Line {index + 2}: rank must be positive, found '{lineParts[language.RankIndex]}'");
+                    }
+
                     rank = rankInt;
                 }
                 else

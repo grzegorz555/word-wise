@@ -374,8 +374,20 @@ public sealed class WordSeedCsvParserTests
     }
 
     // Decision 12: rank must be positive (1 = most common), so 0 and negative numbers are errors.
-    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
-    public void Parse_ZeroOrNegativeRank_ThrowsWithLineNumber()
+    [Theory]
+    [InlineData("0")]
+    [InlineData("-1")]
+    public void Parse_ZeroOrNegativeRank_ThrowsWithLineNumber(string rank)
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            $"say;verb;say;3;mówić|powiedzieć;{rank};demek|söylemek;4",
+            "house;noun;house;45;dom;20;ev;15"
+        ];
+
+        var ex = Should.Throw<InvalidDataException>(() => WordSeedCsvParser.Parse(lines));
+        ex.Message.ShouldContain("Line 2");
+        ex.Message.ShouldContain("rank must be positive");
+        ex.Message.ShouldContain(rank);
     }
 }
