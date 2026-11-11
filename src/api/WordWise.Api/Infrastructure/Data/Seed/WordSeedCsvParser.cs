@@ -49,6 +49,11 @@ public static class WordSeedCsvParser
 
         foreach ((int index, string line) in linesWithoutHeader.Index())
         {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+
             string[] lineParts = line.Split(';', StringSplitOptions.TrimEntries);
             List<WordSeedLanguage> wordSeedsLanguages = [];
 

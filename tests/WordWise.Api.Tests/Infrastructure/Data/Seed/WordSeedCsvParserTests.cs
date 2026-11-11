@@ -313,9 +313,34 @@ public sealed class WordSeedCsvParserTests
     }
 
     // Decision 9: blank lines (e.g. a trailing newline added by an editor) are skipped.
-    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
-    public void Parse_BlankLine_SkipsIt()
+    [Theory]
+    [InlineData("")]
+    [InlineData("    ")]
+    public void Parse_BlankLine_SkipsIt(string line)
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            "say;verb;say;3;mówić|powiedzieć;10;demek|söylemek;4",
+            line
+        ];
+
+        var result = WordSeedCsvParser.Parse(lines);
+
+        result.Count.ShouldBe(1);
+    }
+
+    [Fact]
+    public void Parse_BlankLine_KeepsFileLineNumbersInErrors()
+    {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            "",
+            "say;verb;say;abc;mówić|powiedzieć;10;demek|söylemek;4",
+        ];
+
+        var ex = Should.Throw<InvalidDataException>(() => WordSeedCsvParser.Parse(lines));
+        ex.Message.ShouldContain("Line 3");
+        ex.Message.ShouldContain("abc");
     }
 
     // Decision 10: an empty forms column is a bad row (every concept needs all three languages).
