@@ -10,7 +10,7 @@ Before each task: [study-guide.md](study-guide.md) (what to read, what to decide
   - *You write:* entity properties and index configuration. *Claude:* file skeletons.
 - [x] **T3 `[gen]`** First migration `InitialWordCatalog` + `dotnet ef database update`.
   - *Predict before run:* which tables and indexes will be created? Write it down, then compare with the migration file.
-- [ ] **T4 `[solo]`** CSV parser (`WordSeedCsvParser`): row → record with a list of forms per language. Tests first (synonyms, empty rank, Polish and Turkish characters).
+- [x] **T4 `[solo]`** CSV parser (`WordSeedCsvParser`): row → record with a list of forms per language. Tests first (synonyms, empty rank, Polish and Turkish characters).
   - *Design decisions (author, 2026-10-10):*
     1. Input: lines (`IEnumerable<string>`), not a file path. The caller (T5) opens the file, so tests need no files on disk.
     2. Output: one record per row with a **collection** of languages (code, forms, rank), not one property per language. T5 maps it with one loop, and a new language needs no parser change.
