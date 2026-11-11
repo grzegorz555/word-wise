@@ -270,17 +270,21 @@ public sealed class WordSeedCsvParserTests
         ex.Message.ShouldContain("abc");
     }
 
-    // Decision 6: an empty synonym between two pipes.
-    [Fact(Skip = "Not written yet: spec 001 T4, section B")]
-    public void Parse_EmptySynonymBetweenPipes_ThrowsWithLineNumber()
+    // Decision 6: an empty synonym between two pipes, a trailing pipe also creates an empty synonym.
+    [Theory]
+    [InlineData("mówić||powiedzieć")]
+    [InlineData("dom|")]
+    public void Parse_EmptySynonym_ThrowsWithLineNumber(string forms)
     {
-    }
+        string[] lines = [
+        "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+        $"say;verb;say;3;{forms};10;demek|söylemek;4",
+        "house;noun;house;45;dom;20;ev;15"
+        ];
 
-    // Decision 6: a trailing pipe also creates an empty synonym.
-    // Could be merged with the test above into one [Theory] with [InlineData].
-    [Fact(Skip = "Not written yet: spec 001 T4, section B")]
-    public void Parse_TrailingPipe_ThrowsWithLineNumber()
-    {
+        var ex = Should.Throw<InvalidDataException>(() => WordSeedCsvParser.Parse(lines));
+        ex.Message.ShouldContain("Line 2");
+        ex.Message.ShouldContain("empty synonym");
     }
 
     // ---------- C. EDGE CASES: decisions 7-12 ----------

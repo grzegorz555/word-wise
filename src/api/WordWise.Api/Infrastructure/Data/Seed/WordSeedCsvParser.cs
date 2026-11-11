@@ -55,6 +55,12 @@ public static class WordSeedCsvParser
             foreach ((string Code, int FormsIndex, int RankIndex) language in languagesPositions)
             {
                 var forms = lineParts[language.FormsIndex].Split('|', StringSplitOptions.TrimEntries);
+
+                if (forms.Contains(""))
+                {
+                    throw new InvalidDataException($"Line {index + 2}: empty synonym found for language {language.Code}");
+                }
+
                 int? rank;
 
                 if (lineParts[language.RankIndex] == "")
