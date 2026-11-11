@@ -359,9 +359,18 @@ public sealed class WordSeedCsvParserTests
     }
 
     // Decision 11: an empty concept_key is a bad row (it is the key used by the importer in T5).
-    [Fact(Skip = "Not written yet: spec 001 T4, section C")]
+    [Fact]
     public void Parse_EmptyConceptKey_ThrowsWithLineNumber()
     {
+        string[] lines = [
+            "concept_key;part_of_speech;en;en_rank;pl;pl_rank;tr;tr_rank",
+            ";verb;say;3;mówić|powiedzieć;10;demek|söylemek;4",
+            "house;noun;house;45;dom;20;ev;15"
+        ];
+
+        var ex = Should.Throw<InvalidDataException>(() => WordSeedCsvParser.Parse(lines));
+        ex.Message.ShouldContain("Line 2");
+        ex.Message.ShouldContain("empty concept key");
     }
 
     // Decision 12: rank must be positive (1 = most common), so 0 and negative numbers are errors.

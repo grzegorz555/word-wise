@@ -62,6 +62,11 @@ public static class WordSeedCsvParser
                 throw new InvalidDataException($"Line {index + 2}: expected {headerNames.Length} columns, found {lineParts.Length}");
             }
 
+            if (lineParts[headerIndexes[ConceptKeyColumnName]] == "")
+            {
+                throw new InvalidDataException($"Line {index + 2}: empty concept key found");
+            }
+
             foreach ((string Code, int FormsIndex, int RankIndex) language in languagesPositions)
             {
                 if (lineParts[language.FormsIndex] == "")
