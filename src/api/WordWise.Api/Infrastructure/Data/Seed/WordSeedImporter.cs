@@ -13,9 +13,10 @@ public sealed class WordSeedImporter(WordWiseDbContext db)
     // Returns the number of Concepts added: 0 when the catalog already has data (R5: idempotent).
     public async Task<int> ImportAsync(IReadOnlyList<WordSeed> seeds, CancellationToken cancellationToken)
     {
-        // TODO(human) 1: idempotency (R5). If the catalog already has data, add nothing and return 0.
-        //   Hint: one query that answers "is there at least one row?" without loading any rows.
-        //   Question: why "any row" and not "count == seeds.Count"? What happens when the CSV grows?
+        if (await db.Concepts.AnyAsync(cancellationToken))
+        {
+            return 0;
+        }
 
         // TODO(human) 2: reject unsupported language codes BEFORE adding anything (T4 decision 4).
         //   Throw InvalidDataException (like the parser) naming the concept key and the code.
