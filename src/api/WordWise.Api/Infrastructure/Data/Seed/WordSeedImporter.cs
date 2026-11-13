@@ -43,12 +43,7 @@ public sealed class WordSeedImporter(WordWiseDbContext db)
             db.Concepts.Add(concept);
         }
 
-        // TODO(human) 4: save everything with ONE SaveChangesAsync (one transaction: all rows or none),
-        //   pass cancellationToken, and return the number of Concepts added.
-        //   Docs: https://learn.microsoft.com/ef/core/saving/transactions#default-transaction-behavior
-
-        _ = db;
-        await Task.CompletedTask;
-        throw new NotImplementedException("TODO(human): spec 001 T5");
+        await db.SaveChangesAsync(cancellationToken);
+        return seeds.Count;
     }
 }
