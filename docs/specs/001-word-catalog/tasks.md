@@ -25,8 +25,9 @@ Before each task: [study-guide.md](study-guide.md) (what to read, what to decide
     10. Empty forms column (`;;`): throw with the line number.
     11. Empty `concept_key`: throw with the line number.
     12. Rank 0 or negative: throw with the line number. Ranks start at 1.
-- [ ] **T5 `[learn]`** Idempotent import (`WordSeedImporter`) run at startup in Development.
+- [x] **T5 `[learn]`** Idempotent import (`WordSeedImporter`) run at startup in Development.
   - *To understand:* `IHostedService` vs a call in `Program.cs`, `AnyAsync`, a single `SaveChangesAsync`.
+  - *Status (2026-11-13):* Claude part done: `DevelopmentDatabaseSetup` (migrate + import before `app.Run()`, behind `Seed:RunAtStartup` set only by the launch profiles), tests against Postgres. `TODO(human)` 1–4 done: skip when the catalog has concepts (R5), reject unsupported language codes before adding anything, map seeds to `Concept` + one `Word` per form, one `SaveChangesAsync`.
 - [x] **T6 `[learn]`** `WordsController` + LINQ query for R2–R4 (`AsNoTracking`, `Select` into `WordCardResponse`).
   - *You also write:* a second index on `Words` for R2 (filter by `Language`, sort by `FrequencyRank`): column order, uniqueness, and a migration for it.
   - *You write:* the LINQ query. *Claude:* controller, DTOs, R1 validation.
