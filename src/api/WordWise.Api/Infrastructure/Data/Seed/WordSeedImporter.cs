@@ -29,10 +29,19 @@ public sealed class WordSeedImporter(WordWiseDbContext db)
             }
         }
 
-        // TODO(human) 3: map each WordSeed to one Concept, and each form of each language to one Word.
-        //   Synonyms ("mówić|powiedzieć") = several Words with the same Concept, Language and Rank.
-        //   Hint: add Words to concept.Words; EF sets ConceptId itself when it saves the graph.
-        //   Docs: https://learn.microsoft.com/ef/core/saving/related-data#adding-a-graph-of-new-entities
+        foreach (WordSeed wordSeed in seeds)
+        {
+            var concept = new Concept { Key = wordSeed.ConceptKey, PartOfSpeech = wordSeed.PartOfSpeech };
+
+            foreach (WordSeedLanguage language in wordSeed.Languages)
+            {
+                foreach (string form in language.Forms)
+                {
+                    concept.Words.Add(new Word { Language = language.LanguageCode, Text = form, FrequencyRank = language.Rank });
+                }
+            }
+            db.Concepts.Add(concept);
+        }
 
         // TODO(human) 4: save everything with ONE SaveChangesAsync (one transaction: all rows or none),
         //   pass cancellationToken, and return the number of Concepts added.
