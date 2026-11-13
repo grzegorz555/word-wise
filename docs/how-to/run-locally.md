@@ -24,7 +24,9 @@ docker compose ps                       # STATUS: healthy
 ```
 The API reads the connection string `ConnectionStrings:WordWise` from `appsettings.Development.json` (local defaults from `compose.yaml`). If you changed the password or port in `.env`, override it without editing the file, with an environment variable in the API terminal (`__` stands for `:` in configuration keys): `$env:ConnectionStrings__WordWise = "Host=localhost;Port=…;Database=wordwise;Username=wordwise;Password=…"`. Docs: https://learn.microsoft.com/aspnet/core/fundamentals/configuration/#environment-variables
 
-Check the connection: `dotnet ef dbcontext info --project src/api/WordWise.Api` → `Provider name: Npgsql…`, `Database name: wordwise`. Create or update the tables: `dotnet ef database update --project src/api/WordWise.Api` (applies all migrations from `src/api/WordWise.Api/Migrations/`; run it after every pull that adds a migration). Docs: https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying#command-line-tools
+Check the connection: `dotnet ef dbcontext info --project src/api/WordWise.Api` → `Provider name: Npgsql…`, `Database name: wordwise`. You don't need to create the tables by hand: the `http`/`https` launch profiles (and the VS Code configurations) set `Seed__RunAtStartup=true`, so at Development startup the API applies all migrations from `src/api/WordWise.Api/Migrations/` and imports `data/seed/words.seed.csv` (only when the catalog is empty). The log shows `Word seed: N concepts added from …` (`0` on later starts). Docs: https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying#apply-migrations-at-runtime
+
+Started without a launch profile (e.g. `dotnet run --no-launch-profile`), the API skips this step; then apply the migrations yourself: `dotnet ef database update --project src/api/WordWise.Api`. Docs: https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying#command-line-tools
 
 ## 3. API (terminal 1)
 ```powershell

@@ -13,7 +13,8 @@
       // Same environment and URL as the "http" profile in Properties/launchSettings.json.
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:5033"
+        "ASPNETCORE_URLS": "http://localhost:5033",
+        "Seed__RunAtStartup": "true"
       },
       "serverReadyAction": {
         "action": "openExternally",

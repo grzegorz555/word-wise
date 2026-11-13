@@ -13,6 +13,21 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-11-13: Spec 001 / T5, `WordSeedImporter` (idempotent seed import at Development startup), mode [learn]
+
+- You wrote: `TODO(human)` 1–4 in `WordSeedImporter.ImportAsync`: skip when the catalog already has concepts (`AnyAsync`, R5), reject unsupported language codes before adding anything, map each seed to a `Concept` with one `Word` per form, save with one `SaveChangesAsync` and return `seeds.Count`.
+- Concepts: validate-then-act (check all input before changing state), pattern matching with constant and logical patterns (`is not (A or B or C)`, ordinal and case-sensitive for strings), `const` fields usable in attributes but not as a collection, object initializer (`new Concept { Key = … }`, not a TypeScript object literal), adding a graph of new entities (`Add` on the parent tracks the children reachable through `Words`), relationship fixup (EF inserts the `Concept`, reads the generated `Id`, sets `ConceptId` on the `Word`s), change tracker vs database (`Add` is in memory, `CountAsync` queries the database), one `SaveChangesAsync` = one transaction, `SaveChangesAsync` returns the number of all rows written (concepts + words), test output is shown only for failing tests.
+- Docs:
+  - https://learn.microsoft.com/dotnet/csharp/language-reference/operators/patterns#logical-patterns
+  - https://learn.microsoft.com/dotnet/csharp/fundamentals/strings/common-tasks/compare#compare-against-constants-with-pattern-matching-is-or-switch
+  - https://learn.microsoft.com/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers
+  - https://learn.microsoft.com/ef/core/saving/related-data#adding-a-graph-of-new-entities
+  - https://learn.microsoft.com/ef/core/change-tracking/relationship-changes#overview-of-foreign-keys-and-navigations
+  - https://learn.microsoft.com/ef/core/saving/transactions#default-transaction-behavior
+- In my own words: Saving Concepts and their Words in the database + checking and validation data
+- Check question: Why does `await db.Concepts.CountAsync()` return 0 right after `db.Concepts.Add(concept)` without `SaveChangesAsync`?
+- fCC course: nested `foreach`, `if`, `throw` and `new` are in the course; pattern matching, object initializers and EF Core change tracking go beyond the course.
+
 ## 2026-11-11: Spec 001 / T4, `WordSeedCsvParser` invalid input and edge cases (decisions 3–12), mode [solo]
 
 - You wrote: validation in `WordSeedCsvParser.Parse` (rank not a number, rank ≤ 0, empty synonym, empty forms column, empty `concept_key`, no lines, blank lines) and the tests for each decision (PR #38).

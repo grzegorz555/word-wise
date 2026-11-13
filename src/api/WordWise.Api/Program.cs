@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 using WordWise.Api.Features.Words;
 using WordWise.Api.Infrastructure.Data;
+using WordWise.Api.Infrastructure.Data.Seed;
 using WordWise.Api.Infrastructure.OpenApi;
 using WordWise.Api.Infrastructure.Routing;
 
@@ -38,6 +39,7 @@ builder.Services.AddDbContext<WordWiseDbContext>(options =>
 
 // Feature services (ADR-0002). Scoped, like the DbContext they use: one instance per request.
 builder.Services.AddScoped<WordQueries>();
+builder.Services.AddScoped<WordSeedImporter>();
 
 // OpenAPI document (https://aka.ms/aspnet/openapi). The schema transformer adds `enum` for [AllowedValues].
 // Docs: https://learn.microsoft.com/aspnet/core/fundamentals/openapi/customize-openapi#use-schema-transformers
@@ -49,6 +51,13 @@ builder.Services.AddHealthChecks(); // https://learn.microsoft.com/aspnet/core/h
 builder.Services.AddProblemDetails();
 
 var app = builder.Build();
+
+// Development only: migrate the database and import the word seed before the app takes requests (spec 001 T5).
+// The switch is set by the launch profiles, so tests (WebApplicationFactory, also Development) skip this.
+if (app.Environment.IsDevelopment() && app.Configuration.GetValue<bool>(DevelopmentDatabaseSetup.RunAtStartupKey))
+{
+    await app.SetUpDevelopmentDatabaseAsync();
+}
 
 // HTTP request pipeline (middleware order matters).
 // Docs: https://learn.microsoft.com/aspnet/core/fundamentals/middleware
