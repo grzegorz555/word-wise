@@ -24,7 +24,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/ef/core/saving/related-data#adding-a-graph-of-new-entities
   - https://learn.microsoft.com/ef/core/change-tracking/relationship-changes#overview-of-foreign-keys-and-navigations
   - https://learn.microsoft.com/ef/core/saving/transactions#default-transaction-behavior
-- In my own words: _…_
+- In my own words: Saving Concepts and their Words in the database + checking and validation data
 - Check question: Why does `await db.Concepts.CountAsync()` return 0 right after `db.Concepts.Add(concept)` without `SaveChangesAsync`?
 - fCC course: nested `foreach`, `if`, `throw` and `new` are in the course; pattern matching, object initializers and EF Core change tracking go beyond the course.
 
