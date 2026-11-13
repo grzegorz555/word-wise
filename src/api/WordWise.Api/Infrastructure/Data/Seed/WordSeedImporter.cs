@@ -18,9 +18,16 @@ public sealed class WordSeedImporter(WordWiseDbContext db)
             return 0;
         }
 
-        // TODO(human) 2: reject unsupported language codes BEFORE adding anything (T4 decision 4).
-        //   Throw InvalidDataException (like the parser) naming the concept key and the code.
-        //   The supported codes are the constants in LanguageCodes. Compare with StringComparison.Ordinal.
+        foreach (WordSeed wordSeed in seeds)
+        {
+            foreach (WordSeedLanguage language in wordSeed.Languages)
+            {
+                if (language.LanguageCode is not (LanguageCodes.English or LanguageCodes.Polish or LanguageCodes.Turkish))
+                {
+                    throw new InvalidDataException($"Concept '{wordSeed.ConceptKey}': language code '{language.LanguageCode}' is not supported.");
+                }
+            }
+        }
 
         // TODO(human) 3: map each WordSeed to one Concept, and each form of each language to one Word.
         //   Synonyms ("mówić|powiedzieć") = several Words with the same Concept, Language and Rank.
