@@ -78,6 +78,15 @@ This is where I point you when something needs deeper understanding. ⭐ = start
 
 ## Fundamentals: computer, network, debugging (see `roadmap.md` §0)
 - ⭐ **Debugging a .NET app (VS Code / Visual Studio)**: breakpoints, conditional breakpoints, stepping: https://learn.microsoft.com/dotnet/core/tutorials/debug-console-app
+- Run and debug tests (VS Code C# Dev Kit, Test Explorer, Microsoft.Testing.Platform): https://learn.microsoft.com/dotnet/core/testing/microsoft-testing-platform-run-and-debug
+- ⭐ **.NET diagnostic tools** (`dotnet-counters`, `dotnet-trace`, `dotnet-dump`): https://learn.microsoft.com/dotnet/core/diagnostics/tools-overview
+- Tutorial: debug high CPU usage (`dotnet-counters` + `dotnet-trace`): https://learn.microsoft.com/dotnet/core/diagnostics/debug-highcpu
+- EF Core simple logging (see the SQL): https://learn.microsoft.com/ef/core/logging-events-diagnostics/simple-logging
+- ⭐ **EF Core performance diagnosis** (slow commands in the log, `TagWith`, query plans): https://learn.microsoft.com/ef/core/performance/performance-diagnosis
+- Identify slow queries in Azure Database for PostgreSQL (`auto_explain`, `pg_stat_statements`): https://learn.microsoft.com/azure/postgresql/troubleshoot/how-to-identify-slow-queries
+- PostgreSQL docs, using `EXPLAIN` (not checked via MCP): https://www.postgresql.org/docs/current/using-explain.html
+- PostgreSQL docs, `pg_stat_statements` (not checked via MCP): https://www.postgresql.org/docs/current/pgstatstatements.html
+- PostgreSQL docs, `auto_explain` (not checked via MCP): https://www.postgresql.org/docs/current/auto-explain.html
 - ⭐ **Processes and threads** (program vs process vs thread): https://learn.microsoft.com/windows/win32/procthread/about-processes-and-threads
 - How .NET runs code (C# → IL → JIT): https://learn.microsoft.com/dotnet/standard/managed-execution-process
 - Memory and garbage collection (managed heap, stack roots, generations): https://learn.microsoft.com/dotnet/standard/garbage-collection/fundamentals
