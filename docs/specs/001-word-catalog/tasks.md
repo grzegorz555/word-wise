@@ -33,5 +33,6 @@ Before each task: [study-guide.md](study-guide.md) (what to read, what to decide
   - *You write:* the LINQ query. *Claude:* controller, DTOs, R1 validation.
   - *Status (2026-10-16):* Claude part done. `TODO(human)` #1 and #2 done (`Features/Words/WordQueries.cs`). Left for you: check the generated SQL (`ToQueryString()`), #3 in `WordConfiguration.cs`.
   - *Status (2026-10-18):* generated SQL checked in the EF log. Deeper LINQ ↔ SQL analysis is deferred to the review phase (`docs/learning/roadmap.md` §3). #3 done: index `(Language, FrequencyRank)`, migration `AddWordsLanguageRankIndex`.
-- [ ] **T7 `[solo]`** Endpoint integration tests: 400 for R1 (no database).
+- [x] **T7 `[solo]`** Endpoint integration tests: 400 for R1 (no database).
+  - *Status (2026-11-15):* `Features/Words/WordsEndpointTests.cs`: one test per rule (missing `base`, unsupported `base`, `base` = `target`). Each checks the status code and the field key in `ValidationProblemDetails.Errors`.
 - [ ] **T8 `[gen]`** Review with the `code-reviewer` agent + journal entry + `/quiz-me` on topics from T1–T6.
