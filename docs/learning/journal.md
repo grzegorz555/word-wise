@@ -13,6 +13,19 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-11-15: Spec 001 / T7, integration tests for R1 (400 without a database), mode [solo]
+
+- You wrote: `tests/WordWise.Api.Tests/Features/Words/WordsEndpointTests.cs`, one test per R1 rule (missing `base`, unsupported `base`, `base` = `target`). Each asserts the 400 status and the field key in `Errors`.
+- Concepts: integration test vs unit test (the whole pipeline: routing → model binding → validation), `WebApplicationFactory<Program>` + `IClassFixture`, automatic HTTP 400 from `[ApiController]` (the action, and so the database, is never reached), `HttpResponseMessage` vs a deserialized body (`ReadFromJsonAsync<ValidationProblemDetails>`), `await` instead of `.Result` (xUnit1031), null-state analysis (CS8602) and `ShouldNotBeNull()`, `Errors` as a dictionary field name → messages, one variable per test (only the tested parameter is wrong), LF vs CRLF line endings (`dotnet format`).
+- Docs:
+  - https://learn.microsoft.com/aspnet/core/test/integration-tests
+  - https://learn.microsoft.com/aspnet/core/web-api/#automatic-http-400-responses
+  - https://learn.microsoft.com/dotnet/api/system.net.http.json.httpcontentjsonextensions.readfromjsonasync
+  - https://learn.microsoft.com/dotnet/csharp/language-reference/compiler-messages/nullable-warnings#possible-dereference-of-null
+- In my own words:
+- Check question: Why does `GetCards_SameBaseAndTarget_Returns400` pass without Postgres running, while a test expecting 200 from the same endpoint needs a database?
+- fCC course: `var` and method calls are in the course; async/await, nullable reference types and ASP.NET Core integration tests go beyond the course.
+
 ## 2026-11-13: Spec 001 / T5, `WordSeedImporter` (idempotent seed import at Development startup), mode [learn]
 
 - You wrote: `TODO(human)` 1–4 in `WordSeedImporter.ImportAsync`: skip when the catalog already has concepts (`AnyAsync`, R5), reject unsupported language codes before adding anything, map each seed to a `Concept` with one `Word` per form, save with one `SaveChangesAsync` and return `seeds.Count`.
