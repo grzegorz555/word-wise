@@ -35,8 +35,8 @@ Before each task: [study-guide.md](study-guide.md) (what to read, what to decide
   - *Status (2026-10-18):* generated SQL checked in the EF log. Deeper LINQ ↔ SQL analysis is deferred to the review phase (`docs/learning/roadmap.md` §3). #3 done: index `(Language, FrequencyRank)`, migration `AddWordsLanguageRankIndex`.
 - [x] **T7 `[solo]`** Endpoint integration tests: 400 for R1 (no database).
   - *Status (2026-11-15):* `Features/Words/WordsEndpointTests.cs`: one test per rule (missing `base`, unsupported `base`, `base` = `target`). Each checks the status code and the field key in `ValidationProblemDetails.Errors`.
-- [ ] **T8 `[gen]`** Review with the `code-reviewer` agent + journal entry + `/quiz-me` on topics from T1–T6.
-  - *Status (2026-11-17):* review done. Findings split into T9 and T10 below; the auth-related finding (spec 002 fallback policy turns these 400 tests into 401) is noted in spec 002 T6. Left: `/quiz-me`.
+- [x] **T8 `[gen]`** Review with the `code-reviewer` agent + journal entry + `/quiz-me` on topics from T1–T6.
+  - *Status (2026-11-17):* review done. Findings split into T9 and T10 below; the auth-related finding (spec 002 fallback policy turns these 400 tests into 401) is noted in spec 002 T6. Quiz: 2.5 / 5 (see the journal).
 - [ ] **T9 `[solo]`** Tests for R2–R4 (from the T8 review): there is no test for the 200 path of `GET /api/words/cards`.
   - Move `WordsEndpointTests` from `WebApplicationFactory<Program>` to `PostgresApiFactory` + `[Collection(PostgresCollectionDefinition.Name)]` (ADR-0013: a 200 test must never reach the developer database).
   - Each test arranges its own data (the shared database has no guaranteed test order). Cases: cards sorted by `rank` ascending, `rank = null` left out (R2); a target word with no translation in the base language is left out (R3); two concepts with the same English form (e.g. *right*) give two cards (R4); the same rank is ordered by `Id`; `order` defaults to `sequential`; `order=random` returns the same set of cards; the JSON shape of a 200 response.

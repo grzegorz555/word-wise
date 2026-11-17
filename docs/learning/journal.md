@@ -13,6 +13,16 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-11-17 — Quiz
+
+- Topics: spec 001 T1–T6 + roadmap §0. Score: **2.5 / 5**.
+  - 🟡 Parser: an empty forms column (`;;`) throws `Line 3: empty forms found for language pl` (not the header error); line number = `index + 2`.
+  - ✅ `DbContext` as a singleton: not thread-safe ("A second operation was started…"), tracker grows; default scoped = one per request (unit of work).
+  - 🟡 §0: "actively refused" = `RST` (nothing listens on the port) vs timeout (no answer to `SYN`: firewall, network); check with `Test-NetConnection localhost -Port 5432`, `netstat -ano`.
+  - 🟡 One `SaveChangesAsync` = one transaction → 0 rows after a failed `INSERT`; next start: `AnyAsync` is false, the import fails again, the API doesn't start (fail fast before `app.Run()`).
+  - ❌ Composite index: equality column first (`Language`), then the `ORDER BY` column, so the `'tr'` entries are contiguous and already sorted. `AsNoTracking` skips snapshots and identity resolution; with a projection to a DTO EF tracks nothing anyway.
+- Weak topics to review: composite index column order + change tracking (try `EXPLAIN` during T9), TCP/sockets (roadmap §0).
+
 ## 2026-11-17: Spec 001 / T8, review of the whole word catalog, mode [gen]
 
 - Done: the `code-reviewer` agent reviewed spec 001 (T1–T7). Findings became T9 `[solo]` (tests for R2–R4 on the Postgres fixture) and T10 `[gen]` (small fixes); the auth impact is noted in spec 002 T6.
