@@ -13,6 +13,19 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-11-17: Spec 001 / T8, review of the whole word catalog, mode [gen]
+
+- Done: the `code-reviewer` agent reviewed spec 001 (T1–T7). Findings became T9 `[solo]` (tests for R2–R4 on the Postgres fixture) and T10 `[gen]` (small fixes); the auth impact is noted in spec 002 T6.
+- Concepts: requirement traceability (every spec requirement has a test; R2–R4 had none), test fixture choice and test isolation (`WebApplicationFactory<Program>` reads the developer connection string, `PostgresApiFactory` uses a separate database, ADR-0013), enum model binding accepts numeric strings (`?order=5`), so validate with `[EnumDataType]`, one `SaveChangesAsync` = one transaction (no partial import), culture-aware sorting (`StringComparer.Create`) vs ordinal comparison, fallback authorization policy and the middleware order `UseAuthentication()` → `UseAuthorization()`.
+- Docs:
+  - https://learn.microsoft.com/aspnet/core/test/integration-tests
+  - https://learn.microsoft.com/aspnet/core/mvc/models/validation
+  - https://learn.microsoft.com/ef/core/saving/transactions
+  - https://learn.microsoft.com/aspnet/core/security/authorization/secure-data
+- In my own words:
+- Check question: Why would a 200 test for `GET /api/words/cards` written with `WebApplicationFactory<Program>` break ADR-0013, while the 400 tests from T7 don't?
+- fCC course: enums are in the course; model binding, EF transactions and authorization go beyond the course.
+
 ## 2026-11-15: Spec 001 / T7, integration tests for R1 (400 without a database), mode [solo]
 
 - You wrote: `tests/WordWise.Api.Tests/Features/Words/WordsEndpointTests.cs`, one test per R1 rule (missing `base`, unsupported `base`, `base` = `target`). Each asserts the 400 status and the field key in `Errors`.
