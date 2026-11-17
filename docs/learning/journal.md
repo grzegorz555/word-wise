@@ -13,6 +13,29 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 
 ---
 
+## 2026-11-17 — Quiz
+
+- Topics: spec 001 T1–T6 + roadmap §0. Score: **2.5 / 5**.
+  - 🟡 Parser: an empty forms column (`;;`) throws `Line 3: empty forms found for language pl` (not the header error); line number = `index + 2`.
+  - ✅ `DbContext` as a singleton: not thread-safe ("A second operation was started…"), tracker grows; default scoped = one per request (unit of work).
+  - 🟡 §0: "actively refused" = `RST` (nothing listens on the port) vs timeout (no answer to `SYN`: firewall, network); check with `Test-NetConnection localhost -Port 5432`, `netstat -ano`.
+  - 🟡 One `SaveChangesAsync` = one transaction → 0 rows after a failed `INSERT`; next start: `AnyAsync` is false, the import fails again, the API doesn't start (fail fast before `app.Run()`).
+  - ❌ Composite index: equality column first (`Language`), then the `ORDER BY` column, so the `'tr'` entries are contiguous and already sorted. `AsNoTracking` skips snapshots and identity resolution; with a projection to a DTO EF tracks nothing anyway.
+- Weak topics to review: composite index column order + change tracking (try `EXPLAIN` during T9), TCP/sockets (roadmap §0).
+
+## 2026-11-17: Spec 001 / T8, review of the whole word catalog, mode [gen]
+
+- Done: the `code-reviewer` agent reviewed spec 001 (T1–T7). Findings became T9 `[solo]` (tests for R2–R4 on the Postgres fixture) and T10 `[gen]` (small fixes); the auth impact is noted in spec 002 T6.
+- Concepts: requirement traceability (every spec requirement has a test; R2–R4 had none), test fixture choice and test isolation (`WebApplicationFactory<Program>` reads the developer connection string, `PostgresApiFactory` uses a separate database, ADR-0013), enum model binding accepts numeric strings (`?order=5`), so validate with `[EnumDataType]`, one `SaveChangesAsync` = one transaction (no partial import), culture-aware sorting (`StringComparer.Create`) vs ordinal comparison, fallback authorization policy and the middleware order `UseAuthentication()` → `UseAuthorization()`.
+- Docs:
+  - https://learn.microsoft.com/aspnet/core/test/integration-tests
+  - https://learn.microsoft.com/aspnet/core/mvc/models/validation
+  - https://learn.microsoft.com/ef/core/saving/transactions
+  - https://learn.microsoft.com/aspnet/core/security/authorization/secure-data
+- In my own words: The review showed that a passing test suite can still miss whole requirements: R2–R4 had no test. A test that expects 200 must use the separate test database, never the developer one.
+- Check question: Why would a 200 test for `GET /api/words/cards` written with `WebApplicationFactory<Program>` break ADR-0013, while the 400 tests from T7 don't?
+- fCC course: enums are in the course; model binding, EF transactions and authorization go beyond the course.
+
 ## 2026-11-15: Spec 001 / T7, integration tests for R1 (400 without a database), mode [solo]
 
 - You wrote: `tests/WordWise.Api.Tests/Features/Words/WordsEndpointTests.cs`, one test per R1 rule (missing `base`, unsupported `base`, `base` = `target`). Each asserts the 400 status and the field key in `Errors`.
@@ -22,7 +45,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/aspnet/core/web-api/#automatic-http-400-responses
   - https://learn.microsoft.com/dotnet/api/system.net.http.json.httpcontentjsonextensions.readfromjsonasync
   - https://learn.microsoft.com/dotnet/csharp/language-reference/compiler-messages/nullable-warnings#possible-dereference-of-null
-- In my own words:
+- In my own words: A test client sends real HTTP requests through the whole pipeline. When the query string is invalid, `[ApiController]` returns 400 before my action runs, so these tests don't need a database.
 - Check question: Why does `GetCards_SameBaseAndTarget_Returns400` pass without Postgres running, while a test expecting 200 from the same endpoint needs a database?
 - fCC course: `var` and method calls are in the course; async/await, nullable reference types and ASP.NET Core integration tests go beyond the course.
 
@@ -52,7 +75,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1851
   - https://learn.microsoft.com/dotnet/core/testing/unit-testing-csharp-with-xunit#create-a-test
   - https://learn.microsoft.com/dotnet/core/testing/unit-testing-best-practices#best-practices
-- In my own words: _…_
+- In my own words: Each bad row stops the import with an exception that names the line, so it is easy to fix the CSV. Every decision has its own test, and `[Theory]` runs one test method for many inputs.
 - Check question: Why does a blank line have to be skipped with `continue` inside the loop and not with `Where` before it?
 - fCC course: `if`/`else if`, loops, parsing numbers and debugging are in the course; `out` with definite assignment, LINQ, xUnit `[Theory]` and cultures go beyond the course.
 
@@ -79,7 +102,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/dotnet/api/system.random.shuffle
   - https://learn.microsoft.com/dotnet/csharp/language-reference/operators/lambda-expressions (not checked via MCP)
   - https://learn.microsoft.com/dotnet/standard/linq/deferred-execution-lazy-evaluation (not checked via MCP)
-- In my own words:
+- In my own words: Translations are sorted with the rules of the base language, so Polish letters land in the right place. `Random` shuffles only the order of the cards, never the contents of a card.
 - Check question: Why can't the `CardOrder.Random` test check `result[0].Translations`, and why must it not compare with `cards[i].Translations` from the input?
 - fCC course: arrays, zero-based indexes, `if`, methods; LINQ, lambdas, records and `with` are beyond the course.
 
@@ -109,7 +132,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 - Verified (temporary probe, not committed, T7 is yours): `base=tr&target=tr`, `base=xx`, missing `base`, `base=`, `base=EN`, `order=foo` → 400 with `Content-Type: application/problem+json` (also with `Accept: application/json`) and messages without C# names ("Allowed values: en, pl, tr.", "The base field is required.", "A value for the 'base' parameter or property was not provided.", "The value 'foo' is not valid for order."); `base=pl&target=tr` and `order=RANDOM` pass validation (500 from the `NotImplementedException` until the TODOs are done); `/api/words/cards` works (routing is case-insensitive, so `/api/Words/cards` too).
 - Known gap (accepted): `?order=1` binds to `Random`, because `Enum.TryParse` also accepts numbers.
 - Fun fact: `order=RANDOM` works although the OpenAPI document says `random`: query binding uses `Enum.TryParse` (case-insensitive), not the JSON converter.
-- In my own words:
+- In my own words: The controller is thin: it validates the request and calls `WordQueries`. Wrong query parameters give a 400 problem+json automatically, and the OpenAPI contract describes the endpoint for the Angular client.
 - Check question: Why does the base ≠ target rule live in `IValidatableObject` and not in an attribute on one property, and when does `Validate` not run at all?
 - fCC course: enums and methods are in the course; model binding, validation and OpenAPI are beyond the course (ASP.NET Core).
 
@@ -201,7 +224,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
 - Concepts: Compose project name (defaults to the folder name, so each git worktree was a separate project), `container_name` is global per Docker host while volume names get the project prefix, top-level `name:` in `compose.yaml`.
 - Docs:
   - https://docs.docker.com/compose/how-tos/project-name/
-- In my own words:
+- In my own words: Compose named the project after the folder, so every worktree got its own project and a clash on the container name. A fixed `name: wordwise` makes all worktrees share one Postgres.
 - Check question: Before the fix, why did `docker compose up -d` in a second worktree fail on the container name, and why would it have started with an empty database if it had worked?
 - fCC course: beyond the course (Docker Compose).
 
@@ -254,7 +277,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates
   - https://vitest.dev/api/#test-each
 - Fun fact: removing `as const` made the build pass, because `LanguageCode` silently became `string` and the type guard stopped guarding anything. A green build is not proof that types work.
-- In my own words: _…_
+- In my own words: The toggle shows EN/PL/TR, and a type guard checks that a value really is a supported language. `as const` keeps the exact values; without it the type silently becomes `string`.
 - Check question: Why does `it.each([['pl', 'en', 'tr']])` run only one test, and what does `value` hold in it?
 - fCC course: beyond the course (TypeScript, frontend testing).
 
@@ -265,7 +288,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://www.spartan.ng/documentation/mcp
   - https://learn.microsoft.com/azure/well-architected/pillars
   - https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying
-- In my own words: _…_
+- In my own words: The roadmap ties what I learn to the next project steps. External tools such as MCP servers get a pinned version, so nothing changes without me knowing.
 - Check question: Why does `.mcp.json` pin `@spartan-ng/mcp@1.5.0` instead of `npx -y @spartan-ng/mcp`, and when should we bump it?
 - fCC course: beyond the course (delivery).
 
@@ -276,7 +299,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/aspnet/core/fundamentals/openapi/aspnetcore-openapi#generate-openapi-documents-at-build-time
   - https://github.com/cyclosproject/ng-openapi-gen
 - Fun fact: build-time generation starts the app's `Program.cs` with a mock server, so anything that needs real infrastructure (the database in spec 001) must be skipped in that mode.
-- In my own words: _…_
+- In my own words: The C# API is the source of truth: the build writes the OpenAPI document and `npm run api` generates the Angular client from it. I never edit generated code, and CI fails if the client is out of date.
 - Check question: You add a new property to a response DTO in C#. Which two files change after `npm run api`, and what does CI do if you commit only the C# change?
 - fCC course: beyond the course (.NET tooling, MSBuild).
 
@@ -289,7 +312,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html
   - https://docs.npmjs.com/cli/v11/configuring-npm/package-json#overrides
 - Fun fact: the input border color was far too light (#E4E4E7 in Figma, #D4D4D8 in the first code draft: at most 1.48:1 on white) contrast; WCAG 1.4.11 needs 3:1 for component boundaries, so it became #8A8A93 (3.42:1). `npm audit fix` made things worse (downgraded nx, 15 findings); scoped `overrides` fixed it (0 findings).
-- In my own words: _…_
+- In my own words: spartan gives headless behaviour (brain) and copies styled components (helm) into the repo, so I own them. Colours come from CSS variables and must meet WCAG contrast.
 - Check question: Why is `@spartan-ng/helm/button` not an npm package, and what does that mean when spartan releases a new version?
 - fCC course: beyond the course (frontend).
 
@@ -301,7 +324,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://tailwindcss.com/docs/preflight
   - https://angular.dev/guide/components/host-elements
 - Fun fact: `aria-pressed:zinc-800` silently generated nothing (a variant needs a full utility, e.g. `bg-zinc-800`). `prettier-plugin-tailwindcss` moved the unknown classes to the front of the list, which exposed the typo.
-- In my own words: _…_
+- In my own words: The header is styled with Tailwind utilities. The active language button is styled from its `aria-pressed` attribute, so the look and the accessibility state can't drift apart.
 - Check question: Why is `aria-pressed:bg-zinc-800` better here than `[class.bg-zinc-800]="isActive()"`?
 - fCC course: beyond the course (frontend).
 
@@ -314,7 +337,7 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/aspnet/core/security/authentication/identity-api-authorization
   - https://learn.microsoft.com/aspnet/core/security/authentication/api-endpoint-auth
 - Fun fact: Tailwind v4 "is not designed to be used with CSS preprocessors like Sass", so global styles moved from `styles.scss` to `styles.css`. Native CSS already has nesting and variables.
-- In my own words: _…_
+- In my own words: Tailwind finds class names by reading the source as plain text, so every class must be written out in full. The auth plan uses cookies from ASP.NET Core Identity, with a route guard and an interceptor in Angular.
 - Check question: Why does `'bg-' + color` not work in Tailwind, while `[class.bg-red-600]="error()"` does?
 - fCC course: beyond the course (frontend tooling, ASP.NET Core security).
 
@@ -326,6 +349,6 @@ After each task Claude adds an entry in this format (newest on top). Fill in "In
   - https://learn.microsoft.com/nuget/consume-packages/central-package-management
   - https://learn.microsoft.com/aspnet/core/test/integration-tests
 - Fun fact: analyzer **CA1707** blocked a test name with underscores. We disabled it only for `tests/**` in `.editorconfig`, because the `Method_Scenario_Expected` convention is common in tests.
-- In my own words: _…_
+- In my own words: The repo builds with warnings as errors, and package versions live in one central file. Shared build settings go in `Directory.Build.props`, so each project file stays short.
 - Check question: How does `Directory.Build.props` differ from `Directory.Packages.props`, and why is the package version not in the `.csproj`?
 - fCC course: beyond the course (.NET tooling).
