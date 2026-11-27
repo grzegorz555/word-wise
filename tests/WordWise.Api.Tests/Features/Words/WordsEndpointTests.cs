@@ -62,37 +62,11 @@ public sealed class WordsEndpointTests(PostgresApiFactory factory)
         var db = await GetEmptyCatalogAsync(scope, ct);
 
         db.Concepts.AddRange(
-            new Concept
-            {
-                Key = "be",
-                PartOfSpeech = "verb",
-                Words = {
-            new Word { Language = LanguageCodes.Polish, Text = "być", FrequencyRank = 8 },
-            new Word { Language = LanguageCodes.English, Text = "be", FrequencyRank = 8 },
-            new Word { Language = LanguageCodes.Turkish, Text = "olmak", FrequencyRank = 8 }
-            }
-            },
-            new Concept
-            {
-                Key = "do",
-                PartOfSpeech = "verb",
-                Words = {
-            new Word { Language = LanguageCodes.Polish, Text = "robić", FrequencyRank = 2 },
-            new Word { Language = LanguageCodes.English, Text = "do", FrequencyRank = 2 },
-            new Word { Language = LanguageCodes.Turkish, Text = "yapmak", FrequencyRank = 2 }
-            }
-            },
-            new Concept
-            {
-                Key = "see",
-                PartOfSpeech = "verb",
-                Words = {
-            new Word { Language = LanguageCodes.Polish, Text = "widzieć", FrequencyRank = 5 },
-            new Word { Language = LanguageCodes.English, Text = "see", FrequencyRank = 5 },
-            new Word { Language = LanguageCodes.Turkish, Text = "görmek", FrequencyRank = 5 }
-            }
-            }
+            CreateConcept("be", "verb", (LanguageCodes.Polish, ["być"], 8), (LanguageCodes.English, ["be"], 8), (LanguageCodes.Turkish, ["olmak"], 8)),
+            CreateConcept("do", "verb", (LanguageCodes.Polish, ["robić"], 2), (LanguageCodes.English, ["do"], 2), (LanguageCodes.Turkish, ["yapmak"], 2)),
+            CreateConcept("see", "verb", (LanguageCodes.Polish, ["widzieć"], 5), (LanguageCodes.English, ["see"], 5), (LanguageCodes.Turkish, ["görmek"], 5))
         );
+
         await db.SaveChangesAsync(ct);
 
         using var client = factory.CreateClient();
@@ -114,5 +88,26 @@ public sealed class WordsEndpointTests(PostgresApiFactory factory)
         await db.Words.ExecuteDeleteAsync(cancellationToken);
         await db.Concepts.ExecuteDeleteAsync(cancellationToken);
         return db;
+    }
+
+    private static Concept CreateConcept(string key, string partOfSpeech, params (string Language, string[] Forms, int? Rank)[] languages)
+    {
+        var concept = new Concept { Key = key, PartOfSpeech = partOfSpeech };
+
+        foreach (var language in languages)
+        {
+            foreach (string form in language.Forms)
+            {
+                concept.Words.Add(new Word
+                {
+                    Language = language.Language,
+                    Text = form,
+                    FrequencyRank = language.Rank
+                }
+                );
+            }
+        }
+
+        return concept;
     }
 }
